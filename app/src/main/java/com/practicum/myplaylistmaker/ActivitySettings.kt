@@ -13,8 +13,7 @@ class ActivitySettings : AppCompatActivity() {
 
         val returnButton = findViewById<ImageView>(R.id.return_button)
         returnButton.setOnClickListener{
-            val intentBack = Intent(this@ActivitySettings,MainActivity::class.java)
-            startActivity(intentBack)
+           finish()
         }
 
     }

@@ -65,6 +65,28 @@
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_element_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_share_text"
+            android:textSize="@dimen/settings_text_size"
+            android:layout_gravity="center_vertical|start"
+            android:textColor="@color/text_color"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/share_icon"
+            app:tint="@color/icon_tint_color" />
+    </FrameLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_element_height"
@@ -111,7 +133,5 @@
             app:tint="@color/icon_tint_color" />
 
     </FrameLayout>
-
-
 
 </LinearLayout>
