@@ -1,6 +1,8 @@
 package com.practicum.myplaylistmaker
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -15,6 +17,14 @@ class ActivitySettings : AppCompatActivity() {
         returnButton.setOnClickListener{
            finish()
         }
+
+        val shareView = findViewById<ImageView>(R.id.share_button)
+        shareView.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_VIEW)
+            shareIntent.setData(Uri.parse("https://practicum.yandex.ru/android-developer/"))
+            startActivity(shareIntent)
+        }
+
 
     }
 }
