@@ -1,12 +1,13 @@
 package com.practicum.myplaylistmaker
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import com.practicum.myapplication.MainActivity
+import android.widget.Switch
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+
 
 class ActivitySettings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,14 @@ class ActivitySettings : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
+        val switchButton = findViewById<Switch>(R.id.switch_button)
+        switchButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
     }
 }

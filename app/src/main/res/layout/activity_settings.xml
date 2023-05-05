@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+    style="@style/SettingsScreen"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="14dp"
@@ -28,12 +26,10 @@
             />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            style="@style/SettingsTextView"
             android:layout_marginStart="28dp"
             android:text="@string/settings_str"
-            android:textColor="@color/text_color"
             android:textFontWeight="500"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -43,25 +39,18 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_element_height"
         android:layout_marginTop="40dp"
-        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
             android:text="@string/dark_theme_str"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/settings_text_size" />
+            style="@style/SettingsTextView" />
 
         <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:minWidth="48dp"
+            android:id="@+id/switch_button"
             android:layout_gravity="center_vertical|end"
-            android:thumbTint="@color/switch_thumb_tint"
-            android:trackTint="@color/switch_track_tint"
+            style="@style/SwitchStyle"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </FrameLayout>
@@ -71,12 +60,10 @@
         android:layout_height="@dimen/settings_element_height">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/settings_share_text"
             android:textSize="@dimen/settings_text_size"
             android:layout_gravity="center_vertical|start"
-            android:textColor="@color/text_color"
+            style="@style/SettingsTextView"
             />
 
         <ImageView
@@ -91,17 +78,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_element_height"
-        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/support_message_str"
-            android:textColor="@color/text_color"
             android:layout_gravity="center_vertical|start"
-            android:textSize="@dimen/settings_text_size" />
+            style="@style/SettingsTextView"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -114,17 +98,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_element_height"
-        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
             android:text="@string/agreement_str"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/settings_text_size" />
+            style="@style/SettingsTextView"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
