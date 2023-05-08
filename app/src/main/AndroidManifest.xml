@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.practicum.myapplication.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

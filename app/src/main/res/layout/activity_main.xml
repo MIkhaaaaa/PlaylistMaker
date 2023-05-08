@@ -7,7 +7,7 @@
     android:paddingTop="14dp"
     android:paddingBottom="28dp"
     android:paddingHorizontal="16dp"
-    tools:context="com.practicum.myapplication.MainActivity">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
