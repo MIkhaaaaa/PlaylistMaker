@@ -10,4 +10,5 @@
     <string name="media_button_text">Медиатека</string>
     <string name="settings_button_text">Настройки</string>
     <string name="settings_share_text">Поделиться приложением</string>
+    <string name="search_title_main">Поиск</string>
 </resources>
