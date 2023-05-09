@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -50,22 +51,74 @@
             android:textSize="@dimen/settings_text_size"
             />
 
-    </FrameLayout>
-
-   <LinearLayout
-       android:layout_width="0dp"
-       android:layout_height="match_parent"
-       android:layout_gravity="center_horizontal|bottom">
         <ImageView
+            android:id="@+id/clearIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:paddingEnd="30dp"
+            android:src="@drawable/vector"
+            android:visibility="gone" />
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/material_motion_duration_short_1"
+        android:paddingBottom="18dp"
+        android:layout_gravity="bottom"
+        >
+
+
+        <TextView
+            android:layout_width="@dimen/buttons_in_activity_search"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:width="120dp"
+            android:height="56dp"
             android:layout_gravity="bottom"
-            android:layout_centerHorizontal = "true"
-            android:src="@drawable/search_icon"
+            android:gravity="center"
+            android:fontFamily="@font/ys_display_medium"
+            android:textSize="18sp"
+            android:text="@string/search_button_text"
+            app:drawableTopCompat="@drawable/search_icon">
 
-          />
+        </TextView>
 
 
-       ></LinearLayout>
+        <TextView
+            android:fontFamily="@font/ys_display_medium"
+            android:layout_width="@dimen/buttons_in_activity_search"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:width="120dp"
+            android:height="56dp"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:text="@string/media_button_text"
+            android:textSize="18sp"
+            app:drawableTopCompat="@drawable/media_icon">
+
+        </TextView>
+
+        <TextView
+            android:fontFamily="@font/ys_display_medium"
+            android:layout_width="@dimen/buttons_in_activity_search"
+            android:layout_height="wrap_content"
+            android:width="120dp"
+            android:height="56dp"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            android:layout_gravity="bottom"
+            android:textSize="18sp"
+            android:text="@string/settings_str"
+            app:drawableTopCompat="@drawable/setting_icon">
+        </TextView>
+
+
+
+    </LinearLayout>
 
 </LinearLayout>
