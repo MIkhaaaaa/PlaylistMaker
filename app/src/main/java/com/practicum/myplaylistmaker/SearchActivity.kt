@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 
 class SearchActivity : AppCompatActivity() {
+    val KEY_TEXT = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -40,7 +41,16 @@ class SearchActivity : AppCompatActivity() {
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val inputEditText = findViewById<EditText>(R.id.searchUserText)
+        outState.putString(KEY_TEXT, inputEditText.text.toString())
+    }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.getString(KEY_TEXT, "")
+    }
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
