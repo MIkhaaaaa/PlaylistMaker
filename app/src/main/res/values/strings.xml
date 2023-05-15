@@ -10,5 +10,11 @@
     <string name="media_button_text">Медиатека</string>
     <string name="settings_button_text">Настройки</string>
     <string name="settings_share_text">Поделиться приложением</string>
+    <string name="UrlPracticum">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="AgreementUrl">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="subjectEmail">"Спасибо за крутое приложение!"</string>
+    <string name="DefaultTextEmail">"Email message text"</string>
+    <string name="defaultEmail">7links@me.com</string>
+    <string name="emailURI">content://path/to/email/attachment</string>
     <string name="search_title_main">Поиск</string>
 </resources>

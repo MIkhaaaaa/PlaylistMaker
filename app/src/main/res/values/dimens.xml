@@ -13,5 +13,5 @@
     <dimen name="settingsLeftMargin16dp">16dp</dimen>
     <dimen name="buttons_in_activity_search">135dp</dimen>
     <dimen name="text_in_activity_search">12sp</dimen>
-    <dimen name="text_in_activity_search_2">22sp</dimen>
+    <dimen name="text_in_activity_search_2">26sp</dimen>
 </resources>

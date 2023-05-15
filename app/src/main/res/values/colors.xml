@@ -15,4 +15,5 @@
     <color name="switch_track_tint">#E6E8EB</color>
     <color name="arrow">#AEAFB4</color>
     <color name="b_switch">#3772E7</color>
+    <color name="search_text">#AEAFB4</color>
 </resources>

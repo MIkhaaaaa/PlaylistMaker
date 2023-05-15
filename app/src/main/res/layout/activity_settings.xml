@@ -23,7 +23,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:layout_marginStart="4dp"
             android:src="@drawable/arrow_back_icon"
-            />
+            app:tint="?attr/colorPrimary" />
 
         <TextView
             android:layout_gravity="center_vertical"

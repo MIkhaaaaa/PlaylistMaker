@@ -20,34 +20,32 @@ class ActivitySettings : AppCompatActivity() {
 
         val shareView = findViewById<ImageView>(R.id.share_button)
         shareView.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_VIEW)
-            shareIntent.setData(Uri.parse("https://practicum.yandex.ru/android-developer/"))
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.UrlPracticum))
             startActivity(shareIntent)
+
         }
 
         val supportView = findViewById<ImageView>(R.id.support_view)
         supportView.setOnClickListener {
            val mailIntent =  Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf("jan@example.com")) // recipients
-                putExtra(Intent.EXTRA_SUBJECT, "Email subject")
-                putExtra(Intent.EXTRA_TEXT, "Email message text")
-                putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"))
+               type = "text/plain"
+               putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.defaultEmail)))
+               putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subjectEmail))
+               putExtra(Intent.EXTRA_TEXT, getString(R.string.DefaultTextEmail))
+               putExtra(Intent.EXTRA_STREAM, Uri.parse(getString(R.string.emailURI)))
+               startActivity(this)
             }
-            startActivity(mailIntent)
         }
-
-
 
         val terms = findViewById<ImageView>(R.id.Terms_of_use)
         terms.setOnClickListener {
             val termsIntent = Intent(Intent.ACTION_VIEW)
-            termsIntent.setData(Uri.parse("https://yandex.ru/legal/practicum_offer/"))
+            termsIntent.setData(Uri.parse(getString(R.string.AgreementUrl)))
             startActivity(termsIntent)
 
         }
-
-
 
         val switchButton = findViewById<Switch>(R.id.switch_button)
         switchButton.setOnCheckedChangeListener { buttonView, isChecked ->
