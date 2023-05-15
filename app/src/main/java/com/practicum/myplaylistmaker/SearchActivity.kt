@@ -12,10 +12,13 @@ import android.widget.ImageView
 
 class SearchActivity : AppCompatActivity() {
     private val KEY_TEXT = ""
+    private lateinit var searchUserText: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val inputEditText = findViewById<EditText>(R.id.searchUserText)
+        searchUserText = findViewById<EditText>(R.id.searchUserText)
+        val inputEditText = searchUserText
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
 
         clearButton.setOnClickListener {
@@ -43,7 +46,7 @@ class SearchActivity : AppCompatActivity() {
     }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val inputEditText = findViewById<EditText>(R.id.searchUserText)
+        val inputEditText = searchUserText
         outState.putString(KEY_TEXT, inputEditText.text.toString())
     }
 
