@@ -9,9 +9,9 @@
     <dimen name="main_screen_button_corner_radius">16dp</dimen>
     <dimen name="main_screen_button_icon_padding">10dp</dimen>
     <dimen name="main_screen_button_margin_top">16dp</dimen>
-    <dimen name="settingsTopString14dp">14dp</dimen>
+    <dimen name="settingsTopString14dp">16dp</dimen>
     <dimen name="settingsLeftMargin16dp">16dp</dimen>
-    <dimen name="buttons_in_activity_search">135dp</dimen>
+    <dimen name="buttons_in_activity_search">128dp</dimen>
     <dimen name="text_in_activity_search">12sp</dimen>
     <dimen name="text_in_activity_search_2">26sp</dimen>
 </resources>

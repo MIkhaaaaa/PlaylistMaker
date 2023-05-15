@@ -62,7 +62,7 @@
 
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="@integer/material_motion_duration_short_1"
@@ -103,10 +103,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:scaleType="centerCrop"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:textSize="@dimen/text_in_activity_search"
             android:text="@string/settings_str"
             app:drawableTopCompat="@drawable/setting_icon">
         </TextView>
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
