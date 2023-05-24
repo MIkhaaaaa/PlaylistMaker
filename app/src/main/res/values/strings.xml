@@ -17,4 +17,6 @@
     <string name="defaultEmail">7links@me.com</string>
     <string name="emailURI">content://path/to/email/attachment</string>
     <string name="search_title_main">Поиск</string>
+    <string name="not_find_text">Ничего не нашлось</string>
+    <string name="n_n_n">Проблемы со связью \n \n Загрузка не удалась. Проверьте \n подключение к интернету</string>
 </resources>
