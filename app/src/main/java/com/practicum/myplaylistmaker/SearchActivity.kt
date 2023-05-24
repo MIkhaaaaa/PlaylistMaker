@@ -21,9 +21,13 @@ class SearchActivity : AppCompatActivity() {
         searchUserText = findViewById<EditText>(R.id.searchUserText)
         val inputEditText = searchUserText
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
-
+        val arrowBack = findViewById<ImageView>(R.id.back_arrow)
         val rView = findViewById<RecyclerView>(R.id.trackRecycler)
         rView.adapter = TrackAdapter(TrackList().tracks)
+
+        arrowBack.setOnClickListener {
+            finish()
+        }
 
         clearButton.setOnClickListener {
             inputEditText.setText("")

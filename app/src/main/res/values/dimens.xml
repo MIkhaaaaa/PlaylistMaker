@@ -15,6 +15,7 @@
     <dimen name="text_in_activity_search">12sp</dimen>
     <dimen name="text_in_activity_search_2">26sp</dimen>
     <dimen name="big_padding">32dp</dimen>
+    <dimen name="dp4">4dp</dimen>
     <dimen name="dp16_search">16dp</dimen>
     <dimen name="dp48_serach">48dp</dimen>
 </resources>
