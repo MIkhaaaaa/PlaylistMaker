@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         val arrowBack = findViewById<ImageView>(R.id.back_arrow)
         val rView = findViewById<RecyclerView>(R.id.trackRecycler)
-        rView.adapter = TrackAdapter(TrackList().tracks)
+        rView.adapter = TrackAdapter(TrackList.tracks)
 
         arrowBack.setOnClickListener {
             finish()
