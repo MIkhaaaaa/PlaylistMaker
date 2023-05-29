@@ -26,4 +26,5 @@
     <dimen name="track_14dp">14dp</dimen>
     <dimen name="track_25dp">25dp</dimen>
     <dimen name="track_20dp">20dp</dimen>
+    <dimen name="dp_32">32dp</dimen>
 </resources>
