@@ -3,6 +3,18 @@ package com.practicum.myplaylistmaker
 data class Track(
         val trackName: String, // Название композиции
         val artistName: String, // Имя исполнителя
-        val trackTimeMillis: String, // Продолжительность трека
-        val artworkUrl100: String // Ссылка на изображение обложки
-    )
+        val trackTimeMillis: Long, // Продолжительность трека
+        val artworkUrl100: String, // Ссылка на изображение обложки
+        var trackId: Long
+    ){
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val track = other as Track
+        return trackId == track.trackId
+    }
+
+    override fun hashCode(): Int {
+        return trackId.hashCode()
+    }
+}

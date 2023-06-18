@@ -35,8 +35,6 @@
             android:textSize="@dimen/text_in_activity_search_2"
             />
 
-
-
     </FrameLayout>
 
     <FrameLayout
@@ -61,10 +59,12 @@
             android:drawablePadding="@dimen/track_8dp"
             android:drawableStart="@drawable/activity_search_icon"
             android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/black"
             android:hint="@string/search_title_main"
             android:paddingStart="12sp"
             android:inputType="text"
             android:imeOptions="actionDone"
+            android:singleLine="true"
             android:maxHeight="@dimen/maxHeight"
             android:maxLength="30"
             android:maxLines="1"
@@ -100,6 +100,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <ImageView
+                android:id="@+id/noneFind"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="110dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/not_find_image"
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/nothingfoundText"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="246dp"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:text="@string/nothig_tobe_find"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="19sp" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/loadingproblem"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="110dp"
+                android:src="@drawable/lost_connection"
+                />
+
+            <TextView
+                android:id="@+id/nothingfoundText_2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="246dp"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:text="@string/trouble_with_internet"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/loadingproblemText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="246dp"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:lines="4"
+                android:text="@string/cant_download"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="19sp" />
+
+            <Button
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="358dp"
+                android:backgroundTint="?attr/colorPrimary"
+                android:fontFamily="@font/ys_display_medium"
+                android:text="@string/refresh"
+                android:textAllCaps="false"
+                android:background="@drawable/button_refresh"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp" />
 
         </FrameLayout>
 
