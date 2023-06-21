@@ -69,10 +69,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         clearButton.setOnClickListener {
+
             inputEditText.setText("")
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(inputEditText.windowToken, 0) // скрыть клавиатуру
             inputEditText.clearFocus()
+            trackList.clear()
+            trackAdapter.notifyDataSetChanged()
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -143,6 +146,7 @@ class SearchActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                     loadingproblem.visibility       = View.VISIBLE
                     loadingproblemText.visibility   = View.VISIBLE
+                    refresh.visibility              = View.VISIBLE
                     refresh.setOnClickListener {search(inputEditText)}
                 }
             }
