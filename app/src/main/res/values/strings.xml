@@ -19,4 +19,8 @@
     <string name="search_title_main">Поиск</string>
     <string name="not_find_text">Ничего не нашлось</string>
     <string name="n_n_n">Проблемы со связью \n \n Загрузка не удалась. Проверьте \n подключение к интернету</string>
+    <string name="nothig_tobe_find">Ничего не нашлось</string>
+    <string name="trouble_with_internet">Проблемы со связью</string>
+    <string name="cant_download">Загрузка не удалась.Проверьте подключение к интернету</string>
+    <string name="refresh">Обновить</string>
 </resources>

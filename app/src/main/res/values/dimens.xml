@@ -27,4 +27,11 @@
     <dimen name="track_25dp">25dp</dimen>
     <dimen name="track_20dp">20dp</dimen>
     <dimen name="dp_32">32dp</dimen>
+    <dimen name="_19sp_text">19sp</dimen>
+    <dimen name="_14sp_text">14sp</dimen>
+    <dimen name="_246dp_marginSearch">246dp</dimen>
+    <dimen name="_110dp_madrginSearch">110dp</dimen>
+    <dimen name="_120dp_layoutSearch">120dp</dimen>
+    <dimen name="_18dp_searchPadding">18dp</dimen>
+    <dimen name="_12sp_paddStart">12sp</dimen>
 </resources>
