@@ -5,4 +5,6 @@
     <dimen name="_246dp_marginSearch">246dp</dimen>
     <dimen name="_110dp_madrginSearch">110dp</dimen>
     <dimen name="_120dp_layoutSearch">120dp</dimen>
+    <dimen name="_26dp_histor">26dp</dimen>
+    <dimen name="_348dp_margin_history_button">348dp</dimen>
 </resources>

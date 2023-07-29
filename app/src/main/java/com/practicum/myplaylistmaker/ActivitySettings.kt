@@ -7,16 +7,22 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.switchmaterial.SwitchMaterial
 
+const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"
+const val THEME_KEY = "theme_key"
 class ActivitySettings : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
 
+        setContentView(R.layout.activity_settings)
+        val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
         val returnButton = findViewById<ImageView>(R.id.return_button)
         returnButton.setOnClickListener{
            finish()
         }
+
 
         val shareView = findViewById<ImageView>(R.id.share_button)
         shareView.setOnClickListener {
@@ -47,13 +53,10 @@ class ActivitySettings : AppCompatActivity() {
 
         }
 
-        val switchButton = findViewById<Switch>(R.id.switch_button)
-        switchButton.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        val switchButton = findViewById<SwitchMaterial>(R.id.switch_button)
+        switchButton.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit().putBoolean(THEME_KEY,checked).apply()
         }
 
 

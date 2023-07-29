@@ -34,4 +34,7 @@
     <dimen name="_120dp_layoutSearch">120dp</dimen>
     <dimen name="_18dp_searchPadding">18dp</dimen>
     <dimen name="_12sp_paddStart">12sp</dimen>
+    <dimen name="_26dp_histor">26dp</dimen>
+    <dimen name="_26dp_history" />
+    <dimen name="_348dp_margin_history_button">348dp</dimen>
 </resources>
