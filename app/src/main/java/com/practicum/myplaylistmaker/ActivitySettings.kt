@@ -57,7 +57,5 @@ class ActivitySettings : AppCompatActivity() {
             sharedPrefs.edit().putBoolean(THEME_KEY,checked).apply()
         }
 
-
-
     }
 }

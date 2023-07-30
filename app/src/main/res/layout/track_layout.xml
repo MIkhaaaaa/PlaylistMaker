@@ -67,8 +67,10 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/chooseTrack"
         android:layout_width="@dimen/track_8dp"
         android:layout_height="@dimen/track_14dp"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_gravity="right"
         android:layout_marginTop="@dimen/track_25dp"
         android:layout_marginEnd="@dimen/track_20dp"

@@ -11,10 +11,11 @@ import java.util.*
 
 class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    private val albumsCover: ImageView = itemView.findViewById(R.id.trackImage)
-    private val trackName: TextView = itemView.findViewById(R.id.trackName)
-    private val bandName: TextView = itemView.findViewById(R.id.groupName)
-    private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
+    val albumsCover: ImageView = itemView.findViewById(R.id.trackImage)
+    val trackName: TextView = itemView.findViewById(R.id.trackName)
+    val bandName: TextView = itemView.findViewById(R.id.groupName)
+    val trackTime: TextView = itemView.findViewById(R.id.trackTime)
+    val chooseTrack:ImageView = itemView.findViewById(R.id.chooseTrack)
     var trackNumber:Long = 0
 
     fun bind(item: Track) {

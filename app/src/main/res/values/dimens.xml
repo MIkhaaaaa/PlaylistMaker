@@ -37,4 +37,6 @@
     <dimen name="_26dp_histor">26dp</dimen>
     <dimen name="_26dp_history" />
     <dimen name="_348dp_margin_history_button">348dp</dimen>
+    <dimen name="_28dp">28dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
 </resources>
