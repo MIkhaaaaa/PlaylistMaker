@@ -15,7 +15,6 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     val trackName: TextView = itemView.findViewById(R.id.trackName)
     val bandName: TextView = itemView.findViewById(R.id.groupName)
     val trackTime: TextView = itemView.findViewById(R.id.trackTime)
-    val chooseTrack:ImageView = itemView.findViewById(R.id.chooseTrack)
     var trackNumber:Long = 0
 
     fun bind(item: Track) {

@@ -136,16 +136,9 @@ class SearchActivity : AppCompatActivity() {
             historyRecycler.visibility = GONE
 
         }
-
-
         inputEditText.addTextChangedListener(simpleTextWatcher)
-
-
         rView.layoutManager = LinearLayoutManager(this)
         rView.adapter = trackAdapter
-
-
-
 
         historyRecycler.layoutManager = LinearLayoutManager(this)
         historyRecycler.adapter = trackAdapterHistory
@@ -179,18 +172,6 @@ class SearchActivity : AppCompatActivity() {
                         ifSearchOkVisibility()
                         if (response.body()?.results?.isNotEmpty() == true) {
                             trackList.addAll(response.body()?.results!!)
-
-//                            if (trackList.size in 1..4) {
-//                                for (i in 0 until 5) {
-//                                    trackHistoryObj.editArray(trackList[i])
-//                                }
-//                            } else {
-//                                val tracks = trackList.take(5)
-//                                for (track in tracks) {
-//                                    trackHistoryObj.editArray(track)
-//                                }
-//                            }
-//                            trackAdapterHistory.notifyDataSetChanged()
                             trackAdapter.notifyDataSetChanged()
                         }
                         if (trackList.isEmpty()) {
