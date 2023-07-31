@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="medium_padding">8dp</dimen>
+    <dimen name="settings_text_size">16sp</dimen>
+    <dimen name="settings_font_weight">300</dimen>
+    <dimen name="settings_element_height">61dp</dimen>
+    <dimen name="main_screen_title_text_size">22sp</dimen>
+    <dimen name="main_screen_button_text_size">22sp</dimen>
+    <dimen name="main_screen_button_corner_radius">16dp</dimen>
+    <dimen name="main_screen_button_icon_padding">10dp</dimen>
+    <dimen name="main_screen_button_margin_top">16dp</dimen>
+    <dimen name="settingsTopString14dp">16dp</dimen>
+    <dimen name="settingsLeftMargin16dp">16dp</dimen>
+    <dimen name="buttons_in_activity_search">128dp</dimen>
+    <dimen name="text_in_activity_search">12sp</dimen>
+    <dimen name="text_in_activity_search_2">26sp</dimen>
+    <dimen name="big_padding">32dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp16_search">16dp</dimen>
+    <dimen name="dp48_serach">48dp</dimen>
+    <dimen name="maxHeight">60dp</dimen>
+    <dimen name="min_Height">48dp</dimen>
+    <dimen name="track_dp">4dp</dimen>
+    <dimen name="track_top">39dp</dimen>
+    <dimen name="track_8dp">8dp</dimen>
+    <dimen name="track_14dp">14dp</dimen>
+    <dimen name="track_25dp">25dp</dimen>
+    <dimen name="track_20dp">20dp</dimen>
+    <dimen name="dp_32">32dp</dimen>
+    <dimen name="_19sp_text">19sp</dimen>
+    <dimen name="_14sp_text">14sp</dimen>
+    <dimen name="_246dp_marginSearch">246dp</dimen>
+    <dimen name="_110dp_madrginSearch">110dp</dimen>
+    <dimen name="_120dp_layoutSearch">120dp</dimen>
+    <dimen name="_18dp_searchPadding">18dp</dimen>
+    <dimen name="_12sp_paddStart">12sp</dimen>
+    <dimen name="_26dp_histor">26dp</dimen>
+    <dimen name="_26dp_history" />
+    <dimen name="_348dp_margin_history_button">348dp</dimen>
+    <dimen name="_28dp">28dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
+</resources>

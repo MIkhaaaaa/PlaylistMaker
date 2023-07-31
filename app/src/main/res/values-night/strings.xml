@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="not_find_text">Ничего не нашлось</string>
+    <string name="n_n_n">Проблемы со связью \n \n Загрузка не удалась. Проверьте \n подключение к интернету</string>
+    <string name="history_text">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
+</resources>

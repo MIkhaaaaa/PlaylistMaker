@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="_19sp_text">19sp</dimen>
+    <dimen name="_14sp_text">14sp</dimen>
+    <dimen name="_246dp_marginSearch">246dp</dimen>
+    <dimen name="_110dp_madrginSearch">110dp</dimen>
+    <dimen name="_120dp_layoutSearch">120dp</dimen>
+    <dimen name="_26dp_histor">26dp</dimen>
+    <dimen name="_348dp_margin_history_button">348dp</dimen>
+    <dimen name="_28dp">28dp</dimen>
+    <dimen name="_6dp">6dp</dimen>
+</resources>
