@@ -39,4 +39,15 @@
     <dimen name="_348dp_margin_history_button">348dp</dimen>
     <dimen name="_28dp">28dp</dimen>
     <dimen name="_6dp">6dp</dimen>
+    <dimen name="_24dp">24dp</dimen>
+    <dimen name="_22sp">22sp</dimen>
+    <dimen name="_14sp">14sp</dimen>
+    <dimen name="_68dp">68dp</dimen>
+    <dimen name="margin_50dp">50dp</dimen>
+    <dimen name="_4dp_marEnd">4dp</dimen>
+    <dimen name="_134dp_mrTop">134dp</dimen>
+    <dimen name="_124dp">124dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+    <dimen name="_75dp_mrTop">75dp</dimen>
+    <dimen name="_17dp">17dp</dimen>
 </resources>

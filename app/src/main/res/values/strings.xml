@@ -25,4 +25,18 @@
     <string name="refresh">Обновить</string>
     <string name="history_text">Вы искали</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="track_name">Yesterday</string>
+    <string name="artist_name">beatles</string>
+    <string name="tracktime">Длительность</string>
+    <string name="album">Альбом</string>
+    <string name="year">Год</string>
+    <string name="Genre">Жанр</string>
+    <string name="Country">Страна</string>
+    <string name="_00_00">00:00</string>
+    <string name="uncknow_nalbum">uncknow album</string>
+    <string name="uncknown_year">2000</string>
+    <string name="uncknown_genre">uncknown genre</string>
+    <string name="uncknown_country">uncknown country</string>
+    <string name="_0_30">0:30</string>
+    <string name="title_activity_media">activity_media</string>
 </resources>
