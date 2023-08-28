@@ -2,6 +2,7 @@ package com.practicum.myplaylistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -74,9 +75,14 @@ class SearchActivity : AppCompatActivity() {
         historyRecycler = findViewById(R.id.historyRecycler)
         trackList = ArrayList()
 
+
         trackAdapter = TrackAdapter(trackList){
+            // вот тут нужно вызывать интент
             trackHistoryObj.editArray(it)
             trackAdapterHistory.notifyDataSetChanged()
+            val intent = Intent(this, ActivityMediaPlayer::class.java)
+            intent.putExtra("track",it)
+            this.startActivity(intent)
         }
 
 
@@ -93,6 +99,9 @@ class SearchActivity : AppCompatActivity() {
         trackAdapterHistory = TrackAdapter(trackHistoryObj.trackHistoryList){
             trackHistoryObj.editArray(it)
             trackAdapterHistory.notifyDataSetChanged()
+            val intent = Intent(this, ActivityMediaPlayer::class.java)
+            intent.putExtra("track",it)
+            this.startActivity(intent)
         }
 
         clearButton.setOnClickListener {
