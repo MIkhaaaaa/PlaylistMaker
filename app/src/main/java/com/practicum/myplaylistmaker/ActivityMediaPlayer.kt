@@ -10,7 +10,9 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class ActivityMediaPlayer : AppCompatActivity() {
-
+    companion object{
+        lateinit var track: Track
+    }
     private val back: ImageView by lazy { findViewById(R.id.back_menu_button) }
     private val pictureArtist: ImageView by lazy { findViewById(R.id.album_cover) }
     private val trackName: TextView by lazy { findViewById(R.id.playerTrackName) }
@@ -21,31 +23,29 @@ class ActivityMediaPlayer : AppCompatActivity() {
     private val year: TextView by lazy { findViewById(R.id.year) }
     private val genre: TextView by lazy { findViewById(R.id.genre) }
     private val country: TextView by lazy { findViewById(R.id.country) }
-    private val favourites: ImageView by lazy { findViewById(R.id.favourites) }
+//    private val favourites: ImageView by lazy { findViewById(R.id.favourites) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media_player)
 
         back.setOnClickListener {finish()}
-       favourites.setOnClickListener {  }
 
-
-        val track = intent.getParcelableExtra<Track>("track")
+        track = intent.getParcelableExtra("track")!!
 
         Glide.with(this)
-            .load(track!!.artworkUrl100!!.replaceAfterLast('/',"512x512bb.jpg"))
+            .load(track?.artworkUrl512)
             .placeholder(R.drawable.album)
             .centerInside()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.dp4)))
             .into(pictureArtist)
 
-        trackName.text = track.trackName ?: "ррр"
-        bandName.text = track.artistName ?: "ппп"
+        trackName.text = track?.trackName ?: "Unknown track"
+        bandName.text = track?.artistName ?: "Unknown artist"
         countdown.text = getString(R.string._0_30)
-        duration.text =  SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
-        album.text = track.collectionName
-        year.text = track.releaseDate?.substring(0, 4) ?: "1991"
-        genre.text = track.primaryGenreName
-        country.text = track.country
+        duration.text =  SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
+        album.text = track?.collectionName ?: "Unknown album"
+        year.text = track?.releaseDate?.substring(0, 4) ?: "Unknown year"
+        genre.text = track?.primaryGenreName ?: "Unknown genre"
+        country.text = track?.country ?: "Unknown country"
     }
 }

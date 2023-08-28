@@ -22,6 +22,8 @@ data class Track(
         val track = other as Track
         return trackId == track.trackId
     }
+    val artworkUrl512
+        get() = artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
 
     override fun hashCode(): Int {
         return trackId.hashCode()
