@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
         sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
         App().switchTheme(sharedPrefs?.getBoolean(THEME_KEY,false)!!)
-
         bindingMain.search.setOnClickListener {
             val intentSearch = Intent(this, SearchActivity::class.java)
             startActivity(intentSearch)

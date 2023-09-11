@@ -1,6 +1,11 @@
 package com.practicum.myplaylistmaker
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -11,16 +16,29 @@ import java.util.Locale
 class ActivityMediaPlayer : AppCompatActivity() {
     companion object {
         lateinit var track: Track
+        const val DELAY = 1000L
+        const val TRACK_TIME = 30000L
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
     }
+    private var remainingTime = 0L
+    private var trackTimeForScreen = 0L
+    private var isClickAllowed = true
+    private var playerState = STATE_DEFAULT
+    private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
+    private val mediaPlayer = MediaPlayer()
+    private var url = ""
 
-    //    private var favourites: ImageView ? =  null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingPlayer = ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(bindingPlayer.root)
-
+        mainThreadHandler = Handler(Looper.getMainLooper())
         bindingPlayer.backMenuButton.setOnClickListener { finish() }
+        bindingPlayer.playButton.isEnabled = false
 
         track = intent.getParcelableExtra("track")!!
 
@@ -40,5 +58,109 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.year.text = track.releaseDate?.substring(0, 4) ?: "Unknown year"
         bindingPlayer.genre.text = track.primaryGenreName ?: "Unknown genre"
         bindingPlayer.country.text = track.country ?: "Unknown country"
+        url = track.previewUrl.toString()
+
+        preparePlayer()
+
+        bindingPlayer.playButton.setOnClickListener {
+            if (clickDebounce()) {
+                val time = System.currentTimeMillis()
+                trackTimeForScreen = if (remainingTime != 0L) {
+                    remainingTime
+                } else {
+                    TRACK_TIME
+                }
+                mainThreadHandler.post(
+                    createTimeLoop(time, trackTimeForScreen)
+                )
+                playbackControl()
+            }
+
+        }
+        bindingPlayer.pauseButton.setOnClickListener {
+            if (clickDebounce()) {
+                mainThreadHandler.removeCallbacksAndMessages(null)
+                playbackControl()
+            }
+
+        }
     }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    private fun preparePlayer() {
+        mediaPlayer.setDataSource(url)
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
+            bindingPlayer.playButton.isEnabled = true
+            playerState = STATE_PREPARED
+        }
+        mediaPlayer.setOnCompletionListener {
+            bindingPlayer.playButton.visibility = View.VISIBLE
+            bindingPlayer.pauseButton.visibility = View.GONE
+            playerState = STATE_PREPARED
+
+        }
+    }
+
+    private fun startPlayer() {
+        mediaPlayer.start()
+        bindingPlayer.playButton.visibility = View.GONE
+        bindingPlayer.pauseButton.visibility = View.VISIBLE
+        playerState = STATE_PLAYING
+
+    }
+
+    private fun pausePlayer() {
+        mediaPlayer.pause()
+        bindingPlayer.playButton.visibility = View.VISIBLE
+        bindingPlayer.pauseButton.visibility = View.GONE
+        playerState = STATE_PAUSED
+    }
+
+    private fun playbackControl() {
+        when (playerState) {
+            STATE_PLAYING -> {
+                pausePlayer()
+            }
+
+            STATE_PREPARED, STATE_PAUSED -> {
+                startPlayer()
+            }
+        }
+    }
+
+
+    private fun createTimeLoop(startTime: Long, duration: Long): Runnable {
+        return object : Runnable {
+            override fun run() {
+                val elapsedTime = System.currentTimeMillis() - startTime
+                 remainingTime = duration - elapsedTime
+                Log.d("track_time", remainingTime.toString())
+                if (remainingTime > 0) {
+                    val sec = remainingTime / DELAY
+                    bindingPlayer.trackTimer.text = String.format("%d:%02d", sec / 60, sec % 60)
+                    mainThreadHandler.postDelayed(this, DELAY)
+                } else {
+                    bindingPlayer.trackTimer.text = getString(R.string._0_30)
+                    bindingPlayer.playButton.visibility = View.VISIBLE
+                    bindingPlayer.pauseButton.visibility = View.GONE
+
+                }
+            }
+        }
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            mainThreadHandler.postDelayed({ isClickAllowed = true }, DELAY)
+        }
+        return current
+    }
+
 }

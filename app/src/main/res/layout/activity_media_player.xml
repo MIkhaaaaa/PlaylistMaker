@@ -110,13 +110,13 @@
         android:id="@+id/pauseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38.33dp"
+        android:layout_marginTop="@dimen/dp_32"
         android:src="@drawable/pause_round"
+        android:background="@drawable/pause_round"
         app:layout_constraintEnd_toStartOf="@+id/favourites"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
         app:layout_constraintTop_toBottomOf="@id/playerArtistName"
-        app:tint="?attr/colorPrimary"
         android:visibility="gone" />
 
     <ImageButton
@@ -138,13 +138,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_134dp_mrTop"
         android:fontFamily="@font/ys_display_medium"
-        android:text="@string/_00_00"
         android:textColor="?attr/colorPrimary"
         android:textSize="@dimen/_14sp_text"
         app:layout_constraintEnd_toStartOf="@+id/favourites"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
-        app:layout_constraintTop_toBottomOf="@+id/playerArtistName" />
+        app:layout_constraintTop_toBottomOf="@+id/playerArtistName"
+        tools:text="@string/_0_30"/>
 
     <TextView
         android:id="@+id/trackTimeName"
