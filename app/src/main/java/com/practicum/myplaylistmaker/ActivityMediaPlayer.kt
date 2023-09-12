@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
     }
     private var remainingTime = 0L
     private var trackTimeForScreen = 0L
-    private var isClickAllowed = true
     private var playerState = STATE_DEFAULT
     private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
@@ -51,7 +51,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
 
         bindingPlayer.playerTrackName.text = track.trackName ?: "Unknown track"
         bindingPlayer.playerArtistName.text = track.artistName ?: "Unknown artist"
-        bindingPlayer.trackTimer.text = getString(R.string._0_30)
+        bindingPlayer.trackTimer.text = getString(R.string._00_00)
         bindingPlayer.time.text =
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
         bindingPlayer.album.text = track.collectionName ?: "Unknown album"
@@ -63,7 +63,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         preparePlayer()
 
         bindingPlayer.playButton.setOnClickListener {
-            if (clickDebounce()) {
                 val time = System.currentTimeMillis()
                 trackTimeForScreen = if (remainingTime != 0L) {
                     remainingTime
@@ -74,14 +73,12 @@ class ActivityMediaPlayer : AppCompatActivity() {
                     createTimeLoop(time, trackTimeForScreen)
                 )
                 playbackControl()
-            }
+
 
         }
         bindingPlayer.pauseButton.setOnClickListener {
-            if (clickDebounce()) {
                 mainThreadHandler.removeCallbacksAndMessages(null)
                 playbackControl()
-            }
 
         }
     }
@@ -145,7 +142,8 @@ class ActivityMediaPlayer : AppCompatActivity() {
                     bindingPlayer.trackTimer.text = String.format("%d:%02d", sec / 60, sec % 60)
                     mainThreadHandler.postDelayed(this, DELAY)
                 } else {
-                    bindingPlayer.trackTimer.text = getString(R.string._0_30)
+                    bindingPlayer.trackTimer.text = getString(R.string._00_00)
+                    remainingTime = 0L
                     bindingPlayer.playButton.visibility = View.VISIBLE
                     bindingPlayer.pauseButton.visibility = View.GONE
 
@@ -154,13 +152,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         }
     }
 
-    private fun clickDebounce() : Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            mainThreadHandler.postDelayed({ isClickAllowed = true }, DELAY)
-        }
-        return current
-    }
+
 
 }
