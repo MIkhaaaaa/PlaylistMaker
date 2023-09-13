@@ -27,16 +27,16 @@
 
     <ImageView
         android:id="@+id/back_menu_button"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="8dp"
-        app:tint="?attr/colorPrimary"
+        android:layout_marginTop="22dp"
         android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/left_guideline"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_back_icon" />
+        app:srcCompat="@drawable/arrow_back_icon"
+        app:tint="?attr/colorPrimary" />
 
 
     <ImageView
@@ -89,7 +89,6 @@
         android:fillColor="#401A1B22"
         android:layout_marginTop="@dimen/margin_50dp"
         android:background="@drawable/button_add_fav"
-        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/playerArtistName"
          />
@@ -129,7 +128,6 @@
         android:background="@drawable/property"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toBottomOf="@id/playerArtistName"
-        android:backgroundTint="?attr/colorPrimary"
         />
 
     <TextView

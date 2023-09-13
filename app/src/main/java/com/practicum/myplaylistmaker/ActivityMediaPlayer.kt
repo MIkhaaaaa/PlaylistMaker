@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings.Global.getString
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -18,12 +19,14 @@ class ActivityMediaPlayer : AppCompatActivity() {
     companion object {
         lateinit var track: Track
         const val DELAY = 1000L
+        const val DELAY_PAUSE = 500L
         const val TRACK_TIME = 30000L
         private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
     }
+    private var isClickAllowed = true
     private var remainingTime = 0L
     private var trackTimeForScreen = 0L
     private var playerState = STATE_DEFAULT
@@ -63,6 +66,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         preparePlayer()
 
         bindingPlayer.playButton.setOnClickListener {
+            if (clickDebounce()) {
                 val time = System.currentTimeMillis()
                 trackTimeForScreen = if (remainingTime != 0L) {
                     remainingTime
@@ -72,13 +76,15 @@ class ActivityMediaPlayer : AppCompatActivity() {
                 mainThreadHandler.post(
                     createTimeLoop(time, trackTimeForScreen)
                 )
-                playbackControl()
+            }
+            playbackControl()
 
 
         }
         bindingPlayer.pauseButton.setOnClickListener {
                 mainThreadHandler.removeCallbacksAndMessages(null)
                 playbackControl()
+
 
         }
     }
@@ -136,7 +142,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
             override fun run() {
                 val elapsedTime = System.currentTimeMillis() - startTime
                  remainingTime = duration - elapsedTime
-                Log.d("track_time", remainingTime.toString())
                 if (remainingTime > 0) {
                     val sec = remainingTime / DELAY
                     bindingPlayer.trackTimer.text = String.format("%d:%02d", sec / 60, sec % 60)
@@ -152,6 +157,13 @@ class ActivityMediaPlayer : AppCompatActivity() {
         }
     }
 
-
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            mainThreadHandler.postDelayed({isClickAllowed = true}, DELAY_PAUSE)
+        }
+        return current
+    }
 
 }
