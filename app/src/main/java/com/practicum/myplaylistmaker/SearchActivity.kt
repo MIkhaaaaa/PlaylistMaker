@@ -15,10 +15,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.internal.ViewUtils
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -143,6 +141,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun search() {
         trackList.clear()
+        progressBar.visibility = View.VISIBLE
         if (searchBinding.searchUserText.text.toString().isNotEmpty()) {
             searchBinding.trackRecycler.visibility = View.VISIBLE
         } else {
@@ -171,6 +170,8 @@ class SearchActivity : AppCompatActivity() {
                             searchBinding.nothingfoundText.visibility = View.VISIBLE
                             searchBinding.loadingproblem.visibility = GONE
                             searchBinding.loadingproblemText.visibility = GONE
+                            progressBar.visibility = GONE
+                            searchBinding.trackRecycler.visibility = GONE
                         }
 
                     } else {
