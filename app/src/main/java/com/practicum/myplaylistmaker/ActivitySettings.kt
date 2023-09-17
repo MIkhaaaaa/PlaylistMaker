@@ -1,6 +1,7 @@
 package com.practicum.myplaylistmaker
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,12 +11,12 @@ const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"
 const val THEME_KEY = "theme_key"
 class ActivitySettings : AppCompatActivity() {
     private lateinit var bindingSettings: ActivitySettingsBinding
-    private val sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
+    private lateinit var sharedPrefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingSettings = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(bindingSettings.root)
-
+        sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
         bindingSettings.returnButton.setOnClickListener{
            finish()
         }
