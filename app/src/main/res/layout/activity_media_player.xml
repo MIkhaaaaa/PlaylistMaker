@@ -9,7 +9,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityMediaPlayer">
+    tools:context=".presentation.player.ActivityMediaPlayer">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"

@@ -17,7 +17,13 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practicum.myplaylistmaker.App.App
+import com.practicum.myplaylistmaker.data.dto.TrackHistory
+import com.practicum.myplaylistmaker.data.network.AppleAPI
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
+import com.practicum.myplaylistmaker.domain.models.Track
+import com.practicum.myplaylistmaker.presentation.TrackAdapter
+import com.practicum.myplaylistmaker.presentation.player.ActivityMediaPlayer
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 const val HISTORY_KEY = "history_key"
@@ -41,7 +47,7 @@ class SearchActivity : AppCompatActivity() {
         .baseUrl(iTunesBaseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val iTunesService = retrofit.create(ITunesAPI::class.java)
+    private val iTunesService = retrofit.create(AppleAPI::class.java)
     private lateinit var searchBinding: ActivitySearchBinding
 
     @SuppressLint("NotifyDataSetChanged")
@@ -149,11 +155,11 @@ class SearchActivity : AppCompatActivity() {
             searchBinding.noneFind.visibility = GONE
         }
         iTunesService.search(searchBinding.searchUserText.text.toString())
-            .enqueue(object : Callback<TrackResponse> {
+            .enqueue(object : Callback<TrackResponseOld> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
-                    call: Call<TrackResponse>,
-                    response: Response<TrackResponse>
+                    call: Call<TrackResponseOld>,
+                    response: Response<TrackResponseOld>
                 ) {
                     if (response.code() == 200) {
                         progressBar.visibility = GONE
@@ -187,7 +193,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TrackResponseOld>, t: Throwable) {
                     progressBar.visibility = GONE
                     searchBinding.loadingproblem.visibility = View.VISIBLE
                     searchBinding.loadingproblemText.visibility = View.VISIBLE

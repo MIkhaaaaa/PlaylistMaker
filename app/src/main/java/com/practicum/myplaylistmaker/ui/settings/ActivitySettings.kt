@@ -1,10 +1,12 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.ui.settings
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.practicum.myplaylistmaker.App.App
+import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivitySettingsBinding
 
 const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"

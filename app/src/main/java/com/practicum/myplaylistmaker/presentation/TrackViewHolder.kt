@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.presentation
 
 import android.view.View
 import android.widget.ImageView
@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import java.text.SimpleDateFormat
-import java.util.*
+import com.practicum.myplaylistmaker.R
+import com.practicum.myplaylistmaker.domain.models.Track
 
 class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
