@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
+import com.practicum.myplaylistmaker.HISTORY_KEY
 
 class TrackHistory {
     private val savedHistory = App.getSharedPreferences()
@@ -15,7 +15,7 @@ class TrackHistory {
     var trackHistoryList = App.trackHistoryList
 
     fun editArray(newHistoryTrack: Track) {
-        var json = ""
+        val json = ""
         if (json.isNotEmpty()) {
             if (trackHistoryList.isEmpty()) {
                 if (savedHistory.contains(HISTORY_KEY)) {
