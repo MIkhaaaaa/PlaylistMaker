@@ -1,20 +1,20 @@
-package com.practicum.myplaylistmaker.data.dto
+package com.practicum.myplaylistmaker.data
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.HISTORY_KEY
+import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
 
-class TrackHistory {
-    private val savedHistory = App.getSharedPreferences()
+
+class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences): SharedPreferencesRepository {
+
+    var trackHistoryList = ArrayList<Track>()
     private val gson = Gson()
-
     var counter = 0
-    var trackHistoryList = App.trackHistoryList
 
-    fun editArray(newHistoryTrack: Track) {
+    override fun editArray(newHistoryTrack: Track) {
         val json = ""
         if (json.isNotEmpty()) {
             if (trackHistoryList.isEmpty()) {
@@ -37,16 +37,16 @@ class TrackHistory {
         saveHistory()
     }
 
-    fun read(sharedPreferences: SharedPreferences): ArrayList<Track> {
+    override fun read(sharedPreferences: SharedPreferences): ArrayList<Track> {
         val json = sharedPreferences.getString(HISTORY_KEY, null) ?: return ArrayList()
         return Gson().fromJson(json, object : TypeToken<ArrayList<Track>>() {}.type)
     }
-    fun clearAllHistory(){
+    override fun clearAllHistory(){
         savedHistory.edit().clear().apply()
     }
 
 
-    private fun saveHistory() {
+    override  fun saveHistory() {
         var json = ""
         json = gson.toJson(trackHistoryList)
         savedHistory.edit()
@@ -55,4 +55,6 @@ class TrackHistory {
             .apply()
         counter = trackHistoryList.size
     }
+
+    override fun getSharedPreferences():SharedPreferences { return savedHistory}
 }

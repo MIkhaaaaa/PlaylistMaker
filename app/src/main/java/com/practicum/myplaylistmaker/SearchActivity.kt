@@ -9,16 +9,12 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practicum.myplaylistmaker.App.App
-import com.practicum.myplaylistmaker.data.dto.TrackHistory
+import com.practicum.myplaylistmaker.data.TrackHistoryRepositoryImpl
 import com.practicum.myplaylistmaker.data.network.AppleAPI
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
@@ -40,7 +36,9 @@ class SearchActivity : AppCompatActivity() {
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
-    private val trackHistoryObj = TrackHistory()
+    //private val trackHistoryRepositoryObj = TrackHistoryRepositoryImpl()
+    private val trackHistoryList : ArrayList<Track> = ArrayList()
+    private val historyCreator = Creator.provideSharedPreferenceInteractor()
     private val progressBar: ProgressBar by lazy {findViewById(R.id.progressbar)}
     private val iTunesBaseURL = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
@@ -49,6 +47,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val iTunesService = retrofit.create(AppleAPI::class.java)
     private lateinit var searchBinding: ActivitySearchBinding
+    private val creator = Creator.provideTracksIteractor()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(searchBinding.root)
 
         trackAdapter = TrackAdapter(trackList){
-            trackHistoryObj.editArray(it)
+            historyCreator.editArray(it)
             trackAdapterHistory.notifyDataSetChanged()
             val intent = Intent(this, ActivityMediaPlayer::class.java)
             intent.putExtra("track",it)
@@ -66,8 +65,10 @@ class SearchActivity : AppCompatActivity() {
 
         ifSearchOkVisibility()
 
-        trackHistoryObj.trackHistoryList.clear()
-        trackHistoryObj.trackHistoryList.addAll(trackHistoryObj.read(App.getSharedPreferences()))
+        trackHistoryList.clear()
+        historyCreator.clearAllHistory()
+
+        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
         visibleSettingsHistory(searchBinding.searchUserText.hasFocus())
 
         searchBinding.backArrow.setOnClickListener {
@@ -76,8 +77,8 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        trackAdapterHistory = TrackAdapter(trackHistoryObj.trackHistoryList){
-            trackHistoryObj.editArray(it)
+        trackAdapterHistory = TrackAdapter(trackHistoryList){
+            historyCreator.editArray(it)
             trackAdapterHistory.notifyDataSetChanged()
             val intent = Intent(this, ActivityMediaPlayer::class.java)
             intent.putExtra("track",it)
@@ -120,8 +121,8 @@ class SearchActivity : AppCompatActivity() {
 
         searchBinding.clearHistoryButton.setOnClickListener {
             if (clickDebounce()) {
-                trackHistoryObj.trackHistoryList.clear()
-                trackHistoryObj.clearAllHistory()
+                trackHistoryList.clear()
+                historyCreator.clearAllHistory()
                 trackAdapterHistory.notifyDataSetChanged()
                 searchBinding.textHistory.visibility = GONE
                 searchBinding.clearHistoryButton.visibility = GONE
@@ -224,11 +225,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun visibleSettingsHistory(hasFocus: Boolean) {
         searchBinding.textHistory.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
         searchBinding.clearHistoryButton.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
         searchBinding.historyRecycler.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
     }
 
 

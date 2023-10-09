@@ -9,6 +9,9 @@ import com.practicum.myplaylistmaker.domain.models.Track
 
 class App: Application() {
    private var darkTheme = false
+    companion object {
+        lateinit var savedHistory: SharedPreferences
+    }
     override fun onCreate() {
         super.onCreate()
         savedHistory = applicationContext.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
@@ -23,10 +26,7 @@ class App: Application() {
             }
         )
     }
-    companion object {
-        lateinit var savedHistory: SharedPreferences
-        fun getSharedPreferences():SharedPreferences { return savedHistory
-        }
-        var trackHistoryList = ArrayList<Track>()
-    }
+
+
+
 }
