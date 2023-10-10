@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.myplaylistmaker.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
+import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
@@ -58,7 +59,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
-        creator.preparePlayer(url, listener = object : AudioPlayerRepository.PlayerStateListener{
+        creator.preparePlayer(url, object : AudioPlayerInteractor.PlayerStateListener{
             override fun onStateChanged(state: PlayerState) {
                 when (state) {
                     PlayerState.STATE_PLAYING -> {
@@ -74,7 +75,9 @@ class ActivityMediaPlayer : AppCompatActivity() {
                     else -> {PlayerState.STATE_DEFAULT}
                 }
             }
-        } )
+        })
+
+
 
         bindingPlayer.playButton.setOnClickListener {
             if (clickDebounce()) {

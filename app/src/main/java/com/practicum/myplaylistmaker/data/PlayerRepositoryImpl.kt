@@ -2,6 +2,7 @@ package com.practicum.myplaylistmaker.data
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
+import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import java.text.SimpleDateFormat
@@ -19,17 +20,15 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer ) : AudioPlayerR
     }
 
 
-    override fun preparePlayer(url: String, listener: AudioPlayerRepository.PlayerStateListener) {
+    override fun preparePlayer(url: String) {
         if (playerState != PlayerState.STATE_DEFAULT) return
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
-            listener.onStateChanged(playerState)
         }
         mediaPlayer.setOnCompletionListener {
             playerState =  PlayerState.STATE_PREPARED
-            listener.onStateChanged(playerState)
         }
     }
 

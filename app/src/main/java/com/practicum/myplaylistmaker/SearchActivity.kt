@@ -14,7 +14,6 @@ import android.view.View.GONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practicum.myplaylistmaker.data.TrackHistoryRepositoryImpl
 import com.practicum.myplaylistmaker.data.network.AppleAPI
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
@@ -36,7 +35,6 @@ class SearchActivity : AppCompatActivity() {
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
-    //private val trackHistoryRepositoryObj = TrackHistoryRepositoryImpl()
     private val trackHistoryList : ArrayList<Track> = ArrayList()
     private val historyCreator = Creator.provideSharedPreferenceInteractor()
     private val progressBar: ProgressBar by lazy {findViewById(R.id.progressbar)}
