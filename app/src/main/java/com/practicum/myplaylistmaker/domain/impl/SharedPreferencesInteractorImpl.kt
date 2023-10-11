@@ -5,7 +5,8 @@ import com.practicum.myplaylistmaker.domain.SharedPreferencesInteractor
 import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
 import com.practicum.myplaylistmaker.domain.models.Track
 
-class SharedPreferencesInteractorImpl(private val preference: SharedPreferencesRepository) : SharedPreferencesInteractor {
+class SharedPreferencesInteractorImpl(private val preference: SharedPreferencesRepository) :
+    SharedPreferencesInteractor {
 
     override fun getSharedPreferences(): SharedPreferences {
         return preference.getSharedPreferences()
@@ -23,7 +24,7 @@ class SharedPreferencesInteractorImpl(private val preference: SharedPreferencesR
         preference.saveHistory()
     }
 
-    override fun editArray(newHistoryTrack: Track) {
-        preference.editArray(newHistoryTrack)
+    override fun editArray(newHistoryTrack: Track ) : ArrayList<Track> {
+       return preference.editArray(newHistoryTrack)
     }
 }

@@ -10,11 +10,16 @@ import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
 
 class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences): SharedPreferencesRepository {
 
-    var trackHistoryList = ArrayList<Track>()
+    private var trackHistoryList = ArrayList<Track>()
     private val gson = Gson()
     var counter = 0
 
-    override fun editArray(newHistoryTrack: Track) {
+
+
+    override fun editArray(newHistoryTrack: Track): ArrayList<Track> {
+        trackHistoryList.clear()
+        trackHistoryList.addAll(read(savedHistory))
+
         val json = ""
         if (json.isNotEmpty()) {
             if (trackHistoryList.isEmpty()) {
@@ -35,6 +40,7 @@ class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences): S
             }
         }
         saveHistory()
+        return trackHistoryList
     }
 
     override fun read(sharedPreferences: SharedPreferences): ArrayList<Track> {

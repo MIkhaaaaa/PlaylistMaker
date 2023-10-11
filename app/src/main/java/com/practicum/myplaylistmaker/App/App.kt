@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.practicum.myplaylistmaker.HISTORY_KEY
-import com.practicum.myplaylistmaker.domain.models.Track
 
 class App: Application() {
    private var darkTheme = false

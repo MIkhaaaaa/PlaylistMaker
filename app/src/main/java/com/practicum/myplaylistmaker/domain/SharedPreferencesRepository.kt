@@ -8,5 +8,5 @@ interface SharedPreferencesRepository {
     fun read(sharedPreferences: SharedPreferences): ArrayList<Track>
     fun clearAllHistory()
     fun saveHistory()
-    fun editArray(newHistoryTrack: Track)
+    fun editArray(newHistoryTrack: Track) : ArrayList<Track>
 }
