@@ -3,8 +3,8 @@ package com.practicum.myplaylistmaker.presentation.player
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.myplaylistmaker.Creator
@@ -82,8 +82,8 @@ class ActivityMediaPlayer : AppCompatActivity() {
 
         bindingPlayer.playButton.setOnClickListener {
             if (clickDebounce()) {
-                bindingPlayer.playButton.visibility = View.GONE
-                bindingPlayer.pauseButton.visibility = View.VISIBLE
+                bindingPlayer.playButton.isVisible = false
+                bindingPlayer.pauseButton.isVisible = true
                 creator.play()
                 mainThreadHandler.post(
                     createTimeLoop()
@@ -92,8 +92,8 @@ class ActivityMediaPlayer : AppCompatActivity() {
         }
 
         bindingPlayer.pauseButton.setOnClickListener {
-            bindingPlayer.playButton.visibility = View.VISIBLE
-            bindingPlayer.pauseButton.visibility = View.GONE
+            bindingPlayer.playButton.isVisible = true
+            bindingPlayer.pauseButton.isVisible = false
             mainThreadHandler.removeCallbacksAndMessages(null)
             creator.pause()
         }
@@ -102,8 +102,8 @@ class ActivityMediaPlayer : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         creator.pause()
-        bindingPlayer.playButton.visibility = View.VISIBLE
-        bindingPlayer.pauseButton.visibility = View.GONE
+        bindingPlayer.playButton.isVisible = true
+        bindingPlayer.pauseButton.isVisible = false
 
     }
 
@@ -121,8 +121,8 @@ class ActivityMediaPlayer : AppCompatActivity() {
                     mainThreadHandler.postDelayed(this, DELAY)
                 } else {
                     bindingPlayer.trackTimer.text = getString(R.string._00_00)
-                    bindingPlayer.playButton.visibility = View.VISIBLE
-                    bindingPlayer.pauseButton.visibility = View.GONE
+                    bindingPlayer.playButton.isVisible = true
+                    bindingPlayer.pauseButton.isVisible = false
 
                 }
             }
