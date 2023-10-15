@@ -1,6 +1,6 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.util
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.media.MediaPlayer
 import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.data.PlayerRepositoryImpl
@@ -19,12 +19,12 @@ import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository as Share
 
 object Creator {
 
-    private fun getTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient())
+    private fun getTracksRepository(context: Context): TracksRepository {
+        return TracksRepositoryImpl(RetrofitNetworkClient(context))
     }
 
-     fun provideTracksIteractor () : TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository())
+     fun provideTracksIteractor (context: Context) : TracksInteractor {
+        return TracksInteractorImpl(getTracksRepository(context))
     }
 
     private fun providePlayerRepository() : AudioPlayerRepository {

@@ -1,26 +1,25 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.view.View.GONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practicum.myplaylistmaker.data.network.AppleAPI
+import com.practicum.myplaylistmaker.util.Creator
+import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
+import com.practicum.myplaylistmaker.domain.api.TracksInteractor
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.presentation.TrackAdapter
 import com.practicum.myplaylistmaker.presentation.player.ActivityMediaPlayer
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
 const val HISTORY_KEY = "history_key"
 
@@ -32,7 +31,7 @@ class SearchActivity : AppCompatActivity() {
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { search() }
+    private val searchRunnable = Runnable { searchTwo() }
     private var trackList: ArrayList<Track> = ArrayList()
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
@@ -40,14 +39,8 @@ class SearchActivity : AppCompatActivity() {
     private var trackHistoryList: ArrayList<Track> = ArrayList()
     private val historyCreator = Creator.provideSharedPreferenceInteractor()
     private val progressBar: ProgressBar by lazy { findViewById(R.id.progressbar) }
-    private val iTunesBaseURL = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val iTunesService = retrofit.create(AppleAPI::class.java)
     private lateinit var searchBinding: ActivitySearchBinding
-    private val creator = Creator.provideTracksIteractor()
+    private val creator = Creator.provideTracksIteractor(this)
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +58,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         ifSearchOkVisibility()
+        searchBinding.refreshButton.setOnClickListener { searchTwo() }
 
         trackHistoryList.clear()
         trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
@@ -96,6 +90,7 @@ class SearchActivity : AppCompatActivity() {
                 searchBinding.searchUserText.clearFocus()
                 trackList.clear()
                 trackAdapter.notifyDataSetChanged()
+                progressBar.isVisible = false
             }
         }
 
@@ -108,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchDebounce()
-                searchBinding.clearIcon.visibility = clearButtonVisibility(s)
+                searchBinding.clearIcon.isVisible = clearButtonVisibility(s)
                 if (searchBinding.searchUserText.hasFocus() && searchBinding.searchUserText.text.isEmpty()) {
                     trackAdapterHistory.notifyDataSetChanged()
                 }
@@ -126,9 +121,9 @@ class SearchActivity : AppCompatActivity() {
                 trackHistoryList.clear()
                 historyCreator.clearAllHistory()
                 trackAdapterHistory.notifyDataSetChanged()
-                searchBinding.textHistory.visibility = GONE
-                searchBinding.clearHistoryButton.visibility = GONE
-                searchBinding.historyRecycler.visibility = GONE
+                searchBinding.textHistory.isVisible = false
+                searchBinding.clearHistoryButton.isVisible = false
+                searchBinding.historyRecycler.isVisible = false
             }
 
         }
@@ -139,13 +134,14 @@ class SearchActivity : AppCompatActivity() {
         searchBinding.historyRecycler.layoutManager = LinearLayoutManager(this)
         searchBinding.historyRecycler.adapter = trackAdapterHistory
 
-        searchBinding.searchUserText.setOnFocusChangeListener { v, hasFocus ->
+        searchBinding.searchUserText.setOnFocusChangeListener { _, hasFocus ->
             if (clickDebounce()) {
                 trackAdapterHistory.notifyDataSetChanged()
                 visibleSettingsHistory(hasFocus)
             }
         }
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
@@ -154,65 +150,51 @@ class SearchActivity : AppCompatActivity() {
         trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
         trackAdapterHistory.notifyDataSetChanged()
     }
-    private fun search() {
-        trackList.clear()
-        progressBar.visibility = View.VISIBLE
-        if (searchBinding.searchUserText.text.toString().isNotEmpty()) {
-            searchBinding.trackRecycler.visibility = View.VISIBLE
-        } else {
-            searchBinding.trackRecycler.visibility = GONE
-            searchBinding.noneFind.visibility = GONE
-        }
-        iTunesService.search(searchBinding.searchUserText.text.toString())
-            .enqueue(object : Callback<TrackResponseOld> {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onResponse(
-                    call: Call<TrackResponseOld>,
-                    response: Response<TrackResponseOld>
-                ) {
-                    if (response.code() == 200) {
-                        progressBar.visibility = GONE
-                        trackList.clear()
-                        ifSearchOkVisibility()
 
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            trackList.addAll(response.body()?.results!!)
+
+
+    private fun searchTwo() {
+        progressBar.isVisible = true
+        creator.searchTracks(
+            searchBinding.searchUserText.text.toString(),
+            object : TracksInteractor.TracksConsumer {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun consume(foundTrack: ArrayList<Track>?, errorMessage: String?) {
+                    handler.post {
+
+                        if (searchBinding.searchUserText.text.toString().isNotEmpty()) {
+                            searchBinding.trackRecycler.isVisible = true
+                        } else {
+                            searchBinding.trackRecycler.isVisible = false
+                            searchBinding.noneFind.isVisible = false
+                        }
+                        searchBinding.progressbar.isVisible = false
+                        trackList.clear()
+                        if (foundTrack != null) {
+                            trackList.addAll(foundTrack)
+                            ifSearchOkVisibility()
                             trackAdapter.notifyDataSetChanged()
                         }
-
-                        if (trackList.isEmpty() && searchBinding.searchUserText.text.toString()
-                                .isNotEmpty()
-                        ) {
-                            searchBinding.noneFind.visibility = View.VISIBLE
-                            searchBinding.nothingfoundText.visibility = View.VISIBLE
-                            searchBinding.loadingproblem.visibility = GONE
-                            searchBinding.loadingproblemText.visibility = GONE
-                            progressBar.visibility = GONE
-                            searchBinding.trackRecycler.visibility = GONE
+                        if (errorMessage != null){
+                            progressBar.isVisible = false
+                            searchBinding.loadingproblem.isVisible = true
+                            searchBinding.loadingproblemText.isVisible = true
+                            searchBinding.refreshButton.isVisible = true
                         }
+                        if (trackList.isEmpty()) {
+                            searchBinding.noneFind.isVisible = false
+                            progressBar.isVisible = false
+                            searchBinding.nothingfoundText.isVisible = false
+                            searchBinding.loadingproblem.isVisible = true
+                            searchBinding.loadingproblemText.isVisible = true
 
-                    } else {
-                        searchBinding.noneFind.visibility = GONE
-                        progressBar.visibility = GONE
-                        searchBinding.nothingfoundText.visibility = GONE
-                        searchBinding.loadingproblem.visibility = View.VISIBLE
-                        searchBinding.loadingproblemText.visibility = View.VISIBLE
-                        searchBinding.refreshButton.setOnClickListener { search() }
-                        searchBinding.refreshButton.visibility = View.VISIBLE
-                        searchBinding.trackRecycler.visibility = GONE
-                        trackAdapter.notifyDataSetChanged()
+                            searchBinding.refreshButton.isVisible = true
+                            searchBinding.trackRecycler.isVisible = false
+                            trackAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
-
-                override fun onFailure(call: Call<TrackResponseOld>, t: Throwable) {
-                    progressBar.visibility = GONE
-                    searchBinding.loadingproblem.visibility = View.VISIBLE
-                    searchBinding.loadingproblemText.visibility = View.VISIBLE
-                    searchBinding.refreshButton.visibility = View.VISIBLE
-                    searchBinding.refreshButton.setOnClickListener { search() }
-                }
-            }
-            )
+            })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -225,33 +207,29 @@ class SearchActivity : AppCompatActivity() {
         savedInstanceState.getString(KEY_TEXT, "")
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            GONE
-        } else {
-            View.VISIBLE
-        }
+    private fun clearButtonVisibility(s: CharSequence?): Boolean {
+        return !s.isNullOrEmpty()
     }
 
     private fun visibleSettingsHistory(hasFocus: Boolean) {
-        searchBinding.textHistory.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
-        searchBinding.clearHistoryButton.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
-        searchBinding.historyRecycler.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+        searchBinding.textHistory.isVisible =
+            hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()
+        searchBinding.clearHistoryButton.isVisible =
+            hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()
+        searchBinding.historyRecycler.isVisible =
+            hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()
     }
 
 
     private fun ifSearchOkVisibility() {
-        searchBinding.trackRecycler.visibility = View.VISIBLE
-        searchBinding.nothingfoundText2.visibility = GONE
-        searchBinding.noneFind.visibility = GONE
-        searchBinding.nothingfoundText.visibility = GONE
-        searchBinding.loadingproblem.visibility = GONE
-        searchBinding.loadingproblemText.visibility = GONE
-        searchBinding.refreshButton.visibility = GONE
-        progressBar.visibility = GONE
+        searchBinding.trackRecycler.isVisible = true
+        searchBinding.nothingfoundText2.isVisible = false
+        searchBinding.noneFind.isVisible = false
+        searchBinding.nothingfoundText.isVisible = false
+        searchBinding.loadingproblem.isVisible = false
+        searchBinding.loadingproblemText.isVisible = false
+        searchBinding.refreshButton.isVisible = false
+        progressBar.isVisible = false
     }
 
     private fun clickDebounce(): Boolean {
