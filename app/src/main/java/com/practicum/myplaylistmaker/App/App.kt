@@ -1,12 +1,16 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.App
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.myplaylistmaker.HISTORY_KEY
 
 class App: Application() {
    private var darkTheme = false
+    companion object {
+        lateinit var savedHistory: SharedPreferences
+    }
     override fun onCreate() {
         super.onCreate()
         savedHistory = applicationContext.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
@@ -21,9 +25,7 @@ class App: Application() {
             }
         )
     }
-    companion object {
-        lateinit var savedHistory: SharedPreferences
-        fun getSharedPreferences():SharedPreferences { return savedHistory}
-        var trackHistoryList = ArrayList<Track>()
-    }
+
+
+
 }

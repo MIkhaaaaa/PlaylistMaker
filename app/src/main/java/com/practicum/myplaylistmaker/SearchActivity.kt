@@ -9,17 +9,19 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practicum.myplaylistmaker.data.network.AppleAPI
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
+import com.practicum.myplaylistmaker.domain.models.Track
+import com.practicum.myplaylistmaker.presentation.TrackAdapter
+import com.practicum.myplaylistmaker.presentation.player.ActivityMediaPlayer
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+
 const val HISTORY_KEY = "history_key"
 
 class SearchActivity : AppCompatActivity() {
@@ -27,6 +29,7 @@ class SearchActivity : AppCompatActivity() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
+
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { search() }
@@ -34,15 +37,17 @@ class SearchActivity : AppCompatActivity() {
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
-    private val trackHistoryObj = TrackHistory()
-    private val progressBar: ProgressBar by lazy {findViewById(R.id.progressbar)}
+    private var trackHistoryList: ArrayList<Track> = ArrayList()
+    private val historyCreator = Creator.provideSharedPreferenceInteractor()
+    private val progressBar: ProgressBar by lazy { findViewById(R.id.progressbar) }
     private val iTunesBaseURL = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
         .baseUrl(iTunesBaseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val iTunesService = retrofit.create(ITunesAPI::class.java)
+    private val iTunesService = retrofit.create(AppleAPI::class.java)
     private lateinit var searchBinding: ActivitySearchBinding
+    private val creator = Creator.provideTracksIteractor()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,18 +55,19 @@ class SearchActivity : AppCompatActivity() {
         searchBinding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(searchBinding.root)
 
-        trackAdapter = TrackAdapter(trackList){
-            trackHistoryObj.editArray(it)
+        trackAdapter = TrackAdapter(trackList) {
+            trackHistoryList.clear()
+            trackHistoryList.addAll(historyCreator.editArray(it))
             trackAdapterHistory.notifyDataSetChanged()
             val intent = Intent(this, ActivityMediaPlayer::class.java)
-            intent.putExtra("track",it)
+            intent.putExtra("track", it)
             this.startActivity(intent)
         }
 
         ifSearchOkVisibility()
 
-        trackHistoryObj.trackHistoryList.clear()
-        trackHistoryObj.trackHistoryList.addAll(trackHistoryObj.read(App.getSharedPreferences()))
+        trackHistoryList.clear()
+        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
         visibleSettingsHistory(searchBinding.searchUserText.hasFocus())
 
         searchBinding.backArrow.setOnClickListener {
@@ -70,25 +76,28 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        trackAdapterHistory = TrackAdapter(trackHistoryObj.trackHistoryList){
-            trackHistoryObj.editArray(it)
+        trackAdapterHistory = TrackAdapter(trackHistoryList) {
+            trackHistoryList.clear()
+            trackHistoryList.addAll(historyCreator.editArray(it))
             trackAdapterHistory.notifyDataSetChanged()
             val intent = Intent(this, ActivityMediaPlayer::class.java)
-            intent.putExtra("track",it)
+            intent.putExtra("track", it)
             this.startActivity(intent)
         }
 
         searchBinding.clearIcon.setOnClickListener {
-            if (clickDebounce()){
-            searchBinding.searchUserText.setText("")
-            val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            keyboard.hideSoftInputFromWindow(searchBinding.searchUserText.windowToken, 0) // скрыть клавиатуру
-            searchBinding.searchUserText.clearFocus()
-            trackList.clear()
-            trackAdapter.notifyDataSetChanged()
+            if (clickDebounce()) {
+                searchBinding.searchUserText.setText("")
+                val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                keyboard.hideSoftInputFromWindow(
+                    searchBinding.searchUserText.windowToken,
+                    0
+                ) // скрыть клавиатуру
+                searchBinding.searchUserText.clearFocus()
+                trackList.clear()
+                trackAdapter.notifyDataSetChanged()
             }
         }
-
 
 
         val simpleTextWatcher = object : TextWatcher {
@@ -114,8 +123,8 @@ class SearchActivity : AppCompatActivity() {
 
         searchBinding.clearHistoryButton.setOnClickListener {
             if (clickDebounce()) {
-                trackHistoryObj.trackHistoryList.clear()
-                trackHistoryObj.clearAllHistory()
+                trackHistoryList.clear()
+                historyCreator.clearAllHistory()
                 trackAdapterHistory.notifyDataSetChanged()
                 searchBinding.textHistory.visibility = GONE
                 searchBinding.clearHistoryButton.visibility = GONE
@@ -138,7 +147,13 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        trackHistoryList.clear()
+        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
+        trackAdapterHistory.notifyDataSetChanged()
+    }
     private fun search() {
         trackList.clear()
         progressBar.visibility = View.VISIBLE
@@ -149,11 +164,11 @@ class SearchActivity : AppCompatActivity() {
             searchBinding.noneFind.visibility = GONE
         }
         iTunesService.search(searchBinding.searchUserText.text.toString())
-            .enqueue(object : Callback<TrackResponse> {
+            .enqueue(object : Callback<TrackResponseOld> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
-                    call: Call<TrackResponse>,
-                    response: Response<TrackResponse>
+                    call: Call<TrackResponseOld>,
+                    response: Response<TrackResponseOld>
                 ) {
                     if (response.code() == 200) {
                         progressBar.visibility = GONE
@@ -165,7 +180,9 @@ class SearchActivity : AppCompatActivity() {
                             trackAdapter.notifyDataSetChanged()
                         }
 
-                        if (trackList.isEmpty() && searchBinding.searchUserText.text.toString().isNotEmpty()) {
+                        if (trackList.isEmpty() && searchBinding.searchUserText.text.toString()
+                                .isNotEmpty()
+                        ) {
                             searchBinding.noneFind.visibility = View.VISIBLE
                             searchBinding.nothingfoundText.visibility = View.VISIBLE
                             searchBinding.loadingproblem.visibility = GONE
@@ -187,7 +204,7 @@ class SearchActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TrackResponseOld>, t: Throwable) {
                     progressBar.visibility = GONE
                     searchBinding.loadingproblem.visibility = View.VISIBLE
                     searchBinding.loadingproblemText.visibility = View.VISIBLE
@@ -218,11 +235,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun visibleSettingsHistory(hasFocus: Boolean) {
         searchBinding.textHistory.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
         searchBinding.clearHistoryButton.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
         searchBinding.historyRecycler.visibility =
-            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryObj.trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
+            if (hasFocus && searchBinding.searchUserText.text.isEmpty() && trackHistoryList.isNotEmpty()) View.VISIBLE else GONE
     }
 
 
@@ -236,7 +253,8 @@ class SearchActivity : AppCompatActivity() {
         searchBinding.refreshButton.visibility = GONE
         progressBar.visibility = GONE
     }
-    private fun clickDebounce() : Boolean {
+
+    private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -244,6 +262,7 @@ class SearchActivity : AppCompatActivity() {
         }
         return current
     }
+
     private fun searchDebounce() {
         if (searchBinding.searchUserText.text.toString().isNotEmpty()) {
             handler.removeCallbacks(searchRunnable)

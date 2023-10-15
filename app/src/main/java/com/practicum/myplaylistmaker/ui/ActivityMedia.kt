@@ -1,7 +1,8 @@
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.practicum.myplaylistmaker.R
 
 class ActivityMedia : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

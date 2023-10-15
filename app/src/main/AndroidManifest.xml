@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.practicum.myplaylistmaker.App"
+        android:name="com.practicum.myplaylistmaker.App.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,14 +16,14 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="33">
         <activity
-            android:name=".ActivitySettings"
+            android:name=".ui.settings.ActivitySettings"
             android:exported="false" />
         <activity
-            android:name=".ActivityMediaPlayer"
+            android:name=".presentation.player.ActivityMediaPlayer"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".ActivityMedia"
+            android:name=".ui.ActivityMedia"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
 
@@ -33,7 +33,7 @@
             android:theme="@style/Theme.MyApplication" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>

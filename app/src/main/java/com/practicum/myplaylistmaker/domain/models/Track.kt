@@ -1,5 +1,5 @@
 
-package com.practicum.myplaylistmaker
+package com.practicum.myplaylistmaker.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

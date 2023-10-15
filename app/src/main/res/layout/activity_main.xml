@@ -6,7 +6,7 @@
     android:paddingTop="14dp"
     android:paddingBottom="28dp"
     android:paddingHorizontal="16dp"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/textView"
