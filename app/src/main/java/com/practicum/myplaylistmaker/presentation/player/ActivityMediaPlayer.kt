@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.practicum.myplaylistmaker.Creator
+import com.practicum.myplaylistmaker.util.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
