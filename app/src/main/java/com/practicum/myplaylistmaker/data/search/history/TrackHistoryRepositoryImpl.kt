@@ -1,10 +1,10 @@
-package com.practicum.myplaylistmaker.data
+package com.practicum.myplaylistmaker.data.search.history
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.HISTORY_KEY
+import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
 
 

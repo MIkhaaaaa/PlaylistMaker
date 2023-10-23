@@ -20,7 +20,7 @@
             android:name=".ui.settings.ActivitySettings"
             android:exported="false" />
         <activity
-            android:name=".presentation.player.ActivityMediaPlayer"
+            android:name=".ui.player.ActivityMediaPlayer"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
         <activity
@@ -29,7 +29,7 @@
             android:theme="@style/Theme.MyApplication" />
 
         <activity
-            android:name=".ui.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
 

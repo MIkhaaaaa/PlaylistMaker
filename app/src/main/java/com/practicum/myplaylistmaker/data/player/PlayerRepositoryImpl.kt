@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker.data
+package com.practicum.myplaylistmaker.data.player
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer

@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker.presentation.player
+package com.practicum.myplaylistmaker.ui.player
 
 import android.os.Bundle
 import android.os.Handler

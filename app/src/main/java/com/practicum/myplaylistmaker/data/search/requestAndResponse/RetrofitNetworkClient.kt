@@ -1,11 +1,8 @@
-package com.practicum.myplaylistmaker.data.network
+package com.practicum.myplaylistmaker.data.search.requestAndResponse
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.practicum.myplaylistmaker.data.NetworkClient
-import com.practicum.myplaylistmaker.data.dto.Response
-import com.practicum.myplaylistmaker.data.dto.TrackRequest
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

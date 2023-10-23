@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.databinding.ActivityMainBinding
+import com.practicum.myplaylistmaker.ui.search.SearchActivity
 import com.practicum.myplaylistmaker.ui.settings.ActivitySettings
 import com.practicum.myplaylistmaker.ui.settings.PRACTICUM_EXAMPLE_PREFERENCES
 import com.practicum.myplaylistmaker.ui.settings.THEME_KEY

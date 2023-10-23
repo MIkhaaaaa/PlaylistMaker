@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker.ui
+package com.practicum.myplaylistmaker.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,8 +18,8 @@ import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
 import com.practicum.myplaylistmaker.domain.api.TracksInteractor
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.presentation.TrackAdapter
-import com.practicum.myplaylistmaker.presentation.player.ActivityMediaPlayer
+import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
+import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 
 const val HISTORY_KEY = "history_key"
 

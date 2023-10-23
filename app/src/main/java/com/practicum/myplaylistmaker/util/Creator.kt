@@ -3,10 +3,10 @@ package com.practicum.myplaylistmaker.util
 import android.content.Context
 import android.media.MediaPlayer
 import com.practicum.myplaylistmaker.App.App
-import com.practicum.myplaylistmaker.data.PlayerRepositoryImpl
-import com.practicum.myplaylistmaker.data.TrackHistoryRepositoryImpl
-import com.practicum.myplaylistmaker.data.network.RetrofitNetworkClient
-import com.practicum.myplaylistmaker.data.network.TracksRepositoryImpl
+import com.practicum.myplaylistmaker.data.player.PlayerRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.history.TrackHistoryRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.requestAndResponse.RetrofitNetworkClient
+import com.practicum.myplaylistmaker.data.search.TracksRepositoryImpl
 import com.practicum.myplaylistmaker.domain.SharedPreferencesInteractor
 import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
