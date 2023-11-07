@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.myplaylistmaker.util.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
-import com.practicum.myplaylistmaker.domain.api.TracksInteractor
+import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer

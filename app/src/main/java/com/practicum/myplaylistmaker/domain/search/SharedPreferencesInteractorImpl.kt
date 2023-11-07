@@ -1,8 +1,8 @@
-package com.practicum.myplaylistmaker.domain.impl
+package com.practicum.myplaylistmaker.domain.search
 
 import android.content.SharedPreferences
-import com.practicum.myplaylistmaker.domain.SharedPreferencesInteractor
-import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
 import com.practicum.myplaylistmaker.domain.models.Track
 
 class SharedPreferencesInteractorImpl(private val preference: SharedPreferencesRepository) :

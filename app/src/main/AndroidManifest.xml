@@ -17,14 +17,14 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="33">
         <activity
-            android:name=".ui.settings.ActivitySettings"
+            android:name=".ui.settings.activity.ActivitySettings"
             android:exported="false" />
         <activity
             android:name=".ui.player.ActivityMediaPlayer"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".ui.ActivityMedia"
+            android:name=".ui.mediaLibrary.ActivityMedia"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
 
@@ -34,7 +34,7 @@
             android:theme="@style/Theme.MyApplication" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>

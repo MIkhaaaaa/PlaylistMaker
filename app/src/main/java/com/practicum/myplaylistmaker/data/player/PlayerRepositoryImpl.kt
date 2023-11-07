@@ -2,12 +2,11 @@ package com.practicum.myplaylistmaker.data.player
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerRepository
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import java.text.SimpleDateFormat
 
-class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer ) : AudioPlayerRepository{
+class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer ) : AudioPlayerRepository {
     var playerState = PlayerState.STATE_DEFAULT
     override fun play() {
         mediaPlayer.start()

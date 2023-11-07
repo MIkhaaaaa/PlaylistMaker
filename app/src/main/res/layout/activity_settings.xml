@@ -8,7 +8,7 @@
     android:paddingHorizontal="16dp"
     android:paddingTop="14dp"
     android:paddingBottom="0dp"
-    tools:context=".ui.settings.ActivitySettings">
+    tools:context=".ui.settings.activity.ActivitySettings">
 
     <LinearLayout
         android:layout_width="wrap_content"

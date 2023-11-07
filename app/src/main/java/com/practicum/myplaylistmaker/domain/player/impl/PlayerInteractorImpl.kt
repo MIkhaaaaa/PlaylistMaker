@@ -1,10 +1,10 @@
-package com.practicum.myplaylistmaker.domain.impl
+package com.practicum.myplaylistmaker.domain.player.impl
 
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerRepository
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 
-class PlayerInteractorImpl(private val mediaPlayer: AudioPlayerRepository) : AudioPlayerInteractor  {
+class PlayerInteractorImpl(private val mediaPlayer: AudioPlayerRepository) : AudioPlayerInteractor {
     override fun play() {
         mediaPlayer.play()
     }

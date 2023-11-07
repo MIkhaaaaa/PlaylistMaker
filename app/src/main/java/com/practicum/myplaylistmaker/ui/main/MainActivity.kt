@@ -1,26 +1,23 @@
-package com.practicum.myplaylistmaker.ui
+package com.practicum.myplaylistmaker.ui.main
 
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.practicum.myplaylistmaker.App.App
+import androidx.appcompat.app.AppCompatActivity
 import com.practicum.myplaylistmaker.databinding.ActivityMainBinding
+import com.practicum.myplaylistmaker.ui.mediaLibrary.ActivityMedia
 import com.practicum.myplaylistmaker.ui.search.SearchActivity
-import com.practicum.myplaylistmaker.ui.settings.ActivitySettings
-import com.practicum.myplaylistmaker.ui.settings.PRACTICUM_EXAMPLE_PREFERENCES
-import com.practicum.myplaylistmaker.ui.settings.THEME_KEY
+import com.practicum.myplaylistmaker.ui.settings.activity.ActivitySettings
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bindingMain: ActivityMainBinding
-    private var sharedPrefs: SharedPreferences ? = null
+    //private var sharedPrefs: SharedPreferences ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain.root)
 
-        sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
-        App().switchTheme(sharedPrefs?.getBoolean(THEME_KEY,false)!!)
+      //  sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
+       // App().switchTheme(sharedPrefs?.getBoolean(THEME_KEY,false)!!)
         bindingMain.search.setOnClickListener {
             val intentSearch = Intent(this, SearchActivity::class.java)
             startActivity(intentSearch)

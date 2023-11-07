@@ -5,10 +5,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
-import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
 
 
-class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences): SharedPreferencesRepository {
+class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences):
+    SharedPreferencesRepository {
 
     private var trackHistoryList = ArrayList<Track>()
     private val gson = Gson()

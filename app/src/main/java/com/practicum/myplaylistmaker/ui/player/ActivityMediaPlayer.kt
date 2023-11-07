@@ -5,12 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.myplaylistmaker.util.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
 import java.text.SimpleDateFormat
@@ -28,8 +31,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
     private var url = ""
     private val creator = Creator.providePlayerInteractor()
-    private var playerState = PlayerState.STATE_DEFAULT
-
+    private lateinit var viewModel: PlayerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         setContentView(bindingPlayer.root)
         mainThreadHandler = Handler(Looper.getMainLooper())
         bindingPlayer.backMenuButton.setOnClickListener { finish() }
+        viewModel = ViewModelProvider(this,PlayerViewModel.getViewModelFactory())[PlayerViewModel::class.java]
 
         track = intent.getParcelableExtra("track")!!
 
@@ -58,7 +61,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
-        creator.preparePlayer(url, object : AudioPlayerInteractor.PlayerStateListener {
+        viewModel.createPlayer(url,object : AudioPlayerInteractor.PlayerStateListener {
             override fun onStateChanged(state: PlayerState) {
                 when (state) {
                     PlayerState.STATE_PLAYING -> {
@@ -84,7 +87,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
             if (clickDebounce()) {
                 bindingPlayer.playButton.isVisible = false
                 bindingPlayer.pauseButton.isVisible = true
-                creator.play()
+                viewModel.play()
                 mainThreadHandler.post(
                     createTimeLoop()
                 )
@@ -95,13 +98,13 @@ class ActivityMediaPlayer : AppCompatActivity() {
             bindingPlayer.playButton.isVisible = true
             bindingPlayer.pauseButton.isVisible = false
             mainThreadHandler.removeCallbacksAndMessages(null)
-            creator.pause()
+            viewModel.pause()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        creator.pause()
+        viewModel.pause()
         bindingPlayer.playButton.isVisible = true
         bindingPlayer.pauseButton.isVisible = false
 
@@ -115,7 +118,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
     private fun createTimeLoop(): Runnable {
         return object : Runnable {
             override fun run() {
-                val statePlayer = creator.playerStateReporter()
+                val statePlayer = viewModel.playerStateListener()
                 if ((statePlayer == PlayerState.STATE_PLAYING) or (statePlayer == PlayerState.STATE_PAUSED)) {
                     bindingPlayer.trackTimer.text = timeTrack()
                     mainThreadHandler.postDelayed(this, DELAY)
@@ -130,7 +133,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
     }
 
     private fun timeTrack(): String {
-        return creator.timeTransfer()
+        return viewModel.getTime()
     }
 
     private fun clickDebounce(): Boolean {

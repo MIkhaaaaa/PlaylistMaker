@@ -1,13 +1,13 @@
-package com.practicum.myplaylistmaker.data.settings.impl
+package com.practicum.myplaylistmaker.domain.sharing.impl
 
 import android.content.Intent
 import android.net.Uri
 import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.R
-import com.practicum.myplaylistmaker.domain.sharing.SettingRepository
+import com.practicum.myplaylistmaker.domain.sharing.ExternalNavigator
 import com.practicum.myplaylistmaker.domain.sharing.model.EmailData
 
-class SettingRepositoryImpl(private val application: App): SettingRepository {
+class ExternalNavigatorImpl(private val application: App): ExternalNavigator {
     override fun shareLink(shareAppLink: String) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
@@ -25,7 +25,7 @@ class SettingRepositoryImpl(private val application: App): SettingRepository {
 
     override fun openEmail(email: EmailData) {
         val message = application.getString(R.string.DefaultTextEmail)
-        val subject = application.getString(R.string.defaultEmail)
+        val subject = application.getString(R.string.subjectEmail)
         val shareIntent = Intent(Intent.ACTION_SENDTO)
         shareIntent.data = Uri.parse("mailto:")
         shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email.email))
