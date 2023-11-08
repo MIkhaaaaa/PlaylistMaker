@@ -134,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
         binding.clearHistoryButton.setOnClickListener {
             if (clickDebounce()) {
                 trackHistoryList.clear()
-                historyCreator.clearAllHistory()
+                searchViewModule.clearHistory()
                 trackAdapterHistory.notifyDataSetChanged()
                 binding.textHistory.isVisible = false
                 binding.clearHistoryButton.isVisible = false
@@ -162,18 +162,17 @@ class SearchActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         trackHistoryList.clear()
-        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
+        searchViewModule.provideHistory().value?.let { trackHistoryList.addAll(it)}
         trackAdapterHistory.notifyDataSetChanged()
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchTracks() {
+        searchViewModule.clearTrackList()
         handler.post {
             searchViewModule.searchRequesting(binding.searchUserText.text.toString())
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
