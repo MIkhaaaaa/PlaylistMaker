@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivitySearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.practicum.myplaylistmaker.ui.search.liveData.ScreenState
@@ -33,7 +32,7 @@ class SearchActivity : AppCompatActivity() {
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { searchThree() }
+    private val searchRunnable = Runnable { searchTracks() }
     private var trackList: ArrayList<Track> = ArrayList()
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
@@ -42,15 +41,18 @@ class SearchActivity : AppCompatActivity() {
     private val historyCreator = Creator.provideSharedPreferenceInteractor()
     private val progressBar: ProgressBar by lazy { findViewById(R.id.progressbar) }
     private lateinit var binding: ActivitySearchBinding
-    private val creator = Creator.provideTracksIteractor(this)
-    private  lateinit var searchViewModule: SearchViewModel
+    //private val creator = Creator.provideTracksIteractor(this)
+    private lateinit var searchViewModule: SearchViewModel
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        searchViewModule = ViewModelProvider(this,SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
+        searchViewModule = ViewModelProvider(
+            this,
+            SearchViewModel.getViewModelFactory()
+        )[SearchViewModel::class.java]
 
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)
@@ -61,19 +63,19 @@ class SearchActivity : AppCompatActivity() {
 
         searchViewModule.getStateLiveData().observe(this) { stateLiveData ->
 
-            when (val state = stateLiveData) {
+            when (stateLiveData) {
                 is ScreenState.DefaultSearch -> defaultSearch()
                 is ScreenState.ConnectionError -> connectionError()
                 is ScreenState.Loading -> loading()
                 is ScreenState.NothingFound -> nothingFound()
-                is ScreenState.SearchOk -> searchIsOk(state.data)
-                is ScreenState.SearchHistory -> searchWithHistory()
+                is ScreenState.SearchOk -> searchIsOk(stateLiveData.data)
+                is ScreenState.SearchHistory -> searchWithHistory(stateLiveData.historyData)
                 else -> {}
             }
         }
 
         ifSearchOkVisibility()
-        binding.refreshButton.setOnClickListener { searchThree() }
+        binding.refreshButton.setOnClickListener { searchTracks() }
 
         trackHistoryList.clear()
         trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
@@ -165,74 +167,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-
-    private fun searchTwo() {
-        progressBar.isVisible = true
-        creator.searchTracks(
-            binding.searchUserText.text.toString(),
-            object : TracksInteractor.TracksConsumer {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun consume(foundTrack: ArrayList<Track>?, errorMessage: String?) {
-                    handler.post {
-
-                        if (binding.searchUserText.text.toString().isNotEmpty()) {
-                            binding.trackRecycler.isVisible = true
-                        } else {
-                            binding.trackRecycler.isVisible = false
-                            binding.noneFind.isVisible = false
-                        }
-                        binding.progressbar.isVisible = false
-                        trackList.clear()
-                        if (foundTrack != null) {
-                            trackList.addAll(foundTrack)
-                            ifSearchOkVisibility()
-                            trackAdapter.notifyDataSetChanged()
-                        }
-                        if (errorMessage != null){
-                            progressBar.isVisible = false
-                            binding.loadingproblem.isVisible = true
-                            binding.loadingproblemText.isVisible = true
-                            binding.refreshButton.isVisible = true
-                        }
-                        if (trackList.isEmpty()) {
-                            binding.noneFind.isVisible = false
-                            progressBar.isVisible = false
-                            binding.nothingfoundText.isVisible = false
-                            binding.loadingproblem.isVisible = true
-                            binding.loadingproblemText.isVisible = true
-
-                            binding.refreshButton.isVisible = true
-                            binding.trackRecycler.isVisible = false
-                            trackAdapter.notifyDataSetChanged()
-                        }
-                    }
-                }
-            })
-    }
     @SuppressLint("NotifyDataSetChanged")
-    private fun searchThree(){
-        handler.post{
+    private fun searchTracks() {
+        handler.post {
             searchViewModule.searchRequesting(binding.searchUserText.text.toString())
-            if (binding.searchUserText.text.toString().isNotEmpty()) {
-                binding.trackRecycler.isVisible = true
-            } else {
-                binding.trackRecycler.isVisible = false
-                binding.noneFind.isVisible = false
-            }
-            binding.progressbar.isVisible = false
-            trackList.clear()
-
-            if (trackList.isEmpty()) {
-                binding.noneFind.isVisible = false
-                progressBar.isVisible = false
-                binding.nothingfoundText.isVisible = false
-                binding.loadingproblem.isVisible = true
-                binding.loadingproblemText.isVisible = true
-
-                binding.refreshButton.isVisible = true
-                binding.trackRecycler.isVisible = false
-                trackAdapter.notifyDataSetChanged()
-            }
         }
 
 
@@ -288,6 +226,7 @@ class SearchActivity : AppCompatActivity() {
             handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
         }
     }
+
     private fun defaultSearch() {
         historyInVisible()
         binding.trackRecycler.isVisible = false
@@ -312,9 +251,14 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun searchIsOk(data: List<Track>) {
+        trackList.clear()
+        trackList.addAll(data)
+        trackAdapter.notifyDataSetChanged()
         binding.progressbar.isVisible = false
-        binding.historyRecycler.isVisible =true
+        binding.historyRecycler.isVisible = false
+        binding.trackRecycler.isVisible = true
         binding.noneFind.isVisible = false
         binding.nothingfoundText.isVisible = false
         binding.loadingproblem.isVisible = false
@@ -342,14 +286,15 @@ class SearchActivity : AppCompatActivity() {
         binding.loadingproblemText.isVisible = true
         binding.refreshButton.isVisible = true
         binding.trackRecycler.isVisible = false
-        binding.refreshButton.setOnClickListener { searchThree() }
+        binding.refreshButton.setOnClickListener { searchTracks() }
         binding.progressbar.isVisible = false
         historyInVisible()
     }
 
-    private fun searchWithHistory() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun searchWithHistory(historyData: List<Track>) {
         trackHistoryList.clear()
-        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
+        trackHistoryList.addAll(historyData)
         trackAdapterHistory.notifyDataSetChanged()
         binding.trackRecycler.isVisible = false
         binding.textHistory.isVisible = true
@@ -363,6 +308,7 @@ class SearchActivity : AppCompatActivity() {
         binding.loadingproblemText.isVisible = false
         binding.progressbar.isVisible = false
     }
+
     private fun historyInVisible() {
         binding.textHistory.isVisible = false
         binding.historyRecycler.isVisible = false
