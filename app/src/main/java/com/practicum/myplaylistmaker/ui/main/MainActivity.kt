@@ -10,14 +10,11 @@ import com.practicum.myplaylistmaker.ui.settings.activity.ActivitySettings
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bindingMain: ActivityMainBinding
-    //private var sharedPrefs: SharedPreferences ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain.root)
 
-      //  sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES,MODE_PRIVATE)
-       // App().switchTheme(sharedPrefs?.getBoolean(THEME_KEY,false)!!)
         bindingMain.search.setOnClickListener {
             val intentSearch = Intent(this, SearchActivity::class.java)
             startActivity(intentSearch)

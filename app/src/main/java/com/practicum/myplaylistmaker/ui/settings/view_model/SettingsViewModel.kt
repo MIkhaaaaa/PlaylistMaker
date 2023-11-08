@@ -16,7 +16,7 @@ class SettingsViewModel(
 ) : ViewModel() {
     init {
         sharingInteractor = Creator.provideSharingIneractor()
-        settingsInteractor = Creator.provideSettingsIneractor()
+        settingsInteractor = Creator.provideSettingInteractor()
     }
 
     private var onBackLiveData = MutableLiveData(false)
@@ -67,7 +67,7 @@ class SettingsViewModel(
                     val app = App()
                     return SettingsViewModel(
                         Creator.provideSharingIneractor(),
-                        Creator.provideSettingsIneractor()
+                        Creator.provideSettingInteractor()
                     ) as T
                 }
             }

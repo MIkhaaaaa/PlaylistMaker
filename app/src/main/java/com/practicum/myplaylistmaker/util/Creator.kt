@@ -4,19 +4,18 @@ import android.content.Context
 import android.media.MediaPlayer
 import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.data.player.PlayerRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.TracksRepositoryImpl
 import com.practicum.myplaylistmaker.data.search.history.TrackHistoryRepositoryImpl
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.RetrofitNetworkClient
-import com.practicum.myplaylistmaker.data.search.TracksRepositoryImpl
 import com.practicum.myplaylistmaker.data.settings.impl.ThemeSettingsImpl
-import com.practicum.myplaylistmaker.data.settings.interactor.SettingsInteractorImpl
-import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
 import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.player.AudioPlayerRepository
 import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.domain.player.TracksRepository
 import com.practicum.myplaylistmaker.domain.player.impl.PlayerInteractorImpl
-import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractorImpl
 import com.practicum.myplaylistmaker.domain.player.impl.TracksInteractorImpl
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractorImpl
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
 import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
@@ -55,10 +54,6 @@ object Creator {
 
     fun provideSettingInteractor(): SettingsInteractor {
         return SettingInteractorImpl(provideThemeSettings())
-    }
-
-    fun provideSettingsIneractor(): SettingsInteractor {
-        return SettingsInteractorImpl(provideThemeSettings())
     }
 
     fun provideThemeSettings(): ThemeSettings {
