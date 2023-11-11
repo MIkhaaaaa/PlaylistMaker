@@ -11,7 +11,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.myplaylistmaker.util.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
-import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
 import java.text.SimpleDateFormat
@@ -30,6 +29,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
     private var url = ""
     private val creator = Creator.providePlayerInteractor()
     private lateinit var viewModel: PlayerViewModel
+    //private var state:PlayerState = PlayerState.STATE_DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,28 @@ class ActivityMediaPlayer : AppCompatActivity() {
         setContentView(bindingPlayer.root)
         mainThreadHandler = Handler(Looper.getMainLooper())
         bindingPlayer.backMenuButton.setOnClickListener { finish() }
-        viewModel = ViewModelProvider(this,PlayerViewModel.getViewModelFactory())[PlayerViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            PlayerViewModel.getViewModelFactory()
+        )[PlayerViewModel::class.java]
+
+        viewModel.stateLiveData.observe(this) {
+            when (it) {
+                PlayerState.STATE_PLAYING -> {
+                    viewModel.pause()
+                    it.apply { PlayerState.STATE_PAUSED }
+                }
+
+                PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
+                    viewModel.play()
+                    it.apply { PlayerState.STATE_PLAYING }
+                }
+
+                else -> {
+                    it.apply { PlayerState.STATE_DEFAULT}
+                }
+            }
+        }
 
         track = intent.getParcelableExtra("track")!!
 
@@ -59,25 +80,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
-        viewModel.createPlayer(url,object : AudioPlayerInteractor.PlayerStateListener {
-            override fun onStateChanged(state: PlayerState) {
-                when (state) {
-                    PlayerState.STATE_PLAYING -> {
-                        creator.pause()
-                        state.apply { PlayerState.STATE_PAUSED }
-                    }
-
-                    PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
-                        creator.play()
-                        state.apply { PlayerState.STATE_PLAYING }
-                    }
-
-                    else -> {
-                        PlayerState.STATE_DEFAULT
-                    }
-                }
-            }
-        })
+        viewModel.createPlayer(url)
 
 
 

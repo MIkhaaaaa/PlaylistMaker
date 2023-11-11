@@ -13,10 +13,8 @@ class PlayerInteractorImpl(private val mediaPlayer: AudioPlayerRepository) : Aud
         mediaPlayer.pause()
     }
 
-    override fun preparePlayer(url: String,listener: AudioPlayerInteractor.PlayerStateListener) {
-        mediaPlayer.preparePlayer(url)
-        listener.onStateChanged(playerStateReporter())
-
+    override fun preparePlayer(url: String, state: PlayerState) {
+        mediaPlayer.preparePlayer(url,state)
     }
     override fun timeTransfer(): String {
         return mediaPlayer.timeTransfer()

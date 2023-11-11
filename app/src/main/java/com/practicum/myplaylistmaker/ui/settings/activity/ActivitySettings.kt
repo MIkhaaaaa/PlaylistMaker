@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.practicum.myplaylistmaker.databinding.ActivitySettingsBinding
 import com.practicum.myplaylistmaker.ui.settings.view_model.SettingsViewModel
 
-const val PRACTICUM_EXAMPLE_PREFERENCES = "practicum_example_preferences"
-const val THEME_KEY = "theme_key"
 
 class ActivitySettings : AppCompatActivity() {
     private lateinit var settingsViewModel: SettingsViewModel
@@ -24,16 +22,14 @@ class ActivitySettings : AppCompatActivity() {
         )[SettingsViewModel::class.java]
 
         binding.returnButton.setOnClickListener {
-            settingsViewModel.onBackClick()
+            finish()
         }
-        settingsViewModel.getOnBackLiveData()
-            .observe(this) { onBackLiveData -> onBackClick(onBackLiveData) }
 
+        binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
 
-        binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
         binding.switchButton.setOnClickListener {
-            settingsViewModel.themeSwitch()
-            binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
+            settingsViewModel.appThemeSwitch()
+            binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
         }
 
         binding.shareButton.setOnClickListener {

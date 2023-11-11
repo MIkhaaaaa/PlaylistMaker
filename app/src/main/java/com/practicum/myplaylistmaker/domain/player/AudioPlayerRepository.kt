@@ -5,7 +5,7 @@ import com.practicum.myplaylistmaker.domain.models.PlayerState
 interface AudioPlayerRepository {
     fun play()
     fun pause()
-    fun preparePlayer(url: String)
+    fun preparePlayer(url: String, state: PlayerState)
     fun timeTransfer(): String
     fun playerStateReporter(): PlayerState
 

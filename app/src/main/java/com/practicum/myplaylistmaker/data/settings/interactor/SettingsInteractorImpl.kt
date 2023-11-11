@@ -11,13 +11,13 @@ class SettingsInteractorImpl(private var themeSettings: ThemeSettings) : Setting
 
     var isDarkTheme = true
 
-    override fun themeSwitch(): Boolean {
-        isDarkTheme = themeSettings.lookAtTheme()
+    override fun isDayOrNight(): Boolean {
+        isDarkTheme = themeSettings.isDayOrNight()
         return isDarkTheme
     }
 
     //функция смены темы:светлая/темная
-    override fun changeTheme(): Boolean {
+    override fun appThemeSwitch(): Boolean {
         isDarkTheme = themeSettings.appThemeSwitch()
         return isDarkTheme
     }

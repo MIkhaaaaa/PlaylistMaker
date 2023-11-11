@@ -22,7 +22,7 @@ import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
 import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
 import com.practicum.myplaylistmaker.domain.sharing.ExternalNavigator
 import com.practicum.myplaylistmaker.domain.sharing.SharingInteractor
-import com.practicum.myplaylistmaker.domain.sharing.impl.ExternalNavigatorImpl
+import com.practicum.myplaylistmaker.data.sharing.ExternalNavigatorImpl
 import com.practicum.myplaylistmaker.domain.sharing.impl.SharingInteractorImpl
 
 object Creator {

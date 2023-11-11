@@ -1,6 +1,6 @@
 package com.practicum.myplaylistmaker.domain.settings.model
 
 interface ThemeSettings {
-    fun lookAtTheme ():Boolean
+    fun isDayOrNight ():Boolean
     fun appThemeSwitch() :Boolean
 }

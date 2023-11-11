@@ -10,16 +10,17 @@ class SettingInteractorImpl(
     init {
         themeSettings = Creator.provideThemeSettings()
     }
-    var isDarkTheme = false
+
+    var isDarkTheme = true
 
 
-    override fun themeSwitch(): Boolean {
-        isDarkTheme=themeSettings.lookAtTheme ()
+    override fun isDayOrNight(): Boolean {
+        isDarkTheme = themeSettings.isDayOrNight()
         return isDarkTheme
     }
 
-    override fun changeTheme(): Boolean {
-        isDarkTheme=themeSettings.appThemeSwitch ()
+    override fun appThemeSwitch(): Boolean {
+        isDarkTheme = themeSettings.appThemeSwitch()
         return isDarkTheme
     }
 

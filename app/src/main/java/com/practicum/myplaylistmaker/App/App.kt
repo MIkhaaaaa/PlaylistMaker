@@ -23,17 +23,17 @@ class App: Application() {
         savedHistory = applicationContext.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
 
         val settingInteractor = Creator.provideSettingInteractor()
-        currentTheme = settingInteractor.themeSwitch()
+        currentTheme = settingInteractor.isDayOrNight()
+
         switchTheme(currentTheme)
 
     }
     fun switchTheme(darkThemeEnabled: Boolean) {
-        currentTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
                 AppCompatDelegate.MODE_NIGHT_NO
+            } else {
+                AppCompatDelegate.MODE_NIGHT_YES
             }
         )
     }

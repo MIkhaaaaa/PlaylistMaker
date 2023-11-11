@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker.domain.sharing.impl
+package com.practicum.myplaylistmaker.data.sharing
 
 import android.content.Intent
 import android.net.Uri

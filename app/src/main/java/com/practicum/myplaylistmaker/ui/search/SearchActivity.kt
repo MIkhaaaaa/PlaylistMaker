@@ -20,7 +20,6 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.practicum.myplaylistmaker.ui.search.liveData.ScreenState
-import com.practicum.myplaylistmaker.util.Creator
 
 const val HISTORY_KEY = "history_key"
 
@@ -38,10 +37,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
     private var trackHistoryList: ArrayList<Track> = ArrayList()
-    private val historyCreator = Creator.provideSharedPreferenceInteractor()
     private val progressBar: ProgressBar by lazy { findViewById(R.id.progressbar) }
     private lateinit var binding: ActivitySearchBinding
-    //private val creator = Creator.provideTracksIteractor(this)
     private lateinit var searchViewModule: SearchViewModel
 
     @SuppressLint("NotifyDataSetChanged")
@@ -78,7 +75,7 @@ class SearchActivity : AppCompatActivity() {
         binding.refreshButton.setOnClickListener { searchTracks() }
 
         trackHistoryList.clear()
-        trackHistoryList.addAll(historyCreator.read(historyCreator.getSharedPreferences()))
+        searchViewModule.provideHistory().value?.let { trackHistoryList.addAll(it) }
         visibleSettingsHistory(binding.searchUserText.hasFocus())
 
         binding.backArrow.setOnClickListener {
@@ -103,7 +100,7 @@ class SearchActivity : AppCompatActivity() {
                     0
                 ) // скрыть клавиатуру
                 binding.searchUserText.clearFocus()
-                trackList.clear()
+                searchViewModule.clearTrackList()
                 trackAdapter.notifyDataSetChanged()
                 progressBar.isVisible = false
             }

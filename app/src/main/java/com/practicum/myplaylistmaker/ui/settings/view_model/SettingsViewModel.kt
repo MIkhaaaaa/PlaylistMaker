@@ -1,5 +1,6 @@
 package com.practicum.myplaylistmaker.ui.settings.view_model
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,27 +15,24 @@ class SettingsViewModel(
     private var sharingInteractor: SharingInteractor,
     private var settingsInteractor: SettingsInteractor
 ) : ViewModel() {
+    private  var themeLiveData : MutableLiveData<Boolean>
     init {
         sharingInteractor = Creator.provideSharingIneractor()
         settingsInteractor = Creator.provideSettingInteractor()
+        themeLiveData = MutableLiveData(settingsInteractor.isDayOrNight())
     }
 
     private var onBackLiveData = MutableLiveData(false)
-    fun onBackClick() {
-        onBackLiveData.value = true
-    }
 
-    fun getOnBackLiveData(): LiveData<Boolean> = onBackLiveData
 
-    private var themeLiveData = MutableLiveData(settingsInteractor.themeSwitch())
     fun getThemeLiveData(): LiveData<Boolean> {
-        val getting = if (themeLiveData.value!!) "day" else "night"
+        Log.d("themeLiveData",themeLiveData.value.toString())
         return themeLiveData
     }
 
-    fun themeSwitch() {
-        themeLiveData.value = settingsInteractor.changeTheme()
-        val getting = if (themeLiveData.value!!) "day" else "night"
+
+    fun appThemeSwitch() {
+        themeLiveData.value = settingsInteractor.appThemeSwitch()
         makeTheme(themeLiveData.value!!)
     }
 

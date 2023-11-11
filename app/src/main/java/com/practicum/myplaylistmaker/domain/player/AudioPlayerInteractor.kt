@@ -6,11 +6,8 @@ interface AudioPlayerInteractor {
     fun play()
     fun pause()
     fun timeTransfer() :String
-    fun preparePlayer(url: String,listener: PlayerStateListener)
+    fun preparePlayer(url: String, state: PlayerState)
     fun playerStateReporter() : PlayerState
 
-    interface PlayerStateListener {
-        fun onStateChanged(state: PlayerState)
-    }
 
 }
