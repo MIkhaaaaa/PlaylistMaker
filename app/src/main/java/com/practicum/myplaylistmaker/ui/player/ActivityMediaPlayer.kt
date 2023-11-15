@@ -3,6 +3,7 @@ package com.practicum.myplaylistmaker.ui.player
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -27,9 +29,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
     private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
     private var url = ""
-    private val creator = Creator.providePlayerInteractor()
-    private lateinit var viewModel: PlayerViewModel
-    //private var state:PlayerState = PlayerState.STATE_DEFAULT
+    private val viewModel: PlayerViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +37,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         setContentView(bindingPlayer.root)
         mainThreadHandler = Handler(Looper.getMainLooper())
         bindingPlayer.backMenuButton.setOnClickListener { finish() }
-        viewModel = ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory()
-        )[PlayerViewModel::class.java]
 
         viewModel.stateLiveData.observe(this) {
             when (it) {
