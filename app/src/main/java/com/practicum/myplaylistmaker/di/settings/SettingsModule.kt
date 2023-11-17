@@ -4,6 +4,7 @@ import com.practicum.myplaylistmaker.data.settings.impl.ThemeSettingsImpl
 import com.practicum.myplaylistmaker.data.settings.interactor.SettingsInteractorImpl
 import com.practicum.myplaylistmaker.data.sharing.ExternalNavigatorImpl
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
+import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
 import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
 import com.practicum.myplaylistmaker.domain.sharing.ExternalNavigator
 import com.practicum.myplaylistmaker.domain.sharing.SharingInteractor
@@ -17,18 +18,16 @@ val settingsSharingModule = module {
     single<ThemeSettings> {
         ThemeSettingsImpl(get())
     }
-
+    single<SharingInteractor> {
+        SharingInteractorImpl(get())
+    }
     single<ExternalNavigator> {
         ExternalNavigatorImpl(get())
     }
-
     single<SettingsInteractor> {
         SettingsInteractorImpl(get())
     }
 
-    single<SharingInteractor> {
-        SharingInteractorImpl(get())
-    }
 
     viewModel { SettingsViewModel(get(), get()) }
 }

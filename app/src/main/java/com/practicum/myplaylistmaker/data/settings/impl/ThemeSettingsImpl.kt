@@ -1,6 +1,5 @@
 package com.practicum.myplaylistmaker.data.settings.impl
 
-import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -10,8 +9,7 @@ import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
 
 const val THEME_KEY = "theme_key"
 
-class ThemeSettingsImpl(private val application: Application
-) : ThemeSettings {
+class ThemeSettingsImpl(private val application: App) : ThemeSettings {
     private var appTheme: Boolean = false
     private val themeSharedPrefs by lazy {
         application.getSharedPreferences(
