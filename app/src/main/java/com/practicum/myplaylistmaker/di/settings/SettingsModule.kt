@@ -12,7 +12,7 @@ import com.practicum.myplaylistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val settingsSharingModule = module {
+val shareSettingsViewModule = module {
 
     single<ThemeSettings> {
         ThemeSettingsImpl(get())

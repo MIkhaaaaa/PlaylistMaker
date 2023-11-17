@@ -10,9 +10,8 @@ import com.practicum.myplaylistmaker.di.search.repositoryModule
 import com.practicum.myplaylistmaker.di.search.searchInteractorModule
 import com.practicum.myplaylistmaker.di.search.searchRepositoryModule
 import com.practicum.myplaylistmaker.di.search.searchViewModelModule
-import com.practicum.myplaylistmaker.di.settings.settingsSharingModule
+import com.practicum.myplaylistmaker.di.settings.shareSettingsViewModule
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
-import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
 import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
@@ -42,7 +41,7 @@ class App: Application(),KoinComponent {
                 searchRepositoryModule,
                 historyModule,
                 searchViewModelModule,
-                settingsSharingModule,
+                shareSettingsViewModule,
                 repositoryModule
             )
         }
