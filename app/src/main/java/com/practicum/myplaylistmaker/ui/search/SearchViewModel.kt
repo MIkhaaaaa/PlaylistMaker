@@ -24,7 +24,7 @@ class SearchViewModel(
 
     private val tracksConsumer = object : TracksInteractor.TracksConsumer {
         override fun consume(foundTrack: ArrayList<Track>?, errorMessage: String?) {
-            trackResultList.postValue(foundTrack)
+            trackResultList.postValue(foundTrack!!)
             stateLiveData.postValue(
                 if (foundTrack.isNullOrEmpty())
                     ScreenState.NothingFound
@@ -72,18 +72,18 @@ class SearchViewModel(
     }
 
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(
-                        Creator.provideTracksIteractor(App.instance),
-                        Creator.provideSharedPreferenceInteractor(),
-                    ) as T
-                }
-            }
-    }
+//    companion object {
+//        fun getViewModelFactory(): ViewModelProvider.Factory =
+//            object : ViewModelProvider.Factory {
+//                @Suppress("UNCHECKED_CAST")
+//                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//                    return SearchViewModel(
+//                        Creator.provideTracksIteractor(App.instance),
+//                        Creator.provideSharedPreferenceInteractor(),
+//                    ) as T
+//                }
+//            }
+//    }
 
     private fun getHistory() : ArrayList<Track> {
         val trackHistoryList = ArrayList<Track>()

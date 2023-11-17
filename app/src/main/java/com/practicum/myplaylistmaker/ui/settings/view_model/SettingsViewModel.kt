@@ -17,12 +17,9 @@ class SettingsViewModel(
 ) : ViewModel() {
     private  var themeLiveData : MutableLiveData<Boolean>
     init {
-        sharingInteractor = Creator.provideSharingIneractor()
-        settingsInteractor = Creator.provideSettingInteractor()
         themeLiveData = MutableLiveData(settingsInteractor.isDayOrNight())
     }
 
-    private var onBackLiveData = MutableLiveData(false)
 
 
     fun getThemeLiveData(): LiveData<Boolean> {
@@ -57,17 +54,4 @@ class SettingsViewModel(
         sharingInteractor.openTerms()
     }
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    val app = App()
-                    return SettingsViewModel(
-                        Creator.provideSharingIneractor(),
-                        Creator.provideSettingInteractor()
-                    ) as T
-                }
-            }
-    }
 }

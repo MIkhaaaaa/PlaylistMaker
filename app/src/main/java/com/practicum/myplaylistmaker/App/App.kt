@@ -4,10 +4,21 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.myplaylistmaker.di.player.playerModule
+import com.practicum.myplaylistmaker.di.search.historyModule
+import com.practicum.myplaylistmaker.di.search.repositoryModule
+import com.practicum.myplaylistmaker.di.search.searchInteractorModule
+import com.practicum.myplaylistmaker.di.search.searchRepositoryModule
+import com.practicum.myplaylistmaker.di.search.searchViewModelModule
+import com.practicum.myplaylistmaker.di.settings.settingsSharingModule
+import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
+import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
 import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
-import com.practicum.myplaylistmaker.util.Creator
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.context.startKoin
 
-class App: Application() {
+class App: Application(),KoinComponent {
     var currentTheme: Boolean = false
 
     companion object {
@@ -18,13 +29,28 @@ class App: Application() {
     }
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        Creator.init(this)
+
         savedHistory = applicationContext.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
 
-        val settingInteractor = Creator.provideSettingInteractor()
-        currentTheme = settingInteractor.isDayOrNight()
 
+        switchTheme(currentTheme)
+         startKoin {
+            androidContext(this@App)
+            modules(
+                playerModule,
+                searchInteractorModule,
+                searchRepositoryModule,
+                historyModule,
+                searchViewModelModule,
+                settingsSharingModule,
+                repositoryModule
+            )
+        }
+
+
+       val settingInteractor = getKoin().get<SettingsInteractor>()
+        instance = this
+        currentTheme = settingInteractor.isDayOrNight()
         switchTheme(currentTheme)
 
     }
