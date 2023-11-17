@@ -48,9 +48,10 @@ class App: Application(),KoinComponent {
         }
 
 
-       // val settingInteractor = getKoin().get<SettingsInteractor>()
+       val settingInteractor = getKoin().get<SettingsInteractor>()
         instance = this
-       // currentTheme = settingInteractor.isDayOrNight()
+        currentTheme = settingInteractor.isDayOrNight()
+        switchTheme(currentTheme)
 
     }
     fun switchTheme(darkThemeEnabled: Boolean) {

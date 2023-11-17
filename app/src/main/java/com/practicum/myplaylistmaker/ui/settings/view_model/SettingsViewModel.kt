@@ -17,12 +17,9 @@ class SettingsViewModel(
 ) : ViewModel() {
     private  var themeLiveData : MutableLiveData<Boolean>
     init {
-        //sharingInteractor = Creator.provideSharingIneractor()
-        //settingsInteractor = Creator.provideSettingInteractor()
         themeLiveData = MutableLiveData(settingsInteractor.isDayOrNight())
     }
 
-    private var onBackLiveData = MutableLiveData(false)
 
 
     fun getThemeLiveData(): LiveData<Boolean> {
