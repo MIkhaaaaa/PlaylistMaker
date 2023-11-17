@@ -7,6 +7,10 @@ import com.practicum.myplaylistmaker.util.Creator
 class SettingInteractorImpl(
     private var themeSettings: ThemeSettings
 ) : SettingsInteractor {
+    init {
+        themeSettings = Creator.provideThemeSettings()
+    }
+
     var isDarkTheme = true
 
 

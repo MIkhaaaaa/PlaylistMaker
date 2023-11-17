@@ -10,7 +10,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +20,6 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.practicum.myplaylistmaker.ui.search.liveData.ScreenState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val HISTORY_KEY = "history_key"
 
@@ -41,13 +39,17 @@ class SearchActivity : AppCompatActivity() {
     private var trackHistoryList: ArrayList<Track> = ArrayList()
     private val progressBar: ProgressBar by lazy { findViewById(R.id.progressbar) }
     private lateinit var binding: ActivitySearchBinding
-    private val searchViewModule: SearchViewModel by viewModel()
+    private lateinit var searchViewModule: SearchViewModel
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        searchViewModule = ViewModelProvider(
+            this,
+            SearchViewModel.getViewModelFactory()
+        )[SearchViewModel::class.java]
 
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)

@@ -4,9 +4,10 @@ import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
 import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
 import com.practicum.myplaylistmaker.util.Creator
 
-class SettingsInteractorImpl(private var themeSettings: ThemeSettings)
-    : SettingsInteractor {
-
+class SettingsInteractorImpl(private var themeSettings: ThemeSettings) : SettingsInteractor {
+    init {
+        themeSettings = Creator.provideThemeSettings()
+    }
 
     var isDarkTheme = true
 
@@ -15,6 +16,7 @@ class SettingsInteractorImpl(private var themeSettings: ThemeSettings)
         return isDarkTheme
     }
 
+    //функция смены темы:светлая/темная
     override fun appThemeSwitch(): Boolean {
         isDarkTheme = themeSettings.appThemeSwitch()
         return isDarkTheme
