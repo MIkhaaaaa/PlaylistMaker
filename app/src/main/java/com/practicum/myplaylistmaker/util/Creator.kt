@@ -3,21 +3,30 @@ package com.practicum.myplaylistmaker.util
 import android.content.Context
 import android.media.MediaPlayer
 import com.practicum.myplaylistmaker.App.App
-import com.practicum.myplaylistmaker.data.PlayerRepositoryImpl
-import com.practicum.myplaylistmaker.data.TrackHistoryRepositoryImpl
-import com.practicum.myplaylistmaker.data.network.RetrofitNetworkClient
-import com.practicum.myplaylistmaker.data.network.TracksRepositoryImpl
-import com.practicum.myplaylistmaker.domain.SharedPreferencesInteractor
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerInteractor
-import com.practicum.myplaylistmaker.domain.api.AudioPlayerRepository
-import com.practicum.myplaylistmaker.domain.api.TracksInteractor
-import com.practicum.myplaylistmaker.domain.api.TracksRepository
-import com.practicum.myplaylistmaker.domain.impl.PlayerInteractorImpl
-import com.practicum.myplaylistmaker.domain.impl.SharedPreferencesInteractorImpl
-import com.practicum.myplaylistmaker.domain.impl.TracksInteractorImpl
-import com.practicum.myplaylistmaker.domain.SharedPreferencesRepository as SharedPreferencesRepository
+import com.practicum.myplaylistmaker.data.player.PlayerRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.TracksRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.history.TrackHistoryRepositoryImpl
+import com.practicum.myplaylistmaker.data.search.requestAndResponse.RetrofitNetworkClient
+import com.practicum.myplaylistmaker.data.settings.impl.ThemeSettingsImpl
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
+import com.practicum.myplaylistmaker.domain.player.AudioPlayerRepository
+import com.practicum.myplaylistmaker.domain.player.TracksInteractor
+import com.practicum.myplaylistmaker.domain.player.TracksRepository
+import com.practicum.myplaylistmaker.domain.player.impl.PlayerInteractorImpl
+import com.practicum.myplaylistmaker.domain.player.impl.TracksInteractorImpl
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractorImpl
+import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
+import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
+import com.practicum.myplaylistmaker.domain.settings.impl.SettingInteractorImpl
+import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
+import com.practicum.myplaylistmaker.domain.sharing.ExternalNavigator
+import com.practicum.myplaylistmaker.domain.sharing.SharingInteractor
+import com.practicum.myplaylistmaker.data.sharing.ExternalNavigatorImpl
+import com.practicum.myplaylistmaker.domain.sharing.impl.SharingInteractorImpl
 
 object Creator {
+    private lateinit var application: App
 
     private fun getTracksRepository(context: Context): TracksRepository {
         return TracksRepositoryImpl(RetrofitNetworkClient(context))
@@ -31,17 +40,36 @@ object Creator {
         return PlayerRepositoryImpl(MediaPlayer())
     }
 
-    fun providePlayerInteractor() : AudioPlayerInteractor{
+    fun providePlayerInteractor() : AudioPlayerInteractor {
         return PlayerInteractorImpl(providePlayerRepository())
     }
 
-    private fun getSharedPreferenceRepository(): SharedPreferencesRepository{
+    private fun getSharedPreferenceRepository(): SharedPreferencesRepository {
         return TrackHistoryRepositoryImpl(App.savedHistory)
     }
 
-    fun provideSharedPreferenceInteractor() : SharedPreferencesInteractor{
+    fun provideSharedPreferenceInteractor() : SharedPreferencesInteractor {
         return SharedPreferencesInteractorImpl(getSharedPreferenceRepository())
     }
 
+    fun provideSettingInteractor(): SettingsInteractor {
+        return SettingInteractorImpl(provideThemeSettings())
+    }
+
+    fun provideThemeSettings(): ThemeSettings {
+        return ThemeSettingsImpl(application)
+    }
+
+    fun provideSharingIneractor(): SharingInteractor {
+        return SharingInteractorImpl(provideExternalNavigator())
+    }
+
+    fun provideExternalNavigator(): ExternalNavigator {
+        return ExternalNavigatorImpl(application)
+    }
+
+    fun init(application: App) {
+        this.application = application
+    }
 
 }
