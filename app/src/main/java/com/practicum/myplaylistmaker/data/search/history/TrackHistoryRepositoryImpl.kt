@@ -8,13 +8,13 @@ import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
 
 
-class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences):
+class TrackHistoryRepositoryImpl(
+    private val savedHistory: SharedPreferences, private val gson: Gson
+) :
     SharedPreferencesRepository {
 
     private var trackHistoryList = ArrayList<Track>()
-    private val gson = Gson()
     var counter = 0
-
 
 
     override fun editArray(newHistoryTrack: Track): ArrayList<Track> {
@@ -48,12 +48,13 @@ class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences):
         val json = sharedPreferences.getString(HISTORY_KEY, null) ?: return ArrayList()
         return Gson().fromJson(json, object : TypeToken<ArrayList<Track>>() {}.type)
     }
-    override fun clearAllHistory(){
+
+    override fun clearAllHistory() {
         savedHistory.edit().clear().apply()
     }
 
 
-    override  fun saveHistory() {
+    override fun saveHistory() {
         var json = ""
         json = gson.toJson(trackHistoryList)
         savedHistory.edit()
@@ -63,5 +64,7 @@ class TrackHistoryRepositoryImpl(private val savedHistory: SharedPreferences):
         counter = trackHistoryList.size
     }
 
-    override fun getSharedPreferences():SharedPreferences { return savedHistory}
+    override fun getSharedPreferences(): SharedPreferences {
+        return savedHistory
+    }
 }

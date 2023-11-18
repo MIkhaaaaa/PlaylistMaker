@@ -3,22 +3,19 @@ package com.practicum.myplaylistmaker.ui.search
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
-import com.practicum.myplaylistmaker.ui.search.liveData.ScreenState
-import com.practicum.myplaylistmaker.util.Creator
+import com.practicum.myplaylistmaker.ui.search.model.SearchScreenState
 
 class SearchViewModel(
     private var searchInteractor: TracksInteractor,
     private var searchHistoryInteractor: SharedPreferencesInteractor,
 ) : ViewModel() {
     private var stateLiveData =
-        MutableLiveData<ScreenState>(ScreenState.DefaultSearch)
+        MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
 
-    fun getStateLiveData(): LiveData<ScreenState> {
+    fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
     }
 
@@ -27,19 +24,19 @@ class SearchViewModel(
             trackResultList.postValue(foundTrack!!)
             stateLiveData.postValue(
                 if (foundTrack.isNullOrEmpty())
-                    ScreenState.NothingFound
-                else ScreenState.SearchOk(foundTrack)
+                    SearchScreenState.NothingFound
+                else SearchScreenState.SearchOk(foundTrack)
             )
         }
     }
 
     private var trackResultList: MutableLiveData<List<Track>> = MutableLiveData<List<Track>>()
     fun searchRequesting(searchExpression: String) {
-        stateLiveData.postValue(ScreenState.Loading)
+        stateLiveData.postValue(SearchScreenState.Loading)
         try {
             searchInteractor.searchTracks(searchExpression, tracksConsumer)
         } catch (error: Error) {
-            stateLiveData.postValue(ScreenState.ConnectionError)
+            stateLiveData.postValue(SearchScreenState.ConnectionError)
         }
     }
 
@@ -68,22 +65,8 @@ class SearchViewModel(
 
     fun clearTrackList() {
         trackResultList.value = emptyList()
-        stateLiveData.value= trackHistoryList.value?.let { ScreenState.SearchHistory(it) }
+        stateLiveData.value= trackHistoryList.value?.let { SearchScreenState.SearchHistory(it) }
     }
-
-
-//    companion object {
-//        fun getViewModelFactory(): ViewModelProvider.Factory =
-//            object : ViewModelProvider.Factory {
-//                @Suppress("UNCHECKED_CAST")
-//                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                    return SearchViewModel(
-//                        Creator.provideTracksIteractor(App.instance),
-//                        Creator.provideSharedPreferenceInteractor(),
-//                    ) as T
-//                }
-//            }
-//    }
 
     private fun getHistory() : ArrayList<Track> {
         val trackHistoryList = ArrayList<Track>()

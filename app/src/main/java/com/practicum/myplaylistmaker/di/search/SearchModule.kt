@@ -12,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val repositoryModule = module {
+
     single<ITunesAPI> {
         Retrofit.Builder()
             .baseUrl("https://itunes.apple.com")
@@ -25,9 +26,11 @@ val repositoryModule = module {
             .getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
     }
 
-    factory { Gson() }
+    factory {
+        Gson()
+    }
 
     single<NetworkClient> {
-        RetrofitNetworkClient(get())
+        RetrofitNetworkClient(get(), get())
     }
 }

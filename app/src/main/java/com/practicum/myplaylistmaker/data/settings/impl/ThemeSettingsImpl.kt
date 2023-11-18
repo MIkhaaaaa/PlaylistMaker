@@ -1,16 +1,14 @@
 package com.practicum.myplaylistmaker.data.settings.impl
 
-import android.app.Application
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.util.Log
-import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.settings.model.ThemeSettings
 
 const val THEME_KEY = "theme_key"
 
-class ThemeSettingsImpl(private val application: Application
+class ThemeSettingsImpl(private val application: Context
 ) : ThemeSettings {
     private var appTheme: Boolean = false
     private val themeSharedPrefs by lazy {
@@ -28,9 +26,8 @@ class ThemeSettingsImpl(private val application: Application
 
 
     private fun isDarkThemeEnabled(): Boolean {
-        val applicationContext = App.instance
         val currentMode =
-            applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            application.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         Log.d("currentMode", currentMode.toString())
         return currentMode == Configuration.UI_MODE_NIGHT_YES
     }

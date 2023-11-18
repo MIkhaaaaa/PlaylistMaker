@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
 import com.practicum.myplaylistmaker.domain.sharing.SharingInteractor
-import com.practicum.myplaylistmaker.util.Creator
 
 class SettingsViewModel(
     private var sharingInteractor: SharingInteractor,

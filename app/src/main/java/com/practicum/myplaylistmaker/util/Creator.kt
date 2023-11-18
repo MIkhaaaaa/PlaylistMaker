@@ -1,6 +1,6 @@
 package com.practicum.myplaylistmaker.util
 
-import com.practicum.myplaylistmaker.App.App
+import com.practicum.myplaylistmaker.app.App
 import com.practicum.myplaylistmaker.data.settings.impl.ThemeSettingsImpl
 import com.practicum.myplaylistmaker.data.sharing.ExternalNavigatorImpl
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
