@@ -11,8 +11,12 @@
     <color name="main_screen_icon_tint_color">#1A1B22</color>
     <color name="icon_tint_color">#AEAFB4</color>
     <color name="main_screen_background_color">#3772E7</color>
+    <color name="YP_blue">#3772E7</color>
     <color name="switch_thumb_tint">#AEAFB4</color>
     <color name="switch_track_tint">#E6E8EB</color>
     <color name="arrow">#AEAFB4</color>
+    <color name="gray">#AEAFB4</color>
     <color name="b_switch">#3772E7</color>
+    <color name="search_text">#AEAFB4</color>
+    <color name="button_colour">#401A1B22</color>
 </resources>

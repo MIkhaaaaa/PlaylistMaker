@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="trackTimer" type="id"></item>
+    <item name="trackTimeName" type="id"></item>
+    <item name="albumName" type="id"></item>
+    <item name="YearName" type="id"></item>
+    <item name="genreName" type="id"></item>
+    <item name="countryName" type="id"></item>
+    <item name="album" type="id"></item>
+    <item name="year" type="id"></item>
+    <item name="genre" type="id"></item>
+    <item name="country" type="id"></item>
+</resources>

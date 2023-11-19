@@ -10,45 +10,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="@dimen/text_in_activity_search_2"
-            android:layout_weight="3"
-            android:gravity="top"
+            android:paddingStart = "@dimen/medium_padding"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_gravity="center_vertical"
+            app:tint="?attr/colorPrimary"
+            style="@style/for_activity_search"
+            android:src="@drawable/arrow_back_icon"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp16_search"
+            android:layout_marginBottom="@dimen/dp16_search"
+            android:layout_gravity="top"
+            android:paddingLeft="@dimen/dp48_serach"
             android:text="@string/search_title_main"
             style="@style/for_activity_search"
-            android:textSize="@dimen/text_in_activity_search_2" />
+            android:textSize="@dimen/text_in_activity_search_2"
+            />
+
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="32dp"
         >
 
         <EditText
             android:id="@+id/searchUserText"
-            android:layout_width="360dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/settingsLeftMargin16dp"
+            android:layout_marginLeft="@dimen/settingsLeftMargin16dp"
             android:layout_gravity="center_horizontal"
             android:height="@dimen/settingsLeftMargin16dp"
             android:autofillHints="name"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/text_color"
             android:background="@drawable/edittext_rounded_corner"
+            android:drawablePadding="@dimen/track_8dp"
             android:drawableStart="@drawable/activity_search_icon"
-            android:drawablePadding="@dimen/main_screen_button_margin_top"
             android:fontFamily="@font/ys_display_regular"
+            android:textColor="@color/black"
             android:hint="@string/search_title_main"
+            android:paddingStart="@dimen/_12sp_paddStart"
             android:inputType="text"
-            android:labelFor="@+id/just_work"
-            android:maxHeight="60dp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:maxHeight="@dimen/maxHeight"
             android:maxLength="30"
             android:maxLines="1"
-            android:minHeight="48dp"
-            android:textColor="?attr/colorSecondaryVariant"
+            android:minHeight="@dimen/min_Height"
             android:textSize="@dimen/settings_text_size" />
 
         <ImageView
@@ -56,58 +75,151 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:paddingEnd="30dp"
+            android:paddingEnd="@dimen/dp_32"
             android:src="@drawable/vector"
             android:visibility="gone" />
 
 
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="@integer/material_motion_duration_short_1"
-        android:paddingBottom="18dp"
+        android:paddingBottom="@dimen/_18dp_searchPadding"
         android:layout_gravity="bottom"
         >
 
-        <TextView
-            android:fontFamily="@font/ys_display_medium"
-            android:textColor="@color/b_switch"
-            android:drawableTint="@color/b_switch"
-            android:layout_width="@dimen/buttons_in_activity_search"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:layout_gravity="bottom"
-            android:gravity="center"
-            android:textSize="@dimen/text_in_activity_search"
-            android:text="@string/search_button_text"
-            app:drawableTopCompat="@drawable/search_icon">
-        </TextView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            style="@style/for_activity_search"
-            android:layout_width="@dimen/buttons_in_activity_search"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:gravity="center"
-            android:layout_gravity="bottom"
-            android:text="@string/media_button_text"
-            android:textSize="@dimen/text_in_activity_search"
-            app:drawableTopCompat="@drawable/media_icon">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trackRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        </TextView>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressbar"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                app:indicatorColor="@color/YP_blue"
+                android:layout_marginStart="180dp"
+                android:layout_marginEnd="180dp"
+                android:layout_marginTop="56dp"
+                android:indeterminate="true"
 
-        <TextView
-            style="@style/for_activity_search"
-            android:layout_width="@dimen/buttons_in_activity_search"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:scaleType="centerCrop"
-            android:layout_gravity="bottom"
-            android:textSize="@dimen/text_in_activity_search"
-            android:text="@string/settings_str"
-            app:drawableTopCompat="@drawable/setting_icon">
-        </TextView>
-    </LinearLayout>
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/historyRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_28dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:reverseLayout="true" />
+
+            <TextView
+                android:id="@+id/text_history"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/history_text"
+                android:gravity="center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="19sp"
+                android:fontFamily="@font/ys_display_medium"
+
+                />
+            <ImageView
+                android:id="@+id/noneFind"
+                android:layout_width="@dimen/_120dp_layoutSearch"
+                android:layout_height="@dimen/_120dp_layoutSearch"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_110dp_madrginSearch"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/not_find_image"
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/nothingfoundText"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/_246dp_marginSearch"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:text="@string/nothig_tobe_find"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/_19sp_text" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/loadingproblem"
+                android:layout_width="@dimen/_120dp_layoutSearch"
+                android:layout_height="@dimen/_120dp_layoutSearch"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_110dp_madrginSearch"
+                android:src="@drawable/lost_connection"
+                />
+
+            <TextView
+                android:id="@+id/nothingfoundText_2"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_246dp_marginSearch"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:text="@string/trouble_with_internet"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="@dimen/_19sp_text" />
+
+            <TextView
+                android:id="@+id/loadingproblemText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_246dp_marginSearch"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:lines="4"
+                android:text="@string/cant_download"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/_19sp_text" />
+
+            <Button
+                android:id="@+id/clear_history_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_348dp_margin_history_button"
+                android:textAllCaps="false"
+                android:text="@string/clear_history"
+                android:fontFamily="@font/ys_display_medium"
+                android:background="@drawable/button_clear_history"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorOnPrimary"
+                />
+
+            <Button
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="358dp"
+                android:backgroundTint="?attr/colorPrimary"
+                android:fontFamily="@font/ys_display_medium"
+                android:text="@string/refresh"
+                android:textAllCaps="false"
+                android:background="@drawable/button_refresh"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="@dimen/_14sp_text" />
+
+        </FrameLayout>
+
+    </FrameLayout>
 </LinearLayout>
