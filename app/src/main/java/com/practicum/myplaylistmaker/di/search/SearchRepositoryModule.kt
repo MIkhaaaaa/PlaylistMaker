@@ -12,7 +12,7 @@ val searchRepositoryModule = module {
     }
 
     single <SharedPreferencesRepository> {
-        TrackHistoryRepositoryImpl(get())
+        TrackHistoryRepositoryImpl(get(),get())
     }
 
 }

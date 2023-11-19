@@ -3,13 +3,10 @@ package com.practicum.myplaylistmaker.ui.player
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.practicum.myplaylistmaker.util.Creator
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.models.PlayerState
