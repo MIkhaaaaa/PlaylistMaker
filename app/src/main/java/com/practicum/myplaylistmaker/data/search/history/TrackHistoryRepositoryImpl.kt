@@ -46,7 +46,7 @@ class TrackHistoryRepositoryImpl(
 
     override fun read(sharedPreferences: SharedPreferences): ArrayList<Track> {
         val json = sharedPreferences.getString(HISTORY_KEY, null) ?: return ArrayList()
-        return Gson().fromJson(json, object : TypeToken<ArrayList<Track>>() {}.type)
+        return gson.fromJson(json, object : TypeToken<ArrayList<Track>>() {}.type)
     }
 
     override fun clearAllHistory() {
