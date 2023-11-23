@@ -21,7 +21,7 @@ class SearchViewModel(
 
     private val tracksConsumer = object : TracksInteractor.TracksConsumer {
         override fun consume(foundTrack: ArrayList<Track>?, errorMessage: String?) {
-            trackResultList.postValue(foundTrack!!)
+            trackResultList.postValue(foundTrack?: emptyList())
             stateLiveData.postValue(
                 if (foundTrack.isNullOrEmpty())
                     SearchScreenState.NothingFound

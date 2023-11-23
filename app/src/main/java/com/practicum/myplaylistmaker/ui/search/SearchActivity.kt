@@ -276,6 +276,7 @@ class SearchActivity : AppCompatActivity() {
             loadingproblem.isVisible = false
             loadingproblemText.isVisible = false
             refreshButton.isVisible = false
+            progressbar.isVisible = false
         }
         historyInVisible()
     }
