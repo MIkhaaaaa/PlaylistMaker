@@ -96,6 +96,7 @@ class SearchActivity : AppCompatActivity() {
                 searchViewModule.clearTrackList()
                 trackAdapter.notifyDataSetChanged()
                 binding.progressbar.isVisible = false
+                historyInVisible()
             }
         }
 
