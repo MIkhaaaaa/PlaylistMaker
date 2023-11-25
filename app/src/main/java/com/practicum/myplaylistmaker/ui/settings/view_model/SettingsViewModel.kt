@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.practicum.myplaylistmaker.App.App
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
 import com.practicum.myplaylistmaker.domain.sharing.SharingInteractor
-import com.practicum.myplaylistmaker.util.Creator
 
 class SettingsViewModel(
     private var sharingInteractor: SharingInteractor,
@@ -17,12 +14,9 @@ class SettingsViewModel(
 ) : ViewModel() {
     private  var themeLiveData : MutableLiveData<Boolean>
     init {
-        sharingInteractor = Creator.provideSharingIneractor()
-        settingsInteractor = Creator.provideSettingInteractor()
         themeLiveData = MutableLiveData(settingsInteractor.isDayOrNight())
     }
 
-    private var onBackLiveData = MutableLiveData(false)
 
 
     fun getThemeLiveData(): LiveData<Boolean> {
@@ -57,17 +51,4 @@ class SettingsViewModel(
         sharingInteractor.openTerms()
     }
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    val app = App()
-                    return SettingsViewModel(
-                        Creator.provideSharingIneractor(),
-                        Creator.provideSettingInteractor()
-                    ) as T
-                }
-            }
-    }
 }
