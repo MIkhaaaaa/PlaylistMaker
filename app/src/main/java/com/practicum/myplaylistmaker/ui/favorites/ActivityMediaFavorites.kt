@@ -34,8 +34,7 @@ class ActivityMediaFavorites : AppCompatActivity(), SelectPage {
         binding.tabLayout.addOnTabSelectedListener(
             object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
-                    val currentPosition = tab.position
-                    binding.pager.currentItem = currentPosition
+                    binding.pager.currentItem = tab.position
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
