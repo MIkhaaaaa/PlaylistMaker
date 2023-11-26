@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.myplaylistmaker.di.favorites.favorites
 import com.practicum.myplaylistmaker.di.player.playerModule
 import com.practicum.myplaylistmaker.di.search.historyModule
 import com.practicum.myplaylistmaker.di.search.repositoryModule
@@ -42,7 +43,8 @@ class App: Application(),KoinComponent {
                 historyModule,
                 searchViewModelModule,
                 shareSettingsViewModule,
-                repositoryModule
+                repositoryModule,
+                favorites
             )
         }
 

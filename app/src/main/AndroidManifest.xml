@@ -24,7 +24,7 @@
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".ui.mediaLibrary.ActivityMedia"
+            android:name=".ui.favorites.ActivityMediaFavorites"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
 

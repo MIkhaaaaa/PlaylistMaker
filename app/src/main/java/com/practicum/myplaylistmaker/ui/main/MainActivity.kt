@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.practicum.myplaylistmaker.databinding.ActivityMainBinding
-import com.practicum.myplaylistmaker.ui.mediaLibrary.ActivityMedia
+import com.practicum.myplaylistmaker.ui.favorites.ActivityMediaFavorites
 import com.practicum.myplaylistmaker.ui.search.SearchActivity
 import com.practicum.myplaylistmaker.ui.settings.activity.ActivitySettings
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         bindingMain.media.setOnClickListener {
-            val intentMedia = Intent(this, ActivityMedia::class.java)
+            val intentMedia = Intent(this, ActivityMediaFavorites::class.java)
             startActivity(intentMedia)
         }
 

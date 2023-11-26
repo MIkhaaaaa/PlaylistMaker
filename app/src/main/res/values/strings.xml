@@ -39,4 +39,10 @@
     <string name="uncknown_country">uncknown country</string>
     <string name="_0_30">0:30</string>
     <string name="title_activity_media">activity_media</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="emptyMedia">Ваша медиатека пуста</string>
+    <string name="noplaylist">Вы не создали \n ни одного плейлиста</string>
+    <string name="MediaLibrary">Медиатека</string>
+    <string name="newPlaylist">Новый плейлист</string>
+    <string name="picture">Картинка</string>
 </resources>
