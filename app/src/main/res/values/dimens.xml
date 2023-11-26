@@ -2,11 +2,11 @@
 <resources>
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="settings_text_size">16sp</dimen>
-    <dimen name="iconSize">16dp</dimen>
+    <dimen name="arrow_size">28dp</dimen>
     <dimen name="top2">21dp</dimen>
     <dimen name="settings_font_weight">300</dimen>
     <dimen name="settings_element_height">61dp</dimen>
-    <dimen name="favorites_text1">22sp</dimen>
+    <dimen name="favorites_text1">24sp</dimen>
     <dimen name="favorites_text2">16sp</dimen>
     <dimen name="main_screen_title_text_size">22sp</dimen>
     <dimen name="main_screen_button_text_size">22sp</dimen>
@@ -54,4 +54,6 @@
     <dimen name="_16dp">16dp</dimen>
     <dimen name="_75dp_mrTop">75dp</dimen>
     <dimen name="_17dp">17dp</dimen>
+    <dimen name="_52dp">52dp</dimen>
+    <dimen name="_4dp">4dp</dimen>
 </resources>

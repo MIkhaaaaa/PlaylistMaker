@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSecondary"
+    android:background="?attr/colorOnSecondary"
     android:orientation="vertical">
 
     <FrameLayout
@@ -13,23 +13,24 @@
 
         <ImageView
             android:id="@+id/backButtonArrow"
-            android:layout_width="@dimen/iconSize"
-            android:layout_height="@dimen/iconSize"
+            android:layout_width="@dimen/arrow_size"
+            android:layout_height="@dimen/arrow_size"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:paddingStart="4dp"
-            android:src="@drawable/arrow"
-            app:tint="?attr/colorOnSecondary" />
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingStart="@dimen/_4dp"
+            android:src="@drawable/arrow_back_icon"
+            app:tint="?attr/colorPrimary" />
 
         <TextView
-            style="@style/SettingsText"
-            android:layout_marginStart="52dp"
+            style="@style/media_favorites_style"
+            android:layout_marginStart="@dimen/_52dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/ys_display_medium"
             android:text="@string/MediaLibrary"
-            android:textColor="?attr/colorOnSecondary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/favorites_text1" />
     </FrameLayout>
 
@@ -38,11 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="?attr/colorSecondary"
+        android:background="?attr/colorOnSecondary"
         android:textAllCaps="false"
-        app:tabIndicatorColor="?attr/colorOnSecondary"
+        app:tabIndicatorColor="?attr/colorPrimary"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
-        app:tabTextColor="?attr/colorOnSecondary" />
+        app:tabTextColor="?attr/colorPrimary" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

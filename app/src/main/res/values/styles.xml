@@ -47,7 +47,7 @@
     <item name="android:drawableTint">@color/black</item>
 </style>
 
-    <style name="SettingsText">
+    <style name="media_favorites_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/top2</item>
