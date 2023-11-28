@@ -15,9 +15,13 @@ class ActivityMediaFavorites : AppCompatActivity(), SelectPage {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivivtyMediaBinding.inflate(layoutInflater)
-        binding.backButtonArrow.setOnClickListener {
+
+
+        binding.toolbar.setNavigationOnClickListener{
             finish()
         }
+
+
         setContentView(binding.root)
 
         val adapter = FragmentAdapter(supportFragmentManager, lifecycle)

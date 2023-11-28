@@ -9,30 +9,21 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/settingsTopString14dp">
+        android:layout_marginTop="@dimen/settingsTopString14dp"/>
 
-        <ImageView
-            android:id="@+id/backButtonArrow"
-            android:layout_width="@dimen/arrow_size"
-            android:layout_height="@dimen/arrow_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:paddingStart="@dimen/_4dp"
-            android:src="@drawable/arrow_back_icon"
-            app:tint="?attr/colorPrimary" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/MediaLibrary"
+        app:titleTextColor="?attr/colorPrimary"
+        app:navigationIcon="@drawable/arrow_back_icon"
+        />
 
-        <TextView
-            style="@style/media_favorites_style"
-            android:layout_marginStart="@dimen/_52dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="@font/ys_display_medium"
-            android:text="@string/MediaLibrary"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="@dimen/favorites_text1" />
-    </FrameLayout>
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
