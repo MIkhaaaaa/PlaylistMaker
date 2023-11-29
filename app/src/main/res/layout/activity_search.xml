@@ -47,11 +47,10 @@
         <EditText
             android:id="@+id/searchUserText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36dp"
             android:layout_marginRight="@dimen/settingsLeftMargin16dp"
             android:layout_marginLeft="@dimen/settingsLeftMargin16dp"
             android:layout_gravity="center"
-            android:height="@dimen/search_editext_height"
             android:autofillHints="name"
             android:textColorHint="@color/text_color"
             android:background="@drawable/edittext_rounded_corner"

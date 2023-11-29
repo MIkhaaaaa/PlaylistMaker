@@ -65,4 +65,5 @@
     <dimen name="progres_top">56dp</dimen>
     <dimen name="margin_Track_recycler">24dp</dimen>
     <dimen name="search_editext_height">36dp</dimen>
+    <dimen name="_36dp">36dp</dimen>
 </resources>
