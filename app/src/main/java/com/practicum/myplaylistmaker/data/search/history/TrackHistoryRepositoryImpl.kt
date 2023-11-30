@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
+import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 
 
 class TrackHistoryRepositoryImpl(
@@ -34,9 +34,9 @@ class TrackHistoryRepositoryImpl(
             trackHistoryList.remove(newHistoryTrack)
             trackHistoryList.add(0, newHistoryTrack)
         } else {
-            if (trackHistoryList.size < 5) trackHistoryList.add(0, newHistoryTrack)
+            if (trackHistoryList.size < 3) trackHistoryList.add(0, newHistoryTrack)
             else {
-                trackHistoryList.removeAt(4)
+                trackHistoryList.removeAt(2)
                 trackHistoryList.add(0, newHistoryTrack)
             }
         }
