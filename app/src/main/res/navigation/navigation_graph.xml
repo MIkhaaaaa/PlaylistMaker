@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mediaLibraryFragment"
+    android:id="@+id/navigation_graph">
+    <fragment
+        android:id="@+id/mediaLibraryFragment"
+        android:name="com.practicum.myplaylistmaker.ui.favorites.fragmets.FragmentMediaFavorites"
+        android:label="MediaLibraryFragment"
+        tools:layout="@layout/fragment_activivty_media" >
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_searchFragment2"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.practicum.myplaylistmaker.ui.search.model.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_activity_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.practicum.myplaylistmaker.ui.settings.fragment.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_activity_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_mediaLibraryFragment2"
+            app:destination="@id/mediaLibraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bottomNavigation"
+        android:name="com.practicum.myplaylistmaker.BottomNavigation"
+        android:label="fragment_bottom_navigation"
+        tools:layout="@layout/fragment_bottom_navigation" />
+
+</navigation>

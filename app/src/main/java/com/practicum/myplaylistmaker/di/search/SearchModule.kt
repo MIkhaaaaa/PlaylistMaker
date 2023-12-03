@@ -2,10 +2,10 @@ package com.practicum.myplaylistmaker.di.search
 
 import android.content.Context
 import com.google.gson.Gson
+import com.practicum.myplaylistmaker.app.HISTORY_KEY
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.ITunesAPI
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.NetworkClient
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.RetrofitNetworkClient
-import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit

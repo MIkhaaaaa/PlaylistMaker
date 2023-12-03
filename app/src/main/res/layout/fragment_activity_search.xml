@@ -10,17 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/back_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart = "@dimen/medium_padding"
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_gravity="center_vertical"
-            app:tint="?attr/colorPrimary"
-            style="@style/for_activity_search"
-            android:src="@drawable/arrow_back_icon"
-            />
 
 
         <TextView

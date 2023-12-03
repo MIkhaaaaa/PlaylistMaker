@@ -20,7 +20,6 @@
         android:theme="?attr/actionBarTheme"
         app:title="@string/MediaLibrary"
         app:titleTextColor="?attr/colorPrimary"
-        app:navigationIcon="@drawable/arrow_back_icon"
         />
 
 

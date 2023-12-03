@@ -6,8 +6,8 @@
     <string name="support_message_str">Написать в поддержку</string>
     <string name="agreement_str">Пользовательское соглашение</string>
     <string name="main_screen_title">Playlist maker</string>
-    <string name="search_button_text">Поиск</string>
-    <string name="media_button_text">Медиатека</string>
+    <string name="search_text">Поиск</string>
+    <string name="media_text">Медиатека</string>
     <string name="settings_button_text">Настройки</string>
     <string name="settings_share_text">Поделиться приложением</string>
     <string name="UrlPracticum">https://practicum.yandex.ru/profile/android-developer/</string>
@@ -45,4 +45,5 @@
     <string name="MediaLibrary">Медиатека</string>
     <string name="newPlaylist">Новый плейлист</string>
     <string name="picture">Картинка</string>
+    <string name="title_activity_root">RootActivity</string>
 </resources>
