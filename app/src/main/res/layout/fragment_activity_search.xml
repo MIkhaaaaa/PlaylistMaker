@@ -6,25 +6,16 @@
     android:background="?attr/colorOnPrimary"
     android:orientation="vertical">
 
-    <FrameLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp16_search"
-            android:layout_marginBottom="@dimen/dp16_search"
-            android:layout_gravity="top"
-            android:paddingLeft="@dimen/dp48_serach"
-            android:text="@string/search_title_main"
-            style="@style/for_activity_search"
-            android:textSize="@dimen/text_in_activity_search_2"
-            />
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/search_title_main"
+        app:titleTextColor="?attr/colorPrimary"
+        />
 
     <FrameLayout
         android:layout_width="match_parent"

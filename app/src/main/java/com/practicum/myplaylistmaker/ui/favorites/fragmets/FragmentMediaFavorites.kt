@@ -48,9 +48,12 @@ class FragmentMediaFavorites :Fragment(), SelectPage {
         binding.pager.currentItem = page
     }
 
+    override fun onDestroyView() {
+        tabMediator.detach()
+        super.onDestroyView()
+    }
     override fun onDestroy() {
         super.onDestroy()
-        tabMediator.detach()
         _binding = null
     }
 
