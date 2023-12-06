@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.practicum.myplaylistmaker.R
-import com.practicum.myplaylistmaker.databinding.FragmentActivitySearchBinding
+import com.practicum.myplaylistmaker.databinding.FragmentSearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.SearchViewModel
@@ -30,8 +30,8 @@ class SearchFragment : Fragment() {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
     private val searchViewModule: SearchViewModel by viewModel()
-    private var _binding: FragmentActivitySearchBinding? = null
-    private val binding: FragmentActivitySearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding: FragmentSearchBinding
         get() = _binding!!
 
     private var isClickAllowed = true
@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentActivitySearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
 

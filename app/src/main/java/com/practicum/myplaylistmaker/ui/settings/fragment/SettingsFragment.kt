@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.practicum.myplaylistmaker.databinding.FragmentActivitySettingsBinding
+import com.practicum.myplaylistmaker.databinding.FragmentSettingsBinding
 import com.practicum.myplaylistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
     private val settingsViewModel: SettingsViewModel by viewModel()
-    private var _binding: FragmentActivitySettingsBinding? = null
-    private val binding: FragmentActivitySettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding: FragmentSettingsBinding
         get() = _binding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentActivitySettingsBinding.inflate(layoutInflater)
+        _binding = FragmentSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
 

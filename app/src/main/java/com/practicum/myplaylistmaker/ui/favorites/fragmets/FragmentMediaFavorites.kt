@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.practicum.myplaylistmaker.databinding.FragmentActivivtyMediaBinding
+import com.practicum.myplaylistmaker.databinding.FragmentMediaBinding
 
 class FragmentMediaFavorites :Fragment(), SelectPage {
-    private var _binding: FragmentActivivtyMediaBinding? = null
-    private  val binding: FragmentActivivtyMediaBinding
+    private var _binding: FragmentMediaBinding? = null
+    private  val binding: FragmentMediaBinding
         get() = _binding!!
 
     private lateinit var tabMediator: TabLayoutMediator
@@ -20,7 +20,7 @@ class FragmentMediaFavorites :Fragment(), SelectPage {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentActivivtyMediaBinding.inflate(layoutInflater)
+        _binding = FragmentMediaBinding.inflate(layoutInflater)
         binding.pager.adapter = FragmentAdapter(this)
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
