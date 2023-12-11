@@ -9,7 +9,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/settingsTopString14dp"/>
+       />
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,11 +20,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="@string/MediaLibrary"
-        app:titleTextColor="?attr/colorPrimary"
-        app:navigationIcon="@drawable/arrow_back_icon"
-        />
-
-
+        app:titleTextColor="?attr/colorPrimary" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

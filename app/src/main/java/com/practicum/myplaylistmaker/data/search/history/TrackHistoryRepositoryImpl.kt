@@ -3,9 +3,9 @@ package com.practicum.myplaylistmaker.data.search.history
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.practicum.myplaylistmaker.app.HISTORY_KEY
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesRepository
-import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 
 
 class TrackHistoryRepositoryImpl(

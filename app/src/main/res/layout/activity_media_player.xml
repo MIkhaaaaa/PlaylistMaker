@@ -27,8 +27,8 @@
 
     <ImageView
         android:id="@+id/back_menu_button"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="18dp"
         android:layout_marginTop="22dp"
         android:foreground="?attr/selectableItemBackground"

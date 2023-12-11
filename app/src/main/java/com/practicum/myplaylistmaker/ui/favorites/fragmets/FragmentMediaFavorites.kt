@@ -1,31 +1,27 @@
-package com.practicum.myplaylistmaker.ui.favorites
+package com.practicum.myplaylistmaker.ui.favorites.fragmets
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.practicum.myplaylistmaker.databinding.ActivivtyMediaBinding
-import com.practicum.myplaylistmaker.ui.favorites.fragmets.FragmentAdapter
-import com.practicum.myplaylistmaker.ui.favorites.fragmets.SelectPage
+import com.practicum.myplaylistmaker.databinding.FragmentMediaBinding
 
-class ActivityMediaFavorites : AppCompatActivity(), SelectPage {
-    private lateinit var binding: ActivivtyMediaBinding
+class FragmentMediaFavorites :Fragment(), SelectPage {
+    private var _binding: FragmentMediaBinding? = null
+    private  val binding: FragmentMediaBinding
+        get() = _binding!!
+
     private lateinit var tabMediator: TabLayoutMediator
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivivtyMediaBinding.inflate(layoutInflater)
-
-
-        binding.toolbar.setNavigationOnClickListener{
-            finish()
-        }
-
-
-        setContentView(binding.root)
-
-        val adapter = FragmentAdapter(supportFragmentManager, lifecycle)
-        binding.pager.adapter = adapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMediaBinding.inflate(layoutInflater)
+        binding.pager.adapter = FragmentAdapter(this)
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
@@ -46,16 +42,21 @@ class ActivityMediaFavorites : AppCompatActivity(), SelectPage {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
             }
         )
-
+        return binding.root
     }
-
-
     override fun NavigateTo(page: Int) {
         binding.pager.currentItem = page
     }
 
+    override fun onDestroyView() {
+        tabMediator.detach()
+        super.onDestroyView()
+    }
     override fun onDestroy() {
         super.onDestroy()
-        tabMediator.detach()
+        _binding = null
     }
+
+
+
 }

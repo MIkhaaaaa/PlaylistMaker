@@ -13,10 +13,10 @@ import com.practicum.myplaylistmaker.di.search.searchRepositoryModule
 import com.practicum.myplaylistmaker.di.search.searchViewModelModule
 import com.practicum.myplaylistmaker.di.settings.shareSettingsViewModule
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
-import com.practicum.myplaylistmaker.ui.search.HISTORY_KEY
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
+const val HISTORY_KEY = "history_key"
 
 class App: Application(),KoinComponent {
     var currentTheme: Boolean = false

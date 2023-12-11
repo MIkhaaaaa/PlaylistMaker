@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.practicum.myplaylistmaker.app.App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,37 +15,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        tools:targetApi="33">
-        <activity
-            android:name=".ui.settings.activity.ActivitySettings"
-            android:exported="false" />
+        tools:targetApi="31">
+
         <activity
             android:name=".ui.player.ActivityMediaPlayer"
             android:exported="false"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".ui.favorites.ActivityMediaFavorites"
-            android:exported="false"
-            android:theme="@style/Theme.MyApplication" />
-
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyApplication" />
-
-        <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.root.RootActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.MyApplication"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
     </application>
 
