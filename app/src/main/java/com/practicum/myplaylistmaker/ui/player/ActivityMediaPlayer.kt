@@ -22,7 +22,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         const val DELAY_PAUSE = 500L
     }
 
-    private var isClickAllowed = true
     private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
     private var url = ""
@@ -77,8 +76,9 @@ class ActivityMediaPlayer : AppCompatActivity() {
 
 
 
+
         bindingPlayer.playButton.setOnClickListener {
-            if (clickDebounce()) {
+            if (viewModel.clickDebounce()) {
                 bindingPlayer.playButton.isVisible = false
                 bindingPlayer.pauseButton.isVisible = true
                 viewModel.play()
@@ -130,13 +130,5 @@ class ActivityMediaPlayer : AppCompatActivity() {
         return viewModel.getTime()
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            mainThreadHandler.postDelayed({ isClickAllowed = true }, DELAY_PAUSE)
-        }
-        return current
-    }
 
 }

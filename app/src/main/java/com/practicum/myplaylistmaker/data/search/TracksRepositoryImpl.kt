@@ -6,11 +6,16 @@ import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackResponc
 import com.practicum.myplaylistmaker.domain.player.TracksRepository
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.util.Resource
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.Flow
+
 
 class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
-    override fun searchTracks(expression: String): Resource<ArrayList<Track>> {
+    override fun searchTracks(expression: String): Flow<Resource<ArrayList<Track>>> = flow {
+
         val response = networkClient.doRequest(TrackRequest(expression))
-        return when (response.resultCode) {
+
+        when (response.resultCode) {
             -1 -> {
                 Resource.Error("Проверьте подключение к интернету", null)
             }
