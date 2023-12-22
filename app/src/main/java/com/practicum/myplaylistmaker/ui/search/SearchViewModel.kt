@@ -8,6 +8,7 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
 import com.practicum.myplaylistmaker.ui.search.model.SearchScreenState
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -16,6 +17,7 @@ class SearchViewModel(
 ) : ViewModel() {
     private var stateLiveData =
         MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
+    private var searchJob: Job? = null
 
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
@@ -39,7 +41,10 @@ class SearchViewModel(
         stateLiveData.postValue(SearchScreenState.Loading)
         try {
             viewModelScope.launch {
-                searchInteractor.searchTracks(searchExpression).collect(){
+                searchInteractor
+                    .searchTracks(searchExpression)
+                    .collect {
+
                     if (it.first.isNullOrEmpty()) {
                         SearchScreenState.NothingFound
                     } else {

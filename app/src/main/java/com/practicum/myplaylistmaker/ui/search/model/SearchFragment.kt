@@ -23,6 +23,7 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.SearchViewModel
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,6 +47,7 @@ class SearchFragment : Fragment() {
     private lateinit var trackAdapterHistory: TrackAdapter
     private var trackHistoryList: ArrayList<Track> = ArrayList()
     private lateinit var bottomNavigator: BottomNavigationView
+    private var searchJob: Job? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -175,9 +177,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun searchTracks() {
         searchViewModule.clearTrackList()
-        handler.post {
-            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
-        }
+        searchViewModule.searchRequesting(binding.searchUserText.text.toString())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -226,9 +226,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchDebounce() {
-        if (binding.searchUserText.text.toString().isNotEmpty()) {
-            handler.removeCallbacks(searchRunnable)
-            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        searchJob?.cancel()
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
         }
     }
 
