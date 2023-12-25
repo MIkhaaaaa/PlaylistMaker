@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -39,8 +37,6 @@ class SearchFragment : Fragment() {
         get() = _binding!!
 
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { searchTracks() }
     private var trackList: ArrayList<Track> = ArrayList()
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter

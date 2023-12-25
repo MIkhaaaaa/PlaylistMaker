@@ -8,18 +8,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class TracksInteractorImpl(private val repository: TracksRepository) : TracksInteractor {
-
-    override fun searchTracks(expression: String) : Flow<Pair<ArrayList<Track>?,String?>>{
-            return repository.searchTracks(expression).map { result ->
-                when(result){
-                    is Resource.Success -> {
-                        Pair(result.data,null)
-                    }
-                    is Resource.Error -> {
-                        Pair(null,result.message)
-                    }
+    override fun searchTracks(expression: String): Flow<Resource<List<Track>>> {
+        return repository.searchTracks(expression).map { result ->
+            when (result) {
+                is Resource.Success -> {
+                    (Resource.Success(result.data))
                 }
-            }
+
+                is Resource.Error<*> -> {
+                    Resource.Error("null", result.message)
+                }
+            } as Resource<List<Track>>
         }
     }
+
+}
+
+
 

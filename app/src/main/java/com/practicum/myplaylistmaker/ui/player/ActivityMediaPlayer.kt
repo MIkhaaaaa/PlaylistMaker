@@ -1,8 +1,6 @@
 package com.practicum.myplaylistmaker.ui.player
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -22,16 +20,16 @@ class ActivityMediaPlayer : AppCompatActivity() {
         const val DELAY_PAUSE = 500L
     }
 
-    private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
     private var url = ""
     private val viewModel: PlayerViewModel by viewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingPlayer = ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(bindingPlayer.root)
-        mainThreadHandler = Handler(Looper.getMainLooper())
+
         bindingPlayer.backMenuButton.setOnClickListener { finish() }
 
         viewModel.stateLiveData.observe(this) {
@@ -82,17 +80,17 @@ class ActivityMediaPlayer : AppCompatActivity() {
                 bindingPlayer.playButton.isVisible = false
                 bindingPlayer.pauseButton.isVisible = true
                 viewModel.play()
-                mainThreadHandler.post(
-                    createTimeLoop()
-                )
             }
         }
 
         bindingPlayer.pauseButton.setOnClickListener {
             bindingPlayer.playButton.isVisible = true
             bindingPlayer.pauseButton.isVisible = false
-            mainThreadHandler.removeCallbacksAndMessages(null)
             viewModel.pause()
+        }
+
+        viewModel.putTime().observe(this) { timer ->
+            bindingPlayer.trackTimer.text = timer
         }
     }
 
@@ -106,28 +104,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        bindingPlayer.trackTimer.text = timeTrack()
-    }
-
-    private fun createTimeLoop(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                val statePlayer = viewModel.playerStateListener()
-                if ((statePlayer == PlayerState.STATE_PLAYING) or (statePlayer == PlayerState.STATE_PAUSED)) {
-                    bindingPlayer.trackTimer.text = timeTrack()
-                    mainThreadHandler.postDelayed(this, DELAY)
-                } else {
-                    bindingPlayer.trackTimer.text = getString(R.string._00_00)
-                    bindingPlayer.playButton.isVisible = true
-                    bindingPlayer.pauseButton.isVisible = false
-
-                }
-            }
-        }
-    }
-
-    private fun timeTrack(): String {
-        return viewModel.getTime()
     }
 
 
