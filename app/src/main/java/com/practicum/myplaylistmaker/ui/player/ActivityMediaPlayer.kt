@@ -1,6 +1,7 @@
 package com.practicum.myplaylistmaker.ui.player
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -16,7 +17,6 @@ import java.util.Locale
 class ActivityMediaPlayer : AppCompatActivity() {
     companion object {
         lateinit var track: Track
-        const val DELAY = 1000L
         const val DELAY_PAUSE = 500L
     }
 
@@ -50,14 +50,17 @@ class ActivityMediaPlayer : AppCompatActivity() {
             }
         }
 
+        @Suppress("DEPRECATION")
         track = intent.getParcelableExtra("track")!!
+
+
 
         Glide.with(this)
             .load(track.artworkUrl512)
             .placeholder(R.drawable.album)
             .centerInside()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.dp4)))
-            .into(bindingPlayer.albumCover!!)
+            .into(bindingPlayer.albumCover)
 
         bindingPlayer.playerTrackName.text = track.trackName ?: "Unknown track"
         bindingPlayer.playerArtistName.text = track.artistName ?: "Unknown artist"
@@ -70,6 +73,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
+        Log.e("TRACK_TRACK", track.toString())
         viewModel.createPlayer(url)
 
 
@@ -89,8 +93,17 @@ class ActivityMediaPlayer : AppCompatActivity() {
             viewModel.pause()
         }
 
-        viewModel.putTime().observe(this) { timer ->
-            bindingPlayer.trackTimer.text = timer
+        viewModel.getTimeLiveData().observe(this) { timer ->
+
+            val statePlayer = viewModel.playerStateListener()
+            if ((statePlayer == PlayerState.STATE_PLAYING) or (statePlayer == PlayerState.STATE_PAUSED)) {
+                bindingPlayer.trackTimer.text = timer
+            } else {
+                bindingPlayer.trackTimer.text = timer
+                bindingPlayer.playButton.isVisible = true
+                bindingPlayer.pauseButton.isVisible = false
+
+            }
         }
     }
 
@@ -99,12 +112,15 @@ class ActivityMediaPlayer : AppCompatActivity() {
         viewModel.pause()
         bindingPlayer.playButton.isVisible = true
         bindingPlayer.pauseButton.isVisible = false
-
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onDestroy() {
+        viewModel.jobCancel()
+        super.onDestroy()
     }
+
+
+
 
 
 }

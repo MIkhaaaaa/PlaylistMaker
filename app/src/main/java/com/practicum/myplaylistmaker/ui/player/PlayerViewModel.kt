@@ -1,6 +1,5 @@
 package com.practicum.myplaylistmaker.ui.player
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,14 +24,13 @@ class PlayerViewModel(
     }
 
     fun createPlayer(url: String){
-
         stateLiveData.value?.let {
             playerInteractor.preparePlayer(url, it)
         }
-        Log.d("stateLiveData", stateLiveData.value.toString())
     }
     fun play() {
         playerInteractor.play()
+        getTimeLiveData()
         playJob?.start()
     }
     fun pause() {
@@ -69,10 +67,11 @@ class PlayerViewModel(
         return timer
     }
 
-    fun putTime(): LiveData<String> {
-        getTimeLiveData()
-        timer.value?.let { Log.d("время в модели", it) }
-        return timer
+    fun jobCancel(){
+        playJob?.cancel()
+    }
+    fun resume(){
+        playJob?.start()
     }
 
     companion object {

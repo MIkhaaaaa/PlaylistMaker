@@ -58,9 +58,15 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
+
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
+
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)
             val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
@@ -168,6 +174,7 @@ class SearchFragment : Fragment() {
         searchViewModule.provideHistory().value?.let { trackHistoryList.addAll(it) }
         trackAdapterHistory.notifyDataSetChanged()
     }
+
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -332,5 +339,7 @@ class SearchFragment : Fragment() {
             clearHistoryButton.isVisible = false
         }
     }
+
+
 
 }
