@@ -69,9 +69,7 @@ class PlayerViewModel(
     fun jobCancel(){
         playJob?.cancel()
     }
-    fun resume(){
-        playJob?.start()
-    }
+
 
     companion object {
         const val PLAYER_BUTTON_PRESSING_DELAY = 300L
