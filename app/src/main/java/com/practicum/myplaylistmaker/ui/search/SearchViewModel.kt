@@ -1,12 +1,15 @@
 package com.practicum.myplaylistmaker.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.TracksInteractor
 import com.practicum.myplaylistmaker.domain.search.SharedPreferencesInteractor
 import com.practicum.myplaylistmaker.ui.search.model.SearchScreenState
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private var searchInteractor: TracksInteractor,
@@ -19,22 +22,26 @@ class SearchViewModel(
         return stateLiveData
     }
 
-    private val tracksConsumer = object : TracksInteractor.TracksConsumer {
-        override fun consume(foundTrack: ArrayList<Track>?, errorMessage: String?) {
-            trackResultList.postValue(foundTrack?: emptyList())
-            stateLiveData.postValue(
-                if (foundTrack.isNullOrEmpty())
-                    SearchScreenState.NothingFound
-                else SearchScreenState.SearchOk(foundTrack)
-            )
-        }
-    }
 
     private var trackResultList: MutableLiveData<List<Track>> = MutableLiveData<List<Track>>()
     fun searchRequesting(searchExpression: String) {
         stateLiveData.postValue(SearchScreenState.Loading)
         try {
-            searchInteractor.searchTracks(searchExpression, tracksConsumer)
+            viewModelScope.launch {
+                Log.d("viewModelScope","works")
+                searchInteractor
+                    .searchTracks(searchExpression)
+                    .collect {
+                        trackResultList.postValue(it.data ?: emptyList())
+                        Log.d("viewModelScope",it.data?.isEmpty().toString())
+                        stateLiveData.postValue(
+                            if (it.data.isNullOrEmpty())
+                                SearchScreenState.NothingFound
+                            else SearchScreenState.SearchOk(it.data )
+                        )
+                    }
+            }
+
         } catch (error: Error) {
             stateLiveData.postValue(SearchScreenState.ConnectionError)
         }
@@ -56,7 +63,7 @@ class SearchViewModel(
 
     fun provideHistory(): LiveData<List<Track>> {
         val history = getHistory()
-        trackHistoryList.value=history
+        trackHistoryList.value = history
         if (history.isNullOrEmpty()) {
             trackHistoryList.postValue(emptyList())
         }
@@ -65,10 +72,10 @@ class SearchViewModel(
 
     fun clearTrackList() {
         trackResultList.value = emptyList()
-        stateLiveData.value= trackHistoryList.value?.let { SearchScreenState.SearchHistory(it) }
+        stateLiveData.value = trackHistoryList.value?.let { SearchScreenState.SearchHistory(it) }
     }
 
-    private fun getHistory() : ArrayList<Track> {
+    private fun getHistory(): ArrayList<Track> {
         val trackHistoryList = ArrayList<Track>()
         trackHistoryList.addAll(searchHistoryInteractor.read(searchHistoryInteractor.getSharedPreferences()))
         return trackHistoryList

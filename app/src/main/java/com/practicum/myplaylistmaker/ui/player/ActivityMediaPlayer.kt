@@ -1,8 +1,7 @@
 package com.practicum.myplaylistmaker.ui.player
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -18,22 +17,23 @@ import java.util.Locale
 class ActivityMediaPlayer : AppCompatActivity() {
     companion object {
         lateinit var track: Track
-        const val DELAY = 1000L
         const val DELAY_PAUSE = 500L
     }
 
-    private var isClickAllowed = true
-    private lateinit var mainThreadHandler: Handler
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
     private var url = ""
     private val viewModel: PlayerViewModel by viewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingPlayer = ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(bindingPlayer.root)
-        mainThreadHandler = Handler(Looper.getMainLooper())
-        bindingPlayer.backMenuButton.setOnClickListener { finish() }
+
+        bindingPlayer.backMenuButton.setOnClickListener {
+            viewModel.playJob?.cancel()
+            finish()
+        }
 
         viewModel.stateLiveData.observe(this) {
             when (it) {
@@ -53,14 +53,17 @@ class ActivityMediaPlayer : AppCompatActivity() {
             }
         }
 
+        @Suppress("DEPRECATION")
         track = intent.getParcelableExtra("track")!!
+
+
 
         Glide.with(this)
             .load(track.artworkUrl512)
             .placeholder(R.drawable.album)
             .centerInside()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.dp4)))
-            .into(bindingPlayer.albumCover!!)
+            .into(bindingPlayer.albumCover)
 
         bindingPlayer.playerTrackName.text = track.trackName ?: "Unknown track"
         bindingPlayer.playerArtistName.text = track.artistName ?: "Unknown artist"
@@ -73,26 +76,37 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
+        Log.e("TRACK_TRACK", url)
         viewModel.createPlayer(url)
 
 
 
+
         bindingPlayer.playButton.setOnClickListener {
-            if (clickDebounce()) {
+            if (viewModel.clickDebounce()) {
                 bindingPlayer.playButton.isVisible = false
                 bindingPlayer.pauseButton.isVisible = true
                 viewModel.play()
-                mainThreadHandler.post(
-                    createTimeLoop()
-                )
             }
         }
 
         bindingPlayer.pauseButton.setOnClickListener {
             bindingPlayer.playButton.isVisible = true
             bindingPlayer.pauseButton.isVisible = false
-            mainThreadHandler.removeCallbacksAndMessages(null)
             viewModel.pause()
+        }
+
+        viewModel.getTimeLiveData().observe(this) { timer ->
+
+            val statePlayer = viewModel.playerStateListener()
+            if ((statePlayer == PlayerState.STATE_PLAYING) or (statePlayer == PlayerState.STATE_PAUSED)) {
+                bindingPlayer.trackTimer.text = timer
+            } else {
+                bindingPlayer.trackTimer.text = timer
+                bindingPlayer.playButton.isVisible = true
+                bindingPlayer.pauseButton.isVisible = false
+
+            }
         }
     }
 
@@ -101,42 +115,15 @@ class ActivityMediaPlayer : AppCompatActivity() {
         viewModel.pause()
         bindingPlayer.playButton.isVisible = true
         bindingPlayer.pauseButton.isVisible = false
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        bindingPlayer.trackTimer.text = timeTrack()
+    override fun onDestroy() {
+        viewModel.jobCancel()
+        super.onDestroy()
     }
 
-    private fun createTimeLoop(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                val statePlayer = viewModel.playerStateListener()
-                if ((statePlayer == PlayerState.STATE_PLAYING) or (statePlayer == PlayerState.STATE_PAUSED)) {
-                    bindingPlayer.trackTimer.text = timeTrack()
-                    mainThreadHandler.postDelayed(this, DELAY)
-                } else {
-                    bindingPlayer.trackTimer.text = getString(R.string._00_00)
-                    bindingPlayer.playButton.isVisible = true
-                    bindingPlayer.pauseButton.isVisible = false
 
-                }
-            }
-        }
-    }
 
-    private fun timeTrack(): String {
-        return viewModel.getTime()
-    }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            mainThreadHandler.postDelayed({ isClickAllowed = true }, DELAY_PAUSE)
-        }
-        return current
-    }
 
 }

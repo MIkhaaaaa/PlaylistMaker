@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.practicum.myplaylistmaker.R
@@ -22,6 +21,9 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.SearchViewModel
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -35,14 +37,13 @@ class SearchFragment : Fragment() {
         get() = _binding!!
 
     private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { searchTracks() }
     private var trackList: ArrayList<Track> = ArrayList()
     private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
     private var trackHistoryList: ArrayList<Track> = ArrayList()
     private lateinit var bottomNavigator: BottomNavigationView
+    private var searchJob: Job? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,9 +58,15 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
+
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
+
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)
             val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
@@ -169,12 +176,11 @@ class SearchFragment : Fragment() {
     }
 
 
+
     @SuppressLint("NotifyDataSetChanged")
     private fun searchTracks() {
         searchViewModule.clearTrackList()
-        handler.post {
-            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
-        }
+        searchViewModule.searchRequesting(binding.searchUserText.text.toString())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -214,15 +220,19 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }
 
     private fun searchDebounce() {
-        if (binding.searchUserText.text.toString().isNotEmpty()) {
-            handler.removeCallbacks(searchRunnable)
-            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        searchJob?.cancel()
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
         }
     }
 
@@ -329,5 +339,7 @@ class SearchFragment : Fragment() {
             clearHistoryButton.isVisible = false
         }
     }
+
+
 
 }
