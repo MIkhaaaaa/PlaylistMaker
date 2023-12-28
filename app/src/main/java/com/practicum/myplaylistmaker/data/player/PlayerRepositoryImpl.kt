@@ -23,6 +23,8 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer ) : AudioPlayerR
 
     override fun preparePlayer(url: String, state: PlayerState) {
         if (state != PlayerState.STATE_DEFAULT) return
+
+        mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {

@@ -30,7 +30,10 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer = ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(bindingPlayer.root)
 
-        bindingPlayer.backMenuButton.setOnClickListener { finish() }
+        bindingPlayer.backMenuButton.setOnClickListener {
+            viewModel.playJob?.cancel()
+            finish()
+        }
 
         viewModel.stateLiveData.observe(this) {
             when (it) {
@@ -73,7 +76,7 @@ class ActivityMediaPlayer : AppCompatActivity() {
         bindingPlayer.country.text = track.country ?: "Unknown country"
         url = track.previewUrl.toString()
 
-        Log.e("TRACK_TRACK", track.toString())
+        Log.e("TRACK_TRACK", url)
         viewModel.createPlayer(url)
 
 

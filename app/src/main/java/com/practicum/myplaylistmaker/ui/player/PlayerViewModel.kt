@@ -57,12 +57,11 @@ class PlayerViewModel(
 
     fun getTimeLiveData(): LiveData<String> {
         playJob =viewModelScope.launch {
-            while (true) {
                 delay(PLAYER_BUTTON_PRESSING_DELAY)
                 playerInteractor.timeTransfer().collect() {
                     timer.postValue(it)
                 }
-            }
+
         }
         return timer
     }
