@@ -5,25 +5,27 @@ import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackDto
 import com.practicum.myplaylistmaker.domain.models.Track
 
 class TrackDbConvertor {
-    fun map(track: TrackDto): TrackEntity {
+    fun mapTrackToFavourite(track: TrackDto): TrackEntity {
         return TrackEntity(
+            track.trackId,
+            track.addTime,
             track.trackName,
             track.artistName,
             track.trackTimeMillis,
             track.artworkUrl100,
-            track.trackId,
             track.collectionName,
             track.releaseDate,
             track.primaryGenreName,
             track.country,
-            track.previewUrl
+            track.previewUrl,
+            track.isFavorite
         )
-
     }
 
-    fun map(track: TrackEntity): Track {
-        return Track(
+    fun mapFavouriteToTrack(track: TrackEntity): TrackDto {
+        return TrackDto(
             track.trackName,
+            track.addTime,
             track.artistName,
             track.trackTimeMillis,
             track.artworkUrl100,
@@ -34,7 +36,6 @@ class TrackDbConvertor {
             track.country,
             track.previewUrl
         )
-
     }
 
 }

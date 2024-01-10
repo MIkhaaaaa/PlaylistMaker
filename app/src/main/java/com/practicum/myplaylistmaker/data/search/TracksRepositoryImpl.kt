@@ -1,6 +1,9 @@
 package com.practicum.myplaylistmaker.data.search
 
+import com.practicum.myplaylistmaker.data.db.converters.TrackDbConvertor
+import com.practicum.myplaylistmaker.data.db.dao.AppDatabase
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.NetworkClient
+import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackDto
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackRequest
 import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackResponce
 import com.practicum.myplaylistmaker.domain.models.Track
@@ -10,7 +13,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
-class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
+class TracksRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val trackDbConvertor : TrackDbConvertor,
+    private val appDatabase: AppDatabase
+) : TracksRepository {
     override fun searchTracks(expression: String): Flow<Resource<ArrayList<Track>>> = flow {
         try {
             val response = networkClient.doRequest(TrackRequest(expression))
@@ -40,4 +47,11 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
             throw Exception(e)
         }
     }
+
+    private suspend fun saveTracks(tracks: ArrayList<TrackDto> ){
+        val tracksEntity =  tracks.map { track -> trackDbConvertor.map(track)}
+        appDatabase.trackDao().insertTracks(tracksEntity)
+    }
+
+
 }
