@@ -14,24 +14,23 @@ class FavoritesRepositoryImpl(
     private val trackDbConvertor: TrackDbConvertor,
     ) : FavoritesRepository{
 
-    override fun addTrack(track: TrackDto) {
+    override fun addTrack(track: Track) {
         track.isFavorite = true
         track.addTime = System.currentTimeMillis()
-        dataBase.favouritesDao().insertTrack(track)
+        dataBase.favouritesTrackDao().insertTrack(track)
     }
 
-    override fun deleteTrack(track: TrackDto) {
+    override fun deleteTrack(track: Track) {
         track.isFavorite = false
-        trackDbConvertor.mapTrackToFavourite(track)?.let { dataBase.favouritesDao().deleteTrack(it) }
+        trackDbConvertor.mapTrackToFavourite(track)?.let { dataBase.favouritesTrackDao().deleteTrack(it) }
     }
 
-    override fun getFavourites(): Flow<List<TrackDto>> = flow {
-        val favourites = dataBase.favouritesDao().queryTrack()
+    override fun getFavourites(): Flow<List<Track>> = flow {
+        val favourites = dataBase.favouritesTrackDao().queryTrack()
 
-        Log.d("Избранное репозиторий", favourites.toString())
         if (favourites != null) {
             val favouritesConverted =
-                dataBase.favouritesDao().queryTrack().map { trackDbConvertor.mapFavouriteToTrack(it) }
+                dataBase.favouritesTrackDao().queryTrack().map { trackDbConvertor.mapFavouriteToTrack(it) }
             emit(favouritesConverted)
         } else {
             emit(emptyList())
@@ -40,7 +39,7 @@ class FavoritesRepositoryImpl(
 
 
     override fun checkFavourites(id: Long): Flow<Boolean> = flow {
-        emit(dataBase.favouritesDao().queryTrackId(id) != null)
+        emit(dataBase.favouritesTrackDao().queryTrackId(id) != null)
     }
 
 }

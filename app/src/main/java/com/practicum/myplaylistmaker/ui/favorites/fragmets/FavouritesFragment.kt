@@ -22,6 +22,12 @@ class FavouritesFragment : Fragment() {
         return nullableFavouritesBinding.root
     }
 
+
+
+
+
+
+
     companion object {
         fun newInstance() = FavouritesFragment()
 

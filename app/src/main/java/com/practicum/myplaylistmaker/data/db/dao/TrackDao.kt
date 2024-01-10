@@ -12,7 +12,7 @@ import com.practicum.myplaylistmaker.domain.models.Track
 @Dao
 interface TrackDao {
     @Insert (entity = TrackEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    fun insertTrack (track:TrackDto)
+    fun insertTrack (track:Track)
 
     @Delete(entity = TrackEntity::class)
     fun deleteTrack (track:TrackEntity)

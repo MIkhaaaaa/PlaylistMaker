@@ -18,16 +18,17 @@ val favorites = module {
     viewModel { PlaylistViewModel() }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database")
+            .allowMainThreadQueries()
             .build()
     }
     factory { TrackDbConvertor() }
 
     single<FavoritesRepository> {
-        FavoritesRepositoryImpl(get(),get())
+        FavoritesRepositoryImpl(get(), get())
     }
 
-    single <FavoritesInteractor>{
+    single<FavoritesInteractor> {
         FavoritesInteractorImpl(get())
     }
 

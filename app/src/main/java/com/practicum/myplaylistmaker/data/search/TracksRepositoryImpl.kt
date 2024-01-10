@@ -11,12 +11,12 @@ import com.practicum.myplaylistmaker.domain.player.TracksRepository
 import com.practicum.myplaylistmaker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class TracksRepositoryImpl(
-    private val networkClient: NetworkClient,
-    private val trackDbConvertor : TrackDbConvertor,
-    private val appDatabase: AppDatabase
+    private val networkClient: NetworkClient
 ) : TracksRepository {
     override fun searchTracks(expression: String): Flow<Resource<ArrayList<Track>>> = flow {
         try {
@@ -28,12 +28,23 @@ class TracksRepositoryImpl(
                 }
 
                 200 -> {
-                   emit(Resource.Success((response as TrackResponce).results.map {
+                   emit(Resource.Success((response as TrackResponce).results.map { track ->
                         Track(
-                            it.trackName, it.artistName,
-                            it.trackTimeMillis, it.artworkUrl100, it.trackId,
-                            it.collectionName, it.releaseDate,
-                            it.primaryGenreName, it.country, it.previewUrl
+                            track.trackName,
+                            addTime = System.currentTimeMillis(),
+                            track.artistName,
+                            SimpleDateFormat(
+                                "mm:ss",
+                                Locale.getDefault()
+                            ).format(track.trackTimeMillis),
+                            track.artworkUrl100,
+                            track.trackId,
+                            track.collectionName,
+                            track.releaseDate,
+                            track.primaryGenreName,
+                            track.country,
+                            track.previewUrl,
+                            track.isFavorite
                         )
                     } as ArrayList<Track>))
                 }
@@ -46,11 +57,6 @@ class TracksRepositoryImpl(
         } catch (e: Error){
             throw Exception(e)
         }
-    }
-
-    private suspend fun saveTracks(tracks: ArrayList<TrackDto> ){
-        val tracksEntity =  tracks.map { track -> trackDbConvertor.map(track)}
-        appDatabase.trackDao().insertTracks(tracksEntity)
     }
 
 

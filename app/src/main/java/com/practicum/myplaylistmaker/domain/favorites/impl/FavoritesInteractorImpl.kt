@@ -6,9 +6,20 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 class FavoritesInteractorImpl(private val favoritesRepository: FavoritesRepository) : FavoritesInteractor {
-    override fun favoritesTracks(): Flow<ArrayList<Track>> {
-        return favoritesRepository.favoritesTrack()
+
+    override fun favouritesAdd(track:Track) {
+        favoritesRepository.addTrack(track)
     }
 
+    override fun favouritesDelete(track: Track) {
+        favoritesRepository.deleteTrack(track)
+    }
 
+    override fun favouritesGet(): Flow<List<Track>> {
+        return favoritesRepository.getFavourites()
+    }
+
+    override fun favouritesCheck(id: Long): Flow<Boolean> {
+        return favoritesRepository.checkFavourites(id)
+    }
 }

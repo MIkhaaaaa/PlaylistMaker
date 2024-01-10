@@ -5,7 +5,7 @@ import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackDto
 import com.practicum.myplaylistmaker.domain.models.Track
 
 class TrackDbConvertor {
-    fun mapTrackToFavourite(track: TrackDto): TrackEntity {
+    fun mapTrackToFavourite(track: Track): TrackEntity {
         return TrackEntity(
             track.trackId,
             track.addTime,
@@ -22,8 +22,8 @@ class TrackDbConvertor {
         )
     }
 
-    fun mapFavouriteToTrack(track: TrackEntity): TrackDto {
-        return TrackDto(
+    fun mapFavouriteToTrack(track: TrackEntity): Track {
+        return Track(
             track.trackName,
             track.addTime,
             track.artistName,
