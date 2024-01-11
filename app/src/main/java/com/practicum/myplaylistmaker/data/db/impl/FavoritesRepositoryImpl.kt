@@ -1,9 +1,7 @@
 package com.practicum.myplaylistmaker.data.db.impl
 
-import android.util.Log
 import com.practicum.myplaylistmaker.data.db.converters.TrackDbConvertor
 import com.practicum.myplaylistmaker.data.db.dao.AppDatabase
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackDto
 import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesRepository
 import com.practicum.myplaylistmaker.domain.models.Track
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +20,7 @@ class FavoritesRepositoryImpl(
 
     override fun deleteTrack(track: Track) {
         track.isFavorite = false
-        trackDbConvertor.mapTrackToFavourite(track)?.let { dataBase.favouritesTrackDao().deleteTrack(it) }
+        trackDbConvertor.mapTrackToFavourite(track).let { dataBase.favouritesTrackDao().deleteTrack(it) }
     }
 
     override fun getFavourites(): Flow<List<Track>> = flow {

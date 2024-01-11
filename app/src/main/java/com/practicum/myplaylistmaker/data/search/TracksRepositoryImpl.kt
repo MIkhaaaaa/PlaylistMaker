@@ -1,11 +1,8 @@
 package com.practicum.myplaylistmaker.data.search
 
-import com.practicum.myplaylistmaker.data.db.converters.TrackDbConvertor
-import com.practicum.myplaylistmaker.data.db.dao.AppDatabase
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.NetworkClient
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackDto
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackRequest
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackResponce
+import com.practicum.myplaylistmaker.data.search.request.NetworkClient
+import com.practicum.myplaylistmaker.data.search.request.TrackRequest
+import com.practicum.myplaylistmaker.data.search.responce.TrackResponce
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.TracksRepository
 import com.practicum.myplaylistmaker.util.Resource

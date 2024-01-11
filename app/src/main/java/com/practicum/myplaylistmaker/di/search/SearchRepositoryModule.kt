@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val searchRepositoryModule = module {
     single <TracksRepository> {
-        TracksRepositoryImpl(get(),get(),get())
+        TracksRepositoryImpl(get())
     }
 
     single <SharedPreferencesRepository> {

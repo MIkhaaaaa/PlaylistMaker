@@ -14,7 +14,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val favorites = module {
-    viewModel { FavouritesViewModel() }
+    viewModel { FavouritesViewModel(get(),get()) }
     viewModel { PlaylistViewModel() }
 
     single {
