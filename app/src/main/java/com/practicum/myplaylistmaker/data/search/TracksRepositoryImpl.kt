@@ -30,10 +30,7 @@ class TracksRepositoryImpl(
                             track.trackName,
                             addTime = System.currentTimeMillis(),
                             track.artistName,
-                            SimpleDateFormat(
-                                "mm:ss",
-                                Locale.getDefault()
-                            ).format(track.trackTimeMillis),
+                            track.trackTimeMillis,
                             track.artworkUrl100,
                             track.trackId,
                             track.collectionName,

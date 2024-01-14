@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.myplaylistmaker.databinding.FragmentFavoritesBinding
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.favorites.viewModel.FavouritesViewModel
@@ -37,12 +38,13 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         nullableFavouritesBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        nullableFavouritesBinding.favouritesRecycler.layoutManager = LinearLayoutManager(requireContext())
+        nullableFavouritesBinding.favouritesRecycler.adapter = favouritesAdapter
         return nullableFavouritesBinding.root
     }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         super.onViewCreated(view, savedInstanceState)
         favouritesViewModel.favouritesMaker().observe(viewLifecycleOwner) { trackResultList ->
             if (favouritesViewModel.trackResultList.value.isNullOrEmpty()) {
@@ -55,11 +57,13 @@ class FavouritesFragment : Fragment() {
                 nullableFavouritesBinding.emptyMediaLibrary.isVisible = false
                 nullableFavouritesBinding.emptyMediaLibraryText.isVisible = false
                 nullableFavouritesBinding.favouritesRecycler.isVisible = true
-                favouritesAdapter.tracks = favouritesViewModel.trackResultList.value!!
-
+                favouritesAdapter.setItems(favouritesViewModel.trackResultList.value!!)
                 favouritesAdapter.notifyDataSetChanged()
             }
         }
+
+
+
     }
 
     private fun clickAdapting(item: Track) {
