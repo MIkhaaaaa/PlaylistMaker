@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.myplaylistmaker.data.db.impl.FavoritesInteractor
+import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesInteractor
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.AudioPlayerInteractor
@@ -23,7 +23,9 @@ class PlayerViewModel(
     private var isClickAllowed = true
     var playJob : Job? = null
     var timer = MutableLiveData("00:00")
-    val favouritesIndicator = MutableLiveData<Boolean>()
+    private val state = MutableLiveData<Boolean>()
+    val _state = state
+    
     var favouritesJob:Job?=null
     init {
         stateLiveData.value = playerStateListener()
@@ -63,7 +65,7 @@ class PlayerViewModel(
 
     fun getTimeLiveData(): LiveData<String> {
         playJob =viewModelScope.launch {
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
+                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
                 playerInteractor.timeTransfer().collect() {
                     timer.postValue(it)
                 }
@@ -91,16 +93,16 @@ class PlayerViewModel(
         favouritesJob=viewModelScope.launch{
 
             while (true) {
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
+                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
                 track.trackId?.let { id ->
                     favouritesInteractor.favouritesCheck(id)
                         .collect {value ->
-                            favouritesIndicator.postValue(value)
+                            _state.postValue(value)
                         }
                 }
             }
         }
-        return favouritesIndicator
+        return _state
     }
 
     fun formatMilliseconds(milliseconds: Long): String {
@@ -111,6 +113,6 @@ class PlayerViewModel(
     }
 
     companion object {
-        const val PLAYER_BUTTON_PRESSING_DELAY = 300L
+        const val PLAYER_BUTTON_PRESSING_DELAY_MILLIS = 300L
     }
 }

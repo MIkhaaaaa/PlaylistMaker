@@ -3,7 +3,7 @@ package com.practicum.myplaylistmaker.di.favorites
 import androidx.room.Room
 import com.practicum.myplaylistmaker.data.db.converters.TrackDbConvertor
 import com.practicum.myplaylistmaker.data.db.dao.AppDatabase
-import com.practicum.myplaylistmaker.data.db.impl.FavoritesInteractor
+import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesInteractor
 import com.practicum.myplaylistmaker.data.db.impl.FavoritesRepositoryImpl
 import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesRepository
 import com.practicum.myplaylistmaker.domain.favorites.impl.FavoritesInteractorImpl

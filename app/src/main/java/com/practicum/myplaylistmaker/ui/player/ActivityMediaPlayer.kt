@@ -27,7 +27,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
     }
 
     private lateinit var bindingPlayer: ActivityMediaPlayerBinding
-    private var url = ""
     private val viewModel: PlayerViewModel by viewModel()
 
 
@@ -63,8 +62,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         @Suppress("DEPRECATION")
         track = intent.getParcelableExtra("track")!!
 
-
-
         Glide.with(this)
             .load(track.artworkUrl512)
             .placeholder(R.drawable.album)
@@ -72,21 +69,19 @@ class ActivityMediaPlayer : AppCompatActivity() {
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.dp4)))
             .into(bindingPlayer.albumCover)
 
-        bindingPlayer.playerTrackName.text = track.trackName ?: "Unknown track"
-        bindingPlayer.playerArtistName.text = track.artistName ?: "Unknown artist"
-        bindingPlayer.trackTimer.text = getString(R.string._00_00)
-        bindingPlayer.time.text = viewModel.formatMilliseconds(track.trackTimeMillis?.toLong() ?: 0)
+        with(bindingPlayer) {
+            playerTrackName.text = track.trackName ?: "Unknown track"
+            playerArtistName.text = track.artistName ?: "Unknown artist"
+            trackTimer.text = getString(R.string._00_00)
+            time.text =
+                viewModel.formatMilliseconds(track.trackTimeMillis?.toLong() ?: 0)
+            album.text = track.collectionName ?: "Unknown album"
+            year.text = track.releaseDate?.substring(0, 4) ?: "Unknown year"
+            genre.text = track.primaryGenreName ?: "Unknown genre"
+            country.text = track.country ?: "Unknown country"
+        }
 
-
-
-        bindingPlayer.album.text = track.collectionName ?: "Unknown album"
-        bindingPlayer.year.text = track.releaseDate?.substring(0, 4) ?: "Unknown year"
-        bindingPlayer.genre.text = track.primaryGenreName ?: "Unknown genre"
-        bindingPlayer.country.text = track.country ?: "Unknown country"
-        url = track.previewUrl.toString()
-
-        Log.e("TRACK_TRACK", url)
-        viewModel.createPlayer(url)
+        viewModel.createPlayer(track.previewUrl.toString())
 
 
         bindingPlayer.favourites.setOnClickListener {
@@ -141,8 +136,6 @@ class ActivityMediaPlayer : AppCompatActivity() {
         viewModel.jobCancel()
         super.onDestroy()
     }
-
-
 
 
 }
