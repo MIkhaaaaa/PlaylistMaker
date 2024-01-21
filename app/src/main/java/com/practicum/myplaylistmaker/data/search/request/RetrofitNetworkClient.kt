@@ -1,8 +1,9 @@
-package com.practicum.myplaylistmaker.data.search.requestAndResponse
+package com.practicum.myplaylistmaker.data.search.request
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.practicum.myplaylistmaker.data.search.responce.Response
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

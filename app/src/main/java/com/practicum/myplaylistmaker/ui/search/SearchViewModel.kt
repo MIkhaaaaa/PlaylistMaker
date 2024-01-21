@@ -33,7 +33,6 @@ class SearchViewModel(
                     .searchTracks(searchExpression)
                     .collect {
                         trackResultList.postValue(it.data ?: emptyList())
-                        Log.d("viewModelScope",it.data?.isEmpty().toString())
                         stateLiveData.postValue(
                             if (it.data.isNullOrEmpty())
                                 SearchScreenState.NothingFound

@@ -1,8 +1,8 @@
 package com.practicum.myplaylistmaker.data.search
 
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.NetworkClient
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackRequest
-import com.practicum.myplaylistmaker.data.search.requestAndResponse.TrackResponce
+import com.practicum.myplaylistmaker.data.search.request.NetworkClient
+import com.practicum.myplaylistmaker.data.search.request.TrackRequest
+import com.practicum.myplaylistmaker.data.search.responce.TrackResponce
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.domain.player.TracksRepository
 import com.practicum.myplaylistmaker.util.Resource
@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
-class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
+class TracksRepositoryImpl(
+    private val networkClient: NetworkClient
+) : TracksRepository {
     override fun searchTracks(expression: String): Flow<Resource<ArrayList<Track>>> = flow {
         try {
             val response = networkClient.doRequest(TrackRequest(expression))
@@ -21,12 +23,20 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                 }
 
                 200 -> {
-                   emit(Resource.Success((response as TrackResponce).results.map {
+                   emit(Resource.Success((response as TrackResponce).results.map { track ->
                         Track(
-                            it.trackName, it.artistName,
-                            it.trackTimeMillis, it.artworkUrl100, it.trackId,
-                            it.collectionName, it.releaseDate,
-                            it.primaryGenreName, it.country, it.previewUrl
+                            track.trackName,
+                            addTime = System.currentTimeMillis(),
+                            track.artistName,
+                            track.trackTimeMillis,
+                            track.artworkUrl100,
+                            track.trackId,
+                            track.collectionName,
+                            track.releaseDate,
+                            track.primaryGenreName,
+                            track.country,
+                            track.previewUrl,
+                            track.isFavorite
                         )
                     } as ArrayList<Track>))
                 }
@@ -40,4 +50,6 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
             throw Exception(e)
         }
     }
+
+
 }
