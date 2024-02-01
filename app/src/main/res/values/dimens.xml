@@ -66,4 +66,9 @@
     <dimen name="margin_Track_recycler">24dp</dimen>
     <dimen name="search_editext_height">36dp</dimen>
     <dimen name="_36dp">36dp</dimen>
+    <dimen name="layoutPict">45dp</dimen>
+    <dimen name="layoutPictTop">8dp</dimen>
+    <dimen name="layoutmarginStart">13dp</dimen>
+    <dimen name="trackTextSize">16sp</dimen>
+    <dimen name="trackCornerRadius">2dp</dimen>
 </resources>

@@ -5,6 +5,7 @@ import com.practicum.myplaylistmaker.data.db.converters.TrackDbConvertor
 import com.practicum.myplaylistmaker.data.db.dao.AppDatabase
 import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesInteractor
 import com.practicum.myplaylistmaker.data.db.impl.FavoritesRepositoryImpl
+import com.practicum.myplaylistmaker.data.playListDB.TrackInPlaylistDataBase
 import com.practicum.myplaylistmaker.domain.favorites.db.FavoritesRepository
 import com.practicum.myplaylistmaker.domain.favorites.impl.FavoritesInteractorImpl
 import com.practicum.myplaylistmaker.ui.favorites.viewModel.FavouritesViewModel
@@ -32,5 +33,10 @@ val favorites = module {
         FavoritesInteractorImpl(get())
     }
 
+    single {
+        Room.databaseBuilder(androidContext(), TrackInPlaylistDataBase::class.java, "track_in_playlist_table")
+            .allowMainThreadQueries()
+            .build()
+    }
 
 }
