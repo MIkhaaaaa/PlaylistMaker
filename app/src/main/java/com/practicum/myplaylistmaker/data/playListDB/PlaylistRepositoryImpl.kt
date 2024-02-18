@@ -1,5 +1,11 @@
 package com.practicum.myplaylistmaker.data.playListDB
 
+import com.practicum.myplaylistmaker.domain.favorites.PlaylistRepository
+import com.practicum.myplaylistmaker.domain.models.Playlist
+import com.practicum.myplaylistmaker.domain.models.Track
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
 class PlaylistRepositoryImpl(
     private val playistDataBase: PlayistDataBase,
     private val converter: PlaylistConverter,
@@ -20,26 +26,29 @@ class PlaylistRepositoryImpl(
             0
         )
         playistDataBase.playlistDao().insertPlaylist(
-            converter.mapplaylistClassToEntity(playlist)
+            converter.mapClassToEntity(playlist)
         )
     }
 
     override fun deletePlaylist(item: Playlist) {
-        converter.mapplaylistClassToEntity(item)
-            ?.let { playistDataBase.playlistDao().deletePlaylist(it) }
+        converter.mapClassToEntity(item)
+            .let { playistDataBase.playlistDao().deletePlaylist(it) }
     }
 
     override fun queryPlaylist(): Flow<List<Playlist>> = flow {
         val playlistConverted =
             playistDataBase.playlistDao().queryPlaylist()
-                .map { converter.mapplaylistEntityToClass(it) }
+                .map { converter.mapEntityToClass(it) }
         emit(playlistConverted)
         return@flow
+
     }
 
     override fun update(track: Track, playlist: Playlist) {
-        playistDataBase.playlistDao().updatePlaylist(converter.mapplaylistClassToEntity(playlist))
+
+        playistDataBase.playlistDao().updatePlaylist(converter.mapClassToEntity(playlist))
         trackInDataBase.trackListingDao().insertTrack(track)
+
     }
 
     override fun savePlaylist(
@@ -48,23 +57,16 @@ class PlaylistRepositoryImpl(
         description: String?,
         uri: String
     ) {
-        val newPlaylist = Playlist(
-            playlist.playlistId,
-            playlistName,
-            description,
-            uri,
-            playlist.trackArray,
-            playlist.arrayNumber
-        )
-        playistDataBase.playlistDao().updatePlaylist(
-            converter.mapplaylistClassToEntity(newPlaylist)
-        )
+        TODO("Not yet implemented")
     }
 
-    override fun findPlaylist(searchId: Int): Flow<Playlist> = flow {
-        val playlistConverted = playistDataBase.playlistDao().findPlaylist(searchId)
-        val playlist = converter.mapplaylistEntityToClass(playlistConverted)
-        emit(playlist)
-        return@flow
+    override fun findPlaylist(searchId: Int): Flow<Playlist> {
+        TODO("Not yet implemented")
     }
+
+    override fun getPlayList(): Playlist {
+        TODO("Not yet implemented")
+    }
+
+
 }

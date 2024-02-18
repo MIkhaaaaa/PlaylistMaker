@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val favorites = module {
     viewModel { FavouritesViewModel(get(),get()) }
-    viewModel { PlaylistViewModel() }
+    viewModel { PlaylistViewModel(get()) }
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database")

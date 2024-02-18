@@ -18,4 +18,6 @@ interface PlaylistRepository {
         uri: String
     )
     fun findPlaylist(searchId:Int) : Flow<Playlist>
+
+    fun getPlayList():Playlist
 }
