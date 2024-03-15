@@ -46,4 +46,7 @@
     <string name="newPlaylist">Новый плейлист</string>
     <string name="picture">Картинка</string>
     <string name="title_activity_root">RootActivity</string>
+    <string name="new_playlist">Новый плейлист</string>
+    <string name="playlistName">Название*</string>
+    <string name="create">Создать</string>
 </resources>
