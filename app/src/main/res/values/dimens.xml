@@ -69,4 +69,7 @@
     <dimen name="iconSize">16dp</dimen>
     <dimen name="text1">22sp</dimen>
     <dimen name="text2">16sp</dimen>
+    <dimen name="trackCornerRadius">2dp</dimen>
+    <dimen name="VH_height">103</dimen>
+    <dimen name="VH_width">104</dimen>
 </resources>
