@@ -19,7 +19,7 @@ val playlistModule = module {
             .build()
     }
 
-    factory { PlaylistConverter() }
+    factory { PlaylistConverter(get()) }
 
     single <PlaylistRepository> {
         PlaylistRepositoryImpl(get(),get(),get())

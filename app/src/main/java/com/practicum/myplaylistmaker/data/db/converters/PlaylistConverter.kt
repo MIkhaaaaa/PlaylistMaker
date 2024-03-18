@@ -1,9 +1,11 @@
 package com.practicum.myplaylistmaker.data.db.converters
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.practicum.myplaylistmaker.data.db.entity.PlaylistEntity
 import com.practicum.myplaylistmaker.domain.models.Playlist
 
-class PlaylistConverter {
+class PlaylistConverter(private val gson: Gson) {
     fun mapplaylistEntityToClass(item: PlaylistEntity): Playlist {
 
         return Playlist(
@@ -11,7 +13,7 @@ class PlaylistConverter {
             item.playlistName,
             item.description,
             item.uri,
-            item.trackList,
+            gson.fromJson(item.trackList,  object : TypeToken<List<Long>>() {}.type),
             item.arrayNumber
         )
     }
@@ -22,7 +24,7 @@ class PlaylistConverter {
             item.playlistName,
             item.description,
             item.uri,
-            item.trackArray,
+            gson.toJson(item.trackArray),
             item.arrayNumber
         )
     }
