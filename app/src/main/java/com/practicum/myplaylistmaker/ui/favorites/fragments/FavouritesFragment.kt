@@ -1,18 +1,18 @@
 package com.practicum.myplaylistmaker.ui.favorites.fragments
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.FragmentFavoritesBinding
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.favorites.viewModel.FavouritesViewModel
-import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,9 +68,10 @@ class FavouritesFragment : Fragment() {
 
     private fun clickAdapting(item: Track) {
         favouritesViewModel.addItem(item)
-        val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
-        intent.putExtra("track", item)
-        this.startActivity(intent)
+        val bundle = Bundle()
+        bundle.putParcelable("track", item)
+        val navController = findNavController()
+        navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
     }
 
     companion object {

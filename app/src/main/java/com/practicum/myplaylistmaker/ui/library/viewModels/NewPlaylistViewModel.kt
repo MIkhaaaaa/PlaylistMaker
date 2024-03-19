@@ -21,6 +21,5 @@ class NewPlaylistViewModel(private val interactor: PlaylistInteractor, private v
 
     fun isAppThemeDark() :Boolean{
         return true//settingsInteractor.isAppThemeDark()
-        TODO("У меня эта функция есть только по другому назывется надо найти")
     }
 }

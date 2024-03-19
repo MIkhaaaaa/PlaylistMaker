@@ -12,7 +12,6 @@ import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.player.PlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -74,18 +73,18 @@ class PlayerFragment : Fragment() {
             playerArtistName.text = track.artistName ?: "Unknown artist"
             trackTimer.text = getString(R.string._00_00)
             time.text =
-                viewModel.formatMilliseconds(ActivityMediaPlayer.track.trackTimeMillis?.toLong() ?: 0)
+                viewModel.formatMilliseconds(track.trackTimeMillis?.toLong() ?: 0)
             album.text = track.collectionName ?: "Unknown album"
             year.text = track.releaseDate?.substring(0, 4) ?: "Unknown year"
             genre.text = track.primaryGenreName ?: "Unknown genre"
             country.text = track.country ?: "Unknown country"
         }
 
-        viewModel.createPlayer(ActivityMediaPlayer.track.previewUrl.toString())
+        viewModel.createPlayer(track.previewUrl.toString())
 
 
         bindingPlayer.favourites.setOnClickListener {
-            viewModel.onFavoriteClicked(ActivityMediaPlayer.track)
+            viewModel.onFavoriteClicked(track)
         }
 
 
@@ -118,7 +117,7 @@ class PlayerFragment : Fragment() {
             }
         }
 
-        viewModel.favouritesChecker(ActivityMediaPlayer.track).observe(viewLifecycleOwner) { favourtitesIndicator ->
+        viewModel.favouritesChecker(track).observe(viewLifecycleOwner) { favourtitesIndicator ->
             if (favourtitesIndicator) {
                 bindingPlayer.favourites.setBackgroundResource(R.drawable.button_like)
             } else bindingPlayer.favourites.setBackgroundResource(R.drawable.property)

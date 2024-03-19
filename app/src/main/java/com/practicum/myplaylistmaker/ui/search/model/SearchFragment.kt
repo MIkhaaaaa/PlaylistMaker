@@ -2,7 +2,6 @@ package com.practicum.myplaylistmaker.ui.search.model
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,12 +12,12 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.FragmentSearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.SearchViewModel
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import kotlinx.coroutines.Job
@@ -69,9 +68,10 @@ class SearchFragment : Fragment() {
 
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)
-            val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
-            intent.putExtra("track", it)
-            this.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable("track", it)
+            val navController = findNavController()
+            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
         }
 
         searchViewModule.getStateLiveData().observe(viewLifecycleOwner) { stateLiveData ->
@@ -96,9 +96,10 @@ class SearchFragment : Fragment() {
 
         trackAdapterHistory = TrackAdapter(trackHistoryList) {
             searchViewModule.addItem(it)
-            val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
-            intent.putExtra("track", it)
-            this.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable("track", it)
+            val navController = findNavController()
+            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
         }
 
         binding.clearIcon.setOnClickListener {
