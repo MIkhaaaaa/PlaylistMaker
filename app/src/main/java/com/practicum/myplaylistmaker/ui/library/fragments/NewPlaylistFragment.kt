@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -147,7 +148,9 @@ class NewPlaylistFragment : Fragment() {
                 }
         }
 
-        requireActivity().onBackPressedDispatcher.onBackPressed()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            onBackClick()
+        }
     }
 
     private fun saveImageToPrivateStorage(uri: Uri) {
