@@ -7,7 +7,7 @@ import com.practicum.myplaylistmaker.databinding.PlaylistLayoutBinding
 import com.practicum.myplaylistmaker.domain.models.Playlist
 
 class PlaylistAdapter(
-    private var plalists: List<Playlist>,
+    private var playlist: List<Playlist>,
     private val clickListener: PlaylistClick
 ) :
     RecyclerView.Adapter<PlaylistViewHolder>() {
@@ -17,13 +17,13 @@ class PlaylistAdapter(
     }
 
     override fun getItemCount(): Int {
-        return plalists.size
+        return playlist.size
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        holder.bind(plalists[position])
+        holder.bind(playlist[position])
         holder.itemView.setOnClickListener {
-            clickListener.onClick(plalists[position])
+            clickListener.onClick(playlist[position])
             //notifyDataSetChanged()
         }
     }
@@ -31,4 +31,8 @@ class PlaylistAdapter(
     fun interface PlaylistClick {
         fun onClick(playlist: Playlist)
     }
+    fun interface playlistClickAdapting {
+        fun onClick(playlist: Playlist)
+    }
+
 }
