@@ -37,7 +37,12 @@ import java.io.File
 import java.io.FileOutputStream
 
 class NewPlaylistFragment : Fragment() {
-    private lateinit var newPlaylistBinding: NewPlaylistBinding
+
+
+    private var _newPlaylistBinding: NewPlaylistBinding? = null
+    private val newPlaylistBinding: NewPlaylistBinding
+        get() = _newPlaylistBinding!!
+
     private lateinit var bottomNavigator: BottomNavigationView
     var isFileLoaded = false
     private val viewModel: NewPlaylistViewModel by viewModel()
@@ -48,7 +53,7 @@ class NewPlaylistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        newPlaylistBinding = NewPlaylistBinding.inflate(inflater, container, false)
+        _newPlaylistBinding = NewPlaylistBinding.inflate(inflater, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = false
@@ -110,7 +115,6 @@ class NewPlaylistFragment : Fragment() {
         }
         newPlaylistBinding.playlistNameEditText.addTextChangedListener(simpleTextWatcher)
 
-        //переменеая с лямбдой, которая берет изображение и сохраняет его в ханилище
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
@@ -127,7 +131,6 @@ class NewPlaylistFragment : Fragment() {
                     saveImageToPrivateStorage(uri)
 
                 } else {
-                    //ничего не делаем
                 }
             }
 
@@ -223,5 +226,10 @@ class NewPlaylistFragment : Fragment() {
             newPlaylistBinding.playlistDescriptEditText.text.toString(),
             selectedUri.toString(),
         )
+    }
+
+    override fun onDestroy() {
+        _newPlaylistBinding = null
+        super.onDestroy()
     }
 }

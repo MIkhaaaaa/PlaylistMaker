@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,6 +22,7 @@ import com.practicum.myplaylistmaker.domain.models.Playlist
 import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.library.adapters.PlaylistAdapter
 import com.practicum.myplaylistmaker.ui.player.PlayerViewModel
+import com.practicum.myplaylistmaker.ui.player.adapters.PlaylistBottomSheetAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,7 +39,7 @@ class PlayerFragment : Fragment() {
 
 
     private val viewModel: PlayerViewModel by viewModel()
-    private lateinit var playlistAdapter: PlaylistAdapter
+    private lateinit var playlistAdapter: PlaylistBottomSheetAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -171,17 +173,30 @@ class PlayerFragment : Fragment() {
         //список плейлистов
         if (!viewModel.playlistList.value.isNullOrEmpty()) {
                 playlistAdapter = viewModel.playlistList.value.let { it ->
-                    PlaylistAdapter(it!!) {
+                    PlaylistBottomSheetAdapter(it!!) {
                         playlistClickAdapting(track, it)
                         bottomSheetBehavior.state = STATE_HIDDEN
                     }
+
                 }
 
-
-
         } else {
-            playlistAdapter = PlaylistAdapter(emptyList()) {}
+            playlistAdapter = PlaylistBottomSheetAdapter(emptyList()) {}
         }
+
+        with(bindingPlayer.playlistRecycler){
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = playlistAdapter
+        }
+
+        viewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
+            if (playlistList.isNullOrEmpty()) return@observe
+            bindingPlayer.playlistRecycler.adapter = PlaylistBottomSheetAdapter(playlistList) {
+                playlistClickAdapting(track, it)
+                bottomSheetBehavior.state = STATE_HIDDEN
+            }
+        }
+
 
 
     }

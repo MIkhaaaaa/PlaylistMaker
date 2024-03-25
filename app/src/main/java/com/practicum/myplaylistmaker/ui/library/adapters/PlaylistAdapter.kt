@@ -9,8 +9,10 @@ import com.practicum.myplaylistmaker.domain.models.Playlist
 class PlaylistAdapter(
     private var playlist: List<Playlist>,
     private val clickListener: PlaylistClick
-) :
-    RecyclerView.Adapter<PlaylistViewHolder>() {
+
+) :RecyclerView.Adapter<PlaylistViewHolder>() {
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
         return PlaylistViewHolder(PlaylistLayoutBinding.inflate(layoutInspector, parent, false))
@@ -24,14 +26,10 @@ class PlaylistAdapter(
         holder.bind(playlist[position])
         holder.itemView.setOnClickListener {
             clickListener.onClick(playlist[position])
-            //notifyDataSetChanged()
         }
     }
 
     fun interface PlaylistClick {
-        fun onClick(playlist: Playlist)
-    }
-    fun interface playlistClickAdapting {
         fun onClick(playlist: Playlist)
     }
 

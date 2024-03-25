@@ -71,7 +71,7 @@ class FavouritesFragment : Fragment() {
         val bundle = Bundle()
         bundle.putParcelable("track", item)
         val navController = findNavController()
-        navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+        navController.navigate(R.id.playerFragment, bundle)
     }
 
     companion object {
