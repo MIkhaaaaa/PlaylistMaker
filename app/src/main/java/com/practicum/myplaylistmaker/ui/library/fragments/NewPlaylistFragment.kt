@@ -52,7 +52,7 @@ class NewPlaylistFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _newPlaylistBinding = NewPlaylistBinding.inflate(inflater, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
@@ -90,12 +90,10 @@ class NewPlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val rxPermissions = RxPermissions(this)
 
-        //отработка на кнопку назад
         newPlaylistBinding.playlistBackButtonArrow.setOnClickListener {
             onBackClick()
         }
 
-        //устанавливаем цвет кнопки "Создать"
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 turnOffCreateButton()
@@ -201,8 +199,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun closer() {
-        val fragmentmanager = requireActivity().supportFragmentManager
-        fragmentmanager.popBackStack()
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     private fun turnOffCreateButton() {
@@ -217,11 +214,6 @@ class NewPlaylistFragment : Fragment() {
         newPlaylistBinding.createButton.isEnabled = true
     }
 
-    private fun hasTextInField(hasChange: Boolean){
-        newPlaylistBinding
-
-
-    }
 
     private fun createPlaylist() {
         viewModel.addPlayList(

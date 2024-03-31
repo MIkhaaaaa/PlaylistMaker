@@ -12,7 +12,7 @@
         android:layout_height="@dimen/iconSize"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/arrow"
+        android:src="@drawable/arrow_back_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/colorPrimary" />
@@ -76,8 +76,8 @@
         android:maxLines="1"
         android:minHeight="54dp"
         android:singleLine="true"
-        android:textColor="?attr/colorOnSecondary"
-        android:textColorHint="?attr/colorOnSecondary"
+        android:textColor="?attr/colorPrimary"
+        android:textColorHint="?attr/colorPrimary"
         android:textSize="@dimen/text2"
         app:boxStrokeColor="@color/text_input_layout_stroke_colors"
         app:hintTextColor="#3772E7"
@@ -116,8 +116,8 @@
         android:maxLines="1"
         android:minHeight="54dp"
         android:singleLine="true"
-        android:textColor="?attr/colorOnSecondary"
-        android:textColorHint="?attr/colorOnSecondary"
+        android:textColor="?attr/colorPrimary"
+        android:textColorHint="?attr/colorPrimary"
         android:textSize="@dimen/text2"
         app:boxStrokeColor="@color/text_input_layout_stroke_colors"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +134,7 @@
             android:maxLength="35"
             android:maxLines="1"
             android:textColor="?attr/colorPrimary"
-            android:textColorHint="?attr/colorOnSecondary"
+            android:textColorHint="?attr/colorPrimary"
             app:hintTextColor="#3772E7" />
     </com.google.android.material.textfield.TextInputLayout>
 

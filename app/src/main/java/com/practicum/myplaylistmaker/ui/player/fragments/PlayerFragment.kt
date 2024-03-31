@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.practicum.myplaylistmaker.R
-import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
+import com.practicum.myplaylistmaker.databinding.FragmentMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Playlist
 import com.practicum.myplaylistmaker.domain.models.Track
@@ -33,8 +33,8 @@ class PlayerFragment : Fragment() {
     }
 
 
-    private var _bindingPlayer: ActivityMediaPlayerBinding? = null
-    private val bindingPlayer: ActivityMediaPlayerBinding
+    private var _bindingPlayer: FragmentMediaPlayerBinding ? = null
+    private val bindingPlayer: FragmentMediaPlayerBinding
         get() = _bindingPlayer!!
 
 
@@ -46,7 +46,7 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _bindingPlayer = ActivityMediaPlayerBinding.inflate(layoutInflater)
+        _bindingPlayer = FragmentMediaPlayerBinding.inflate(layoutInflater)
         return bindingPlayer.root
     }
 
@@ -98,8 +98,6 @@ class PlayerFragment : Fragment() {
         bindingPlayer.favourites.setOnClickListener {
             viewModel.onFavoriteClicked(track)
         }
-
-
 
 
         bindingPlayer.playButton.setOnClickListener {
@@ -165,7 +163,6 @@ class PlayerFragment : Fragment() {
                     override fun onSlide(bottomSheet: View, slideOffset: Float) {}
                 }
             )
-        //нажатие на кнопку "добавить в плейлист"
         bindingPlayer.playlistAddButton.setOnClickListener {
             bottomSheetBehavior.state = STATE_COLLAPSED
             bindingPlayer.overlay.visibility = VISIBLE
@@ -177,9 +174,7 @@ class PlayerFragment : Fragment() {
                         playlistClickAdapting(track, it)
                         bottomSheetBehavior.state = STATE_HIDDEN
                     }
-
                 }
-
         } else {
             playlistAdapter = PlaylistBottomSheetAdapter(emptyList()) {}
         }
@@ -214,7 +209,6 @@ class PlayerFragment : Fragment() {
         lifecycleScope.launch {
             delay(300)
             viewModel.playlistAdding.observe(viewLifecycleOwner) { playlistAdding ->
-
                 val playlistName = playlist.playlistName
                 if (!trackIsAdded) {
                     if (playlistAdding) {
@@ -225,7 +219,6 @@ class PlayerFragment : Fragment() {
                         trackIsAdded = true
                         return@observe
                     } else {
-
                         val toastMessage = "Добавлено в плейлист $playlistName"
                         Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT)
                             .show()

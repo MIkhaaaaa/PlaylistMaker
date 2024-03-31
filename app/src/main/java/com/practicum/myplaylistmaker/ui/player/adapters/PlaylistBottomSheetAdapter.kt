@@ -1,5 +1,6 @@
 package com.practicum.myplaylistmaker.ui.player.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ class PlaylistBottomSheetAdapter(
         return playlists.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: PlaylistBottomSheetViewHolder, position: Int) {
 
         holder.bind(playlists[position])
@@ -33,6 +35,7 @@ class PlaylistBottomSheetAdapter(
         fun onClick(playlist: Playlist)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(items: List<Playlist>) {
         playlists = items
         notifyDataSetChanged()
