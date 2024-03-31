@@ -23,8 +23,6 @@ class PlaylistBottomSheetViewHolder(
             else -> " треков"
         }
 
-
-
         val number = "$innerNumber $text"
         binding.playlistNumber.text = number
 

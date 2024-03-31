@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -20,7 +21,6 @@ import com.practicum.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.practicum.myplaylistmaker.domain.models.PlayerState
 import com.practicum.myplaylistmaker.domain.models.Playlist
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.library.adapters.PlaylistAdapter
 import com.practicum.myplaylistmaker.ui.player.PlayerViewModel
 import com.practicum.myplaylistmaker.ui.player.adapters.PlaylistBottomSheetAdapter
 import kotlinx.coroutines.delay
@@ -138,6 +138,7 @@ class PlayerFragment : Fragment() {
         bindingPlayer.backMenuButton.setOnClickListener {
             viewModel.playJob?.cancel()
         }
+
         //BottomSheet
         val bottomSheetContainer = bindingPlayer.standardBottomSheet
         val overlay = bindingPlayer.overlay
@@ -170,7 +171,6 @@ class PlayerFragment : Fragment() {
             bindingPlayer.overlay.visibility = VISIBLE
         }
 
-        //список плейлистов
         if (!viewModel.playlistList.value.isNullOrEmpty()) {
                 playlistAdapter = viewModel.playlistList.value.let { it ->
                     PlaylistBottomSheetAdapter(it!!) {
@@ -182,6 +182,10 @@ class PlayerFragment : Fragment() {
 
         } else {
             playlistAdapter = PlaylistBottomSheetAdapter(emptyList()) {}
+        }
+
+        bindingPlayer.newPlaylistButton.setOnClickListener {
+            findNavController().navigate(R.id.newPlaylistFragment)
         }
 
         with(bindingPlayer.playlistRecycler){
@@ -196,9 +200,6 @@ class PlayerFragment : Fragment() {
                 bottomSheetBehavior.state = STATE_HIDDEN
             }
         }
-
-
-
     }
 
     override fun onDestroy() {

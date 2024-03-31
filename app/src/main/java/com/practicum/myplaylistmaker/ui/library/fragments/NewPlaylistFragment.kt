@@ -130,11 +130,9 @@ class NewPlaylistFragment : Fragment() {
                         .into(newPlaylistBinding.playlistCover)
                     saveImageToPrivateStorage(uri)
 
-                } else {
                 }
             }
 
-        //обработка нажатия на область обложки
         newPlaylistBinding.playlistCover.setOnClickListener {
             rxPermissions.request(android.Manifest.permission.READ_MEDIA_IMAGES)
                 .subscribe { granted: Boolean ->
@@ -143,7 +141,6 @@ class NewPlaylistFragment : Fragment() {
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
                     } else {
-                        // Пользователь отказал, ничего не делаем
                         pickMedia.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
@@ -218,6 +215,12 @@ class NewPlaylistFragment : Fragment() {
         newPlaylistBinding.createButton.backgroundTintList =
             (ContextCompat.getColorStateList(requireContext(), R.color.back1))
         newPlaylistBinding.createButton.isEnabled = true
+    }
+
+    private fun hasTextInField(hasChange: Boolean){
+        newPlaylistBinding
+
+
     }
 
     private fun createPlaylist() {

@@ -333,6 +333,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corners_16"
+        android:backgroundTint="?attr/colorOnPrimary"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         app:behavior_hideable="true"
@@ -362,7 +363,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="28dp"
-            android:backgroundTint="?attr/colorError"
+            android:backgroundTint="?attr/colorPrimary"
             android:fontFamily="@font/ys_display_medium"
             android:text="@string/newPlaylist"
             android:textAllCaps="false"
@@ -377,8 +378,6 @@
             android:layout_marginTop="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:reverseLayout="true" />
-
-
     </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
