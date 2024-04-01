@@ -18,7 +18,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
     private val playlistViewModel by viewModel<PlaylistViewModel>()
-    private lateinit var nullablePlaylistBinding: FragmentPlaylistBinding
+    private var _binding: FragmentPlaylistBinding? =  null
+    private val binding:FragmentPlaylistBinding
+        get() = _binding!!
+
+
     private lateinit var bottomNavigator: BottomNavigationView
 
 
@@ -27,24 +31,24 @@ class PlaylistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        nullablePlaylistBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = true
 
         //кнопка создать плейлист
-        nullablePlaylistBinding.newPlaylistButton.setOnClickListener {
+        binding.newPlaylistButton.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.newPlaylistFragment)
         }
 
         //список плейлистов
-        val recyclerView = nullablePlaylistBinding.playlistList
+        val recyclerView = binding.playlistList
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
-        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlistList.isVisible = false
+        if (playlistViewModel.playlistList.value.isNullOrEmpty()) binding.playlistList.isVisible = false
 
-        nullablePlaylistBinding.playlistList.isVisible = true
-        return nullablePlaylistBinding.root
+        binding.playlistList.isVisible = true
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +58,7 @@ class PlaylistFragment : Fragment() {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlistList.adapter= PlaylistAdapter(playlistList) {}
+                binding.playlistList.adapter= PlaylistAdapter(playlistList) {}
                 existPlaylist()
                 return@observe
             }
@@ -62,15 +66,20 @@ class PlaylistFragment : Fragment() {
     }
 
     private fun noPlaylist(){
-        nullablePlaylistBinding.emptyPlaylist.isVisible = true
-        nullablePlaylistBinding.emptyPlaylistText.isVisible = true
-        nullablePlaylistBinding.playlistList.isVisible = false
+        binding.emptyPlaylist.isVisible = true
+        binding.emptyPlaylistText.isVisible = true
+        binding.playlistList.isVisible = false
     }
 
     private fun existPlaylist(){
-        nullablePlaylistBinding.emptyPlaylist.isVisible = false
-        nullablePlaylistBinding.emptyPlaylistText.isVisible = false
-        nullablePlaylistBinding.playlistList.isVisible = true
+        binding.emptyPlaylist.isVisible = false
+        binding.emptyPlaylistText.isVisible = false
+        binding.playlistList.isVisible = true
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 
     companion object {

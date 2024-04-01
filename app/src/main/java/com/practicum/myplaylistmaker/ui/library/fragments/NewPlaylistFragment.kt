@@ -44,7 +44,7 @@ class NewPlaylistFragment : Fragment() {
         get() = _newPlaylistBinding!!
 
     private lateinit var bottomNavigator: BottomNavigationView
-    var isFileLoaded = false
+    private var isFileLoaded = false
     private val viewModel: NewPlaylistViewModel by viewModel()
     private var selectedUri: Uri? = null
 
@@ -63,12 +63,10 @@ class NewPlaylistFragment : Fragment() {
                     .isEmpty()
             ) return@setOnClickListener
             createPlaylist()
-            val textColor: Int
-            val isDarkTheme = viewModel.isAppThemeDark()
-            if (isDarkTheme) {
-                textColor = Color.BLACK
+            val textColor: Int = if (viewModel.isAppThemeDark()) {
+                Color.BLACK
             } else {
-                textColor = Color.WHITE
+                Color.WHITE
             }
             val dialogPlaylistName = newPlaylistBinding.playlistNameEditText.text
             val dialog = MaterialAlertDialogBuilder(requireContext())
@@ -116,15 +114,12 @@ class NewPlaylistFragment : Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    val radius = 8
-                    val width = 312
-                    val height = 312
                     Glide.with(requireActivity())
                         .load(uri)
                         .centerCrop()
                         .placeholder(R.drawable.add_photo)
-                        .transform(CenterCrop(), RoundedCorners(radius))
-                        .override(width, height)
+                        .transform(CenterCrop(), RoundedCorners(R.dimen.NPF_radius))
+                        .override(R.dimen.NPF_width, R.dimen.NPF_height)
                         .into(newPlaylistBinding.playlistCover)
                     saveImageToPrivateStorage(uri)
 

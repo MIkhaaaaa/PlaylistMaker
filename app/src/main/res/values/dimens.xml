@@ -72,4 +72,7 @@
     <dimen name="trackCornerRadius">2dp</dimen>
     <dimen name="VH_height">103</dimen>
     <dimen name="VH_width">104</dimen>
+    <dimen name="NPF_radius">8</dimen>
+    <dimen name="NPF_width">312</dimen>
+    <dimen name="NPF_height">312</dimen>
 </resources>

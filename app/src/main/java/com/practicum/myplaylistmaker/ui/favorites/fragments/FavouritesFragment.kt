@@ -18,7 +18,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavouritesFragment : Fragment() {
     private val favouritesViewModel by viewModel<FavouritesViewModel>()
-    private lateinit var binding: FragmentFavoritesBinding
+
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding:FragmentFavoritesBinding
+        get() = _binding!!
+
+
     private var isClickAllowed = true
     private val favouritesAdapter: TrackAdapter by lazy {
         TrackAdapter(
@@ -37,7 +42,7 @@ class FavouritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.rvFavouritesRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.rvFavouritesRecycler.adapter = favouritesAdapter
         return binding.root
@@ -72,6 +77,11 @@ class FavouritesFragment : Fragment() {
         bundle.putParcelable("track", item)
         val navController = findNavController()
         navController.navigate(R.id.playerFragment, bundle)
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 
     companion object {
