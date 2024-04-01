@@ -6,7 +6,7 @@
     android:layout_height="61dp">
 
     <ImageView
-        android:id="@+id/playlistImage"
+        android:id="@+id/playlist_image"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginStart="13dp"
@@ -16,7 +16,7 @@
         android:src="@drawable/album" />
 
     <TextView
-        android:id="@+id/PlaylistName"
+        android:id="@+id/playlist_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="66dp"

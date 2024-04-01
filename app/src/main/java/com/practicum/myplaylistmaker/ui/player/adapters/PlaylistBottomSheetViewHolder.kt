@@ -12,7 +12,7 @@ class PlaylistBottomSheetViewHolder(
     private val binding: PlaylistTrackerBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Playlist) {
-        binding.PlaylistName.text = item.playlistName
+        binding.playlistName.text = item.playlistName
         val innerNumber = item.arrayNumber.toString()
         val text = when {
             innerNumber.toInt() % 10 == 1 && innerNumber.toInt() % 100 != 11 -> " трек"

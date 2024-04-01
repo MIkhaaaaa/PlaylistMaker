@@ -11,7 +11,7 @@ import com.practicum.myplaylistmaker.domain.models.Playlist
 class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Playlist) {
-        binding.playlistlittleName.text = item.playlistName
+        binding.playlistLittleName.text = item.playlistName
         val innerNumber = item.arrayNumber.toString()
         val text = when {
             innerNumber.toInt() % 10 == 1 && innerNumber.toInt() % 100 != 11 -> " трек"
@@ -21,17 +21,17 @@ class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
             else -> " треков"
         }
         val number = "$innerNumber $text"
-        binding.playlistlittleSongNumber.text = number
+        binding.playlistLittleSongNumber.text = number
 
         val radius = itemView.resources.getDimensionPixelSize(R.dimen.trackCornerRadius)
 
         if (item.uri.isEmpty()) {
             val imageResource = R.drawable.album
-            binding.playlistlittleCover.setImageResource(imageResource)
-            val layoutParams = binding.playlistlittleCover.layoutParams
+            binding.playlistLittleCover.setImageResource(imageResource)
+            val layoutParams = binding.playlistLittleCover.layoutParams
             layoutParams.width = R.dimen.VH_width
             layoutParams.height = R.dimen.VH_height
-            binding.playlistlittleCover.layoutParams = layoutParams
+            binding.playlistLittleCover.layoutParams = layoutParams
         } else {
 
             val width = 160
@@ -41,7 +41,7 @@ class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
                 .placeholder(R.drawable.album)
                 .transform(CenterCrop(), RoundedCorners(radius))
                 .override(width, height)
-                .into(binding.playlistlittleCover)
+                .into(binding.playlistLittleCover)
         }
     }
 }

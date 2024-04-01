@@ -7,7 +7,7 @@
 
     <!--Стрелка назад-->
     <ImageView
-        android:id="@+id/playlistBackButtonArrow"
+        android:id="@+id/playlist_back_button_arrow"
         android:layout_width="@dimen/iconSize"
         android:layout_height="@dimen/iconSize"
         android:layout_marginStart="20dp"
@@ -18,7 +18,7 @@
         app:tint="?attr/colorPrimary" />
 
     <TextView
-        android:id="@+id/playlistHeaderText"
+        android:id="@+id/playlist_header_text"
         style="@style/SettingsText"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -26,12 +26,12 @@
         android:text="@string/new_playlist"
         android:textColor="?attr/colorPrimary"
         android:textSize="@dimen/text1"
-        app:layout_constraintStart_toEndOf="@id/playlistBackButtonArrow"
+        app:layout_constraintStart_toEndOf="@id/playlist_back_button_arrow"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--Обертка плейлиста-->
     <ImageView
-        android:id="@+id/playlistCover"
+        android:id="@+id/playlist_cover"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -42,11 +42,11 @@
         app:layout_constraintDimensionRatio="h, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlistHeaderText" />
+        app:layout_constraintTop_toBottomOf="@+id/playlist_header_text" />
 
     <!--Плейсхолдер плейлиста-->
     <ImageView
-        android:id="@+id/playlistPlaceHolder"
+        android:id="@+id/playlist_place_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -54,15 +54,15 @@
         android:layout_marginEnd="0dp"
         android:src="@drawable/add_photo"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/playlistCover"
+        app:layout_constraintBottom_toBottomOf="@+id/playlist_cover"
         app:layout_constraintDimensionRatio="h, 1:1"
-        app:layout_constraintEnd_toEndOf="@+id/playlistCover"
-        app:layout_constraintStart_toStartOf="@+id/playlistCover"
-        app:layout_constraintTop_toTopOf="@+id/playlistCover" />
+        app:layout_constraintEnd_toEndOf="@+id/playlist_cover"
+        app:layout_constraintStart_toStartOf="@+id/playlist_cover"
+        app:layout_constraintTop_toTopOf="@+id/playlist_cover" />
 
     <!--Название-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/playlistName"
+        android:id="@+id/new_playlist_name"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,10 +83,10 @@
         app:hintTextColor="#3772E7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlistCover">
+        app:layout_constraintTop_toBottomOf="@+id/playlist_cover">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlistNameEditText"
+            android:id="@+id/playlist_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/playlistName"
@@ -102,7 +102,7 @@
 
     <!--Описание-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/playlistDescription"
+        android:id="@+id/playlist_description"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,10 +122,10 @@
         app:boxStrokeColor="@color/text_input_layout_stroke_colors"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlistName">
+        app:layout_constraintTop_toBottomOf="@+id/new_playlist_name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlistDescriptEditText"
+            android:id="@+id/playlist_descript_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Описание"
@@ -139,7 +139,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/createButton"
+        android:id="@+id/create_button"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginStart="17dp"
