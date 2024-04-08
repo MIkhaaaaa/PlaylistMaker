@@ -48,6 +48,9 @@ class NewPlaylistFragment : Fragment() {
     private val viewModel: NewPlaylistViewModel by viewModel()
     private var selectedUri: Uri? = null
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +60,8 @@ class NewPlaylistFragment : Fragment() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = false
+
+
 
         newPlaylistBinding.createButton.setOnClickListener {
             if (newPlaylistBinding.playlistNameEditText.text.toString()
@@ -114,15 +119,17 @@ class NewPlaylistFragment : Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
+                    val radius = 8
+                    val width = 312
+                    val height = 312
                     Glide.with(requireActivity())
                         .load(uri)
                         .centerCrop()
                         .placeholder(R.drawable.add_photo)
-                        .transform(CenterCrop(), RoundedCorners(R.dimen.NPF_radius))
-                        .override(R.dimen.NPF_width, R.dimen.NPF_height)
+                        .transform(CenterCrop(), RoundedCorners(radius))
+                        .override(width, height)
                         .into(newPlaylistBinding.playlistCover)
                     saveImageToPrivateStorage(uri)
-
                 }
             }
 

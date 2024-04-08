@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
@@ -37,7 +38,7 @@ class PlayerFragment : Fragment() {
     private val bindingPlayer: FragmentMediaPlayerBinding
         get() = _bindingPlayer!!
 
-
+    private lateinit var bottomNavigator: BottomNavigationView
     private val viewModel: PlayerViewModel by viewModel()
     private lateinit var playlistAdapter: PlaylistBottomSheetAdapter
 
@@ -47,6 +48,8 @@ class PlayerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _bindingPlayer = FragmentMediaPlayerBinding.inflate(layoutInflater)
+        bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
+        bottomNavigator.isVisible = false
         return bindingPlayer.root
     }
 
@@ -135,6 +138,9 @@ class PlayerFragment : Fragment() {
 
         bindingPlayer.backMenuButton.setOnClickListener {
             viewModel.playJob?.cancel()
+            val fragmentmanager = requireActivity().supportFragmentManager
+            bottomNavigator.visibility = VISIBLE
+            fragmentmanager.popBackStack()
         }
 
         //BottomSheet

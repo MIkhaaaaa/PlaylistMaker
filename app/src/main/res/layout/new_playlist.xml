@@ -8,8 +8,8 @@
     <!--Стрелка назад-->
     <ImageView
         android:id="@+id/playlist_back_button_arrow"
-        android:layout_width="@dimen/iconSize"
-        android:layout_height="@dimen/iconSize"
+        android:layout_width="@dimen/_24dp"
+        android:layout_height="@dimen/_24dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/arrow_back_icon"
