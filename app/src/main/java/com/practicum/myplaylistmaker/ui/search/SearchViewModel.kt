@@ -1,6 +1,5 @@
 package com.practicum.myplaylistmaker.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,16 +27,20 @@ class SearchViewModel(
         stateLiveData.postValue(SearchScreenState.Loading)
         try {
             viewModelScope.launch {
-                Log.d("viewModelScope","works")
                 searchInteractor
                     .searchTracks(searchExpression)
                     .collect {
-                        trackResultList.postValue(it.data ?: emptyList())
-                        stateLiveData.postValue(
-                            if (it.data.isNullOrEmpty())
-                                SearchScreenState.NothingFound
-                            else SearchScreenState.SearchOk(it.data )
-                        )
+                        if (it.message.isNullOrEmpty()) {
+                            trackResultList.postValue(it.data ?: emptyList())
+                            stateLiveData.postValue(
+                                if (it.data.isNullOrEmpty())
+                                    SearchScreenState.NothingFound
+                                else SearchScreenState.SearchOk(it.data)
+                            )
+                        } else {
+                            stateLiveData.postValue(SearchScreenState.ConnectionError)
+                        }
+
                     }
             }
 
