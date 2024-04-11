@@ -120,14 +120,11 @@ class NewPlaylistFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     val radius = 8
-                    val width = 312
-                    val height = 312
                     Glide.with(requireActivity())
                         .load(uri)
                         .centerCrop()
                         .placeholder(R.drawable.add_photo)
                         .transform(CenterCrop(), RoundedCorners(radius))
-                        .override(width, height)
                         .into(newPlaylistBinding.playlistCover)
                     saveImageToPrivateStorage(uri)
                 }
