@@ -24,28 +24,34 @@ class SearchViewModel(
 
     private var trackResultList: MutableLiveData<List<Track>> = MutableLiveData<List<Track>>()
     fun searchRequesting(searchExpression: String) {
-        stateLiveData.postValue(SearchScreenState.Loading)
-        try {
-            viewModelScope.launch {
-                searchInteractor
-                    .searchTracks(searchExpression)
-                    .collect {
-                        if (it.message.isNullOrEmpty()) {
-                            trackResultList.postValue(it.data ?: emptyList())
-                            stateLiveData.postValue(
-                                if (it.data.isNullOrEmpty())
-                                    SearchScreenState.NothingFound
-                                else SearchScreenState.SearchOk(it.data)
-                            )
-                        } else {
-                            stateLiveData.postValue(SearchScreenState.ConnectionError)
-                        }
 
-                    }
+        if (searchExpression.isNotEmpty()) {
+
+            stateLiveData.postValue(SearchScreenState.Loading)
+            try {
+                viewModelScope.launch {
+                    searchInteractor
+                        .searchTracks(searchExpression)
+                        .collect {
+                            if (it.message.isNullOrEmpty()) {
+                                trackResultList.postValue(it.data ?: emptyList())
+                                stateLiveData.postValue(
+                                    if (it.data.isNullOrEmpty())
+                                        SearchScreenState.NothingFound
+                                    else SearchScreenState.SearchOk(it.data)
+                                )
+                            } else {
+                                stateLiveData.postValue(SearchScreenState.ConnectionError)
+                            }
+
+                        }
+                }
+
+            } catch (error: Error) {
+                stateLiveData.postValue(SearchScreenState.ConnectionError)
             }
 
-        } catch (error: Error) {
-            stateLiveData.postValue(SearchScreenState.ConnectionError)
+
         }
     }
 
@@ -81,6 +87,10 @@ class SearchViewModel(
         val trackHistoryList = ArrayList<Track>()
         trackHistoryList.addAll(searchHistoryInteractor.read(searchHistoryInteractor.getSharedPreferences()))
         return trackHistoryList
+    }
+
+    fun clearSearch() {
+        clearTrackList()
     }
 
 }

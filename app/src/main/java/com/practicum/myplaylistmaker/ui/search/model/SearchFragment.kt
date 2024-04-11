@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,9 @@ class SearchFragment : Fragment() {
                 is SearchScreenState.SearchHistory -> searchWithHistory(stateLiveData.historyData)
                 else -> {}
             }
+            Log.e("stateLiveData",stateLiveData.toString())
         }
+
 
         ifSearchOkVisibility()
         binding.refreshButton.setOnClickListener { searchTracks() }
@@ -131,6 +134,7 @@ class SearchFragment : Fragment() {
                 binding.clearIcon.isVisible = clearButtonVisibility(s)
                 if (binding.searchUserText.hasFocus() && binding.searchUserText.text.isEmpty()) {
                     trackAdapterHistory.notifyDataSetChanged()
+                    searchViewModule.clearSearch()
                 }
                 visibleSettingsHistory(binding.searchUserText.hasFocus())
             }
@@ -180,8 +184,10 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchTracks() {
-        searchViewModule.clearTrackList()
-        searchViewModule.searchRequesting(binding.searchUserText.text.toString())
+        if (binding.searchUserText.text.toString().isNotEmpty()){
+            searchViewModule.clearTrackList()
+            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
