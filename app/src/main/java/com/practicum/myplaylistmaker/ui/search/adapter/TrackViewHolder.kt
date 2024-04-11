@@ -41,7 +41,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val minutes = duration.toMinutes()
         val seconds = duration.minusMinutes(minutes).seconds
 
-        return if (duration.minusMinutes(minutes).seconds < 10 ) {
+        return if (seconds < 10 ) {
             "$minutes:0$seconds"
         } else {
             "$minutes:$seconds"
