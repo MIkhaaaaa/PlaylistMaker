@@ -1,5 +1,6 @@
 package com.practicum.myplaylistmaker.ui.search.adapter
 
+import android.icu.text.SimpleDateFormat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.domain.models.Track
 import java.time.Duration
+import java.util.Locale
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -29,15 +31,21 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .transform(RoundedCorners(2))
             .into(albumsCover)
 
-        trackTime.text = formatMilliseconds(item.trackTimeMillis?.toLong()?:0)
+        trackTime.text = formatMilliseconds(item.trackTimeMillis?.toLong() ?:0)
     }
 
 
     private fun formatMilliseconds(milliseconds: Long): String {
+
         val duration = Duration.ofMillis(milliseconds)
         val minutes = duration.toMinutes()
         val seconds = duration.minusMinutes(minutes).seconds
-        return "$minutes:$seconds"
+
+        return if (duration.minusMinutes(minutes).seconds < 10 ) {
+            "$minutes:0$seconds"
+        } else {
+            "$minutes:$seconds"
+        }
     }
 
 
