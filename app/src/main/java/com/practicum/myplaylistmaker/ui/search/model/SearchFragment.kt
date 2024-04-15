@@ -190,11 +190,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(KEY_TEXT, binding.searchUserText.text.toString())
-    }
-
 
     private fun clearButtonVisibility(s: CharSequence?): Boolean {
         return !s.isNullOrEmpty()

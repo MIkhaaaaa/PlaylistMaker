@@ -32,7 +32,7 @@
             android:layout_marginLeft="@dimen/settingsLeftMargin16dp"
             android:layout_gravity="center"
             android:autofillHints="name"
-            android:textColorHint="@color/text_color"
+            android:textColorHint="?attr/colorSecondaryVariant"
             android:background="@drawable/edittext_rounded_corner"
             android:drawablePadding="@dimen/track_8dp"
             android:drawableStart="@drawable/activity_search_icon"
