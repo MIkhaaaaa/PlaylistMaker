@@ -20,7 +20,7 @@ class FavouritesFragment : Fragment() {
     private val favouritesViewModel by viewModel<FavouritesViewModel>()
 
     private var _binding: FragmentFavoritesBinding? = null
-    private val binding:FragmentFavoritesBinding
+    private val binding: FragmentFavoritesBinding
         get() = _binding!!
 
 
@@ -43,8 +43,14 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        binding.rvFavouritesRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvFavouritesRecycler.adapter = favouritesAdapter
+        with(binding) {
+            rvFavouritesRecycler.layoutManager = LinearLayoutManager(requireContext())
+            rvFavouritesRecycler.adapter = favouritesAdapter
+            ivEmptyMediaLibrary.visibility = View.GONE
+            ivEmptyMediaLibrary.isVisible = false
+            tvEmptyMediaLibraryText.isVisible = false
+        }
+
         return binding.root
     }
 
@@ -52,22 +58,23 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favouritesViewModel.favouritesMaker().observe(viewLifecycleOwner) { trackResultList ->
-            if (favouritesViewModel.trackResultList.value.isNullOrEmpty()) {
-                binding.tvEmptyMediaLibraryText.isVisible = true
-                 binding.tvEmptyMediaLibraryText.isVisible = true
-                binding.rvFavouritesRecycler.isVisible = false
-                favouritesAdapter.notifyDataSetChanged()
-            } else {
-                binding.ivEmptyMediaLibrary.visibility = View.GONE
-                binding.ivEmptyMediaLibrary.isVisible = false
-                binding.tvEmptyMediaLibraryText.isVisible = false
-                binding.rvFavouritesRecycler.isVisible = true
-                favouritesAdapter.setItems(favouritesViewModel.trackResultList.value!!)
-                favouritesAdapter.notifyDataSetChanged()
+            with(binding) {
+                if (favouritesViewModel.trackResultList.value.isNullOrEmpty()) {
+                    tvEmptyMediaLibraryText.isVisible = true
+                    tvEmptyMediaLibraryText.isVisible = true
+                    rvFavouritesRecycler.isVisible = false
+                    favouritesAdapter.notifyDataSetChanged()
+                } else {
+                    ivEmptyMediaLibrary.visibility = View.GONE
+                    ivEmptyMediaLibrary.isVisible = false
+                    tvEmptyMediaLibraryText.isVisible = false
+                    rvFavouritesRecycler.isVisible = true
+                    favouritesAdapter.setItems(favouritesViewModel.trackResultList.value!!)
+                    favouritesAdapter.notifyDataSetChanged()
+                }
             }
+
         }
-
-
 
     }
 

@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.addCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -23,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -47,9 +49,7 @@ class NewPlaylistFragment : Fragment() {
     private var isFileLoaded = false
     private val viewModel: NewPlaylistViewModel by viewModel()
     private var selectedUri: Uri? = null
-
-
-
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +61,11 @@ class NewPlaylistFragment : Fragment() {
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = false
 
+        if (savedInstanceState != null) {
+            selectedUri = savedInstanceState.getParcelable("uri")
+            setImageCover(selectedUri)
+            newPlaylistBinding.playlistPlaceHolder.isVisible = false
+        }
 
 
         newPlaylistBinding.createButton.setOnClickListener {
@@ -93,6 +98,7 @@ class NewPlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val rxPermissions = RxPermissions(this)
 
+
         newPlaylistBinding.playlistBackButtonArrow.setOnClickListener {
             onBackClick()
         }
@@ -114,23 +120,20 @@ class NewPlaylistFragment : Fragment() {
                 }
             }
         }
+
         newPlaylistBinding.playlistNameEditText.addTextChangedListener(simpleTextWatcher)
 
-        val pickMedia =
-            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                if (uri != null) {
-                    val radius = 8
-                    Glide.with(requireActivity())
-                        .load(uri)
-                        .centerCrop()
-                        .placeholder(R.drawable.add_photo)
-                        .transform(CenterCrop(), RoundedCorners(radius))
-                        .into(newPlaylistBinding.playlistCover)
-                    saveImageToPrivateStorage(uri)
-                }
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+
+            if (uri != null) {
+                setImageCover(uri)
+                saveImageToPrivateStorage(uri)
             }
+        }
 
         newPlaylistBinding.playlistCover.setOnClickListener {
+
+
             rxPermissions.request(android.Manifest.permission.READ_MEDIA_IMAGES)
                 .subscribe { granted: Boolean ->
                     if (granted) {
@@ -225,5 +228,20 @@ class NewPlaylistFragment : Fragment() {
     override fun onDestroy() {
         _newPlaylistBinding = null
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("uri", selectedUri)
+    }
+
+    private fun setImageCover(uri: Uri?) {
+        val radius = 8
+        Glide.with(requireActivity())
+            .load(uri)
+            .centerCrop()
+            .placeholder(R.drawable.add_photo)
+            .transform(CenterCrop(), RoundedCorners(radius))
+            .into(newPlaylistBinding.playlistCover)
     }
 }

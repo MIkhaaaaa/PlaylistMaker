@@ -23,6 +23,7 @@ class FragmentMediaFavorites :Fragment(), SelectPage {
         _binding = FragmentMediaBinding.inflate(layoutInflater)
         binding.pager.adapter = FragmentAdapter(this)
 
+
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
                 0 -> tab.text = "Избранные треки"
