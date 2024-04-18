@@ -209,6 +209,12 @@ class PlayerFragment : Fragment() {
         super.onDestroy()
     }
 
+    override fun onPause() {
+        viewModel.pause()
+        super.onPause()
+
+    }
+
     fun playlistClickAdapting(track: Track, playlist: Playlist) {
         var trackIsAdded = false
         viewModel.addTrack(track, playlist)
