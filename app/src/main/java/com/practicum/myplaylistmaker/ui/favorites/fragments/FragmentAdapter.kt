@@ -1,7 +1,8 @@
-package com.practicum.myplaylistmaker.ui.favorites.fragmets
+package com.practicum.myplaylistmaker.ui.favorites.fragments
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.practicum.myplaylistmaker.ui.library.fragments.PlaylistFragment
 
 class FragmentAdapter(
     parentFragment: Fragment,

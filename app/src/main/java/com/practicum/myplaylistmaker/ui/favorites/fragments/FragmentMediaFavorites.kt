@@ -1,4 +1,4 @@
-package com.practicum.myplaylistmaker.ui.favorites.fragmets
+package com.practicum.myplaylistmaker.ui.favorites.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +22,7 @@ class FragmentMediaFavorites :Fragment(), SelectPage {
     ): View? {
         _binding = FragmentMediaBinding.inflate(layoutInflater)
         binding.pager.adapter = FragmentAdapter(this)
+
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {

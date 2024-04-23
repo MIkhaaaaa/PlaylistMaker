@@ -7,10 +7,12 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/b_switch</item>
-        <item name="colorSecondaryVariant">@color/b_switch</item>
+        <item name="colorSecondaryVariant">@color/text_color</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorError">@color/text1</item>
+
     </style>
 </resources>

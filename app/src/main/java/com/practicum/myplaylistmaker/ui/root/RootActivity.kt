@@ -15,7 +15,7 @@ class RootActivity : AppCompatActivity() {
         setContentView(bindingMain.root)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.rootContainer) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.root_container) as NavHostFragment
         bindingMain.bottomNavigationView.setupWithNavController(navHostFragment.navController)
     }
 }

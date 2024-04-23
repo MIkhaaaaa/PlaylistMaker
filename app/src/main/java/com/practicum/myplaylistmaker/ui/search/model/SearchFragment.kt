@@ -2,10 +2,10 @@ package com.practicum.myplaylistmaker.ui.search.model
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +13,12 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.databinding.FragmentSearchBinding
 import com.practicum.myplaylistmaker.domain.models.Track
-import com.practicum.myplaylistmaker.ui.player.ActivityMediaPlayer
 import com.practicum.myplaylistmaker.ui.search.SearchViewModel
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import kotlinx.coroutines.Job
@@ -69,9 +69,10 @@ class SearchFragment : Fragment() {
 
         trackAdapter = TrackAdapter(trackList) {
             searchViewModule.addItem(it)
-            val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
-            intent.putExtra("track", it)
-            this.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable("track", it)
+            val navController = findNavController()
+            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
         }
 
         searchViewModule.getStateLiveData().observe(viewLifecycleOwner) { stateLiveData ->
@@ -85,7 +86,9 @@ class SearchFragment : Fragment() {
                 is SearchScreenState.SearchHistory -> searchWithHistory(stateLiveData.historyData)
                 else -> {}
             }
+            Log.e("stateLiveData",stateLiveData.toString())
         }
+
 
         ifSearchOkVisibility()
         binding.refreshButton.setOnClickListener { searchTracks() }
@@ -96,9 +99,10 @@ class SearchFragment : Fragment() {
 
         trackAdapterHistory = TrackAdapter(trackHistoryList) {
             searchViewModule.addItem(it)
-            val intent = Intent(requireContext(), ActivityMediaPlayer::class.java)
-            intent.putExtra("track", it)
-            this.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable("track", it)
+            val navController = findNavController()
+            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
         }
 
         binding.clearIcon.setOnClickListener {
@@ -130,6 +134,7 @@ class SearchFragment : Fragment() {
                 binding.clearIcon.isVisible = clearButtonVisibility(s)
                 if (binding.searchUserText.hasFocus() && binding.searchUserText.text.isEmpty()) {
                     trackAdapterHistory.notifyDataSetChanged()
+                    searchViewModule.clearSearch()
                 }
                 visibleSettingsHistory(binding.searchUserText.hasFocus())
             }
@@ -179,13 +184,10 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchTracks() {
-        searchViewModule.clearTrackList()
-        searchViewModule.searchRequesting(binding.searchUserText.text.toString())
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(KEY_TEXT, binding.searchUserText.text.toString())
+        if (binding.searchUserText.text.toString().isNotEmpty()){
+            searchViewModule.clearTrackList()
+            searchViewModule.searchRequesting(binding.searchUserText.text.toString())
+        }
     }
 
 

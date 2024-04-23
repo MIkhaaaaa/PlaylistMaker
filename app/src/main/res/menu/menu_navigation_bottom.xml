@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/searchFragment"
-        android:icon="@drawable/search_icon"
+        android:icon="@drawable/activity_search_icon"
         android:title="@string/search_text" />
 
     <item
@@ -13,6 +13,6 @@
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/setting_icon"
-        android:title="@string/search_text" />
+        android:title="@string/settings_button_text" />
 
 </menu>
