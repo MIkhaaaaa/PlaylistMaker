@@ -18,7 +18,7 @@ class PlaylistScreenRepositoryImpl(
 
         playlist.trackArray.map { id ->
             val entity = id?.let { base.trackListingDao().queryTrackId(searchId = it) } ?: return@map
-            trackList = trackList + (TrackDbConvertor().mapFavouriteToTrack(entity))
+            trackList = trackList + (TrackDbConvertor().mapTrackEntityToTrack(entity))
         }
         emit(trackList)
     }
@@ -29,7 +29,7 @@ class PlaylistScreenRepositoryImpl(
 
         playlist.trackArray.forEach {
             val entity = it?.let { it1 -> base.trackListingDao().queryTrackId(searchId = it1) }
-            val track = (entity?.let { it1 -> TrackDbConvertor().mapFavouriteToTrack(it1) })
+            val track = (entity?.let { it1 -> TrackDbConvertor().mapTrackEntityToTrack(it1) })
             val time = track?.trackTimeMillis
             trackSeconds =
                 (time?.split(":")?.get(0)?.toInt() ?: 0) * 60 + (time?.split(":")?.get(1)
