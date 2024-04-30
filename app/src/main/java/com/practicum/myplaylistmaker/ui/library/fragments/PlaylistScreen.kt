@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -29,7 +30,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistScreen : Fragment() {
 
-    private lateinit var binding: FragmentPlaylistScreenBinding
+    private var _binding: FragmentPlaylistScreenBinding? = null
+    private val binding: FragmentPlaylistScreenBinding
+        get() = _binding!!
+
+
+
     private val playlistScreenViewModel by viewModel<PlaylistScreenViewModel>()
     private lateinit var bottomNavigator: BottomNavigationView
     private lateinit var trackAdapter: TrackAdapter
@@ -40,28 +46,29 @@ class PlaylistScreen : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPlaylistScreenBinding.inflate(inflater, container, false)
-        //Нижний навигатор
+        _binding = FragmentPlaylistScreenBinding.inflate(inflater, container, false)
+
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = false
 
-        //отработка на кнопку назад
+
         binding.playlistBackButtonArrow.setOnClickListener {
             onBackClick()
         }
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            onBackClick()
-//        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            onBackClick()
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val playlist = arguments?.getParcelable<Playlist>("playlist")
 
-        if (playlist != null) {
-            playlist.playlistId?.let { playlistScreenViewModel.getPlaylist(it) }
-        }
+        playlist?.playlistId?.let { playlistScreenViewModel.getPlaylist(it) }
+
         val checkedPlaylist = playlist?.let { drawPlaylist(it) }
         if (checkedPlaylist != null) {
             drawCover(checkedPlaylist)
@@ -240,21 +247,29 @@ class PlaylistScreen : Fragment() {
             }
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         //список треков в плейлисте
+
+        //список треков в плейлисте
         trackAdapter = TrackAdapter(
             clickListener = {
                 if (isClickAllowed) {
                     clickAdapting(it)
                 }
             },
+
             longClickListener = {
                 suggestTrackDeleting(it, playlist)
             })
+
+
+        playlistScreenViewModel.getTrackList(playlist)
+        trackListMaker()
+
+
         playlistScreenViewModel.getTrackList(playlist)
         trackListMaker()
         binding.trackInPlaylistRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.trackInPlaylistRecycler.adapter = trackAdapter
 
-        //кнопки
 
         binding.share.setOnClickListener {
             sharePlaylist(playlist)
@@ -304,5 +319,10 @@ class PlaylistScreen : Fragment() {
         binding.more.setOnClickListener {
             menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 }

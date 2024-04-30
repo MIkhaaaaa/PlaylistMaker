@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -31,9 +32,12 @@ import com.practicum.myplaylistmaker.ui.library.viewModels.EditPlaylistViewModel
 import com.tbruyelle.rxpermissions3.RxPermissions
 import java.io.File
 import java.io.FileOutputStream
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditPlaylistFragment : Fragment() {
     private lateinit var editPlaylistBinding: PlaylistEditBinding
+
+
     private lateinit var bottomNavigator: BottomNavigationView
     private val viewModel: EditPlaylistViewModel by viewModel()
     private var selectedUri: Uri? = null
@@ -57,7 +61,12 @@ class EditPlaylistFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         val playlist = arguments?.getParcelable<Playlist>("playlist")
+
+
+
         val name = editPlaylistBinding.playlistNameEditText
         if (playlist != null) {
             name.setText(playlist.playlistName)
@@ -65,9 +74,7 @@ class EditPlaylistFragment : Fragment() {
         if (playlist != null) {
             editPlaylistBinding.playlistDescriptEditText.setText(playlist.description)
         }
-        ///обложка
-        val baseWidth = 312
-        val baseHeight = 312
+
         val getImage = (playlist?.uri ?: "Unknown Cover")
 
         if (getImage != "Unknown Cover") {
@@ -77,7 +84,6 @@ class EditPlaylistFragment : Fragment() {
                 .centerCrop()
                 .transform(CenterCrop())
                 .placeholder(R.drawable.album)
-                .override(baseWidth, baseHeight)
                 .into(editPlaylistBinding.playlistCover)
             selectedUri= getImage.toUri()
         }
@@ -130,7 +136,7 @@ class EditPlaylistFragment : Fragment() {
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
                     } else {
-                        // Пользователь отказал, ничего не делаем
+
                         pickMedia.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )

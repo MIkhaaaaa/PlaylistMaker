@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.domain.models.Track
 
-class TrackAdapter(var tracks: List<Track>
-                   , private val clickListener: TrackClick,
+class TrackAdapter(private val clickListener: TrackClick,
                    private val longClickListener : LongClick
+
+
 ) : RecyclerView.Adapter<TrackViewHolder>(){
     private var _items: List<Track> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -17,10 +18,10 @@ class TrackAdapter(var tracks: List<Track>
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        holder.bind(_items[position])
 
         holder.itemView.setOnClickListener{
-            clickListener.onClick(tracks[position])
+            clickListener.onClick(_items[position])
         }
 
         holder.itemView.setOnLongClickListener {
@@ -31,11 +32,11 @@ class TrackAdapter(var tracks: List<Track>
     }
 
     override fun getItemCount(): Int {
-        return tracks.size
+        return _items.size
     }
 
     fun setItems(items: List<Track>) {
-        tracks = items
+        _items = items
         notifyDataSetChanged()
     }
     fun interface TrackClick {

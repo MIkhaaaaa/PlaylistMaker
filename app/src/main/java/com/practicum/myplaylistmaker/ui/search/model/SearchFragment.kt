@@ -67,13 +67,18 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
 
-        trackAdapter = TrackAdapter(trackList) {
-            searchViewModule.addItem(it)
-            val bundle = Bundle()
-            bundle.putParcelable("track", it)
-            val navController = findNavController()
-            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
-        }
+        trackAdapter = TrackAdapter(
+            clickListener = {
+                if (isClickAllowed) {
+                    searchViewModule.addItem(it)
+                    val bundle = Bundle()
+                    bundle.putParcelable("track", it)
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+                }
+            },
+            longClickListener = {})
+
 
         searchViewModule.getStateLiveData().observe(viewLifecycleOwner) { stateLiveData ->
 
@@ -97,13 +102,20 @@ class SearchFragment : Fragment() {
         searchViewModule.provideHistory().value?.let { trackHistoryList.addAll(it) }
         visibleSettingsHistory(binding.searchUserText.hasFocus())
 
-        trackAdapterHistory = TrackAdapter(trackHistoryList) {
-            searchViewModule.addItem(it)
-            val bundle = Bundle()
-            bundle.putParcelable("track", it)
-            val navController = findNavController()
-            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
-        }
+        trackAdapterHistory = TrackAdapter(
+            clickListener = {
+                if (isClickAllowed) {
+                    searchViewModule.addItem(it)
+                    val bundle = Bundle()
+                    bundle.putParcelable("track", it)
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+                }
+            },
+            longClickListener = {})
+
+
+
 
         binding.clearIcon.setOnClickListener {
             if (clickDebounce()) {
