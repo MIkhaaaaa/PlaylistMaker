@@ -76,5 +76,32 @@
             android:id="@+id/action_favouritesFragment_to_playerFragment2"
             app:destination="@id/playerFragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/playlistScreen"
+        android:name="com.practicum.myplaylistmaker.ui.library.fragments.PlaylistScreen"
+        android:label="PlaylistScreen" >
+        <action
+            android:id="@+id/action_playlistScreen_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_playlistScreen_to_playerFragment"
+            app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_playlistScreen_to_mediaLibraryFragment"
+            app:destination="@id/mediaLibraryFragment" />
+        <action
+            android:id="@+id/action_playlistScreen_to_editPlaylist"
+            app:destination="@id/editPlaylist" />
+        <action
+            android:id="@+id/action_playlistScreen_to_mediaLibraryFragment2"
+            app:destination="@id/mediaLibraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPlaylist"
+        android:name="com.practicum.myplaylistmaker.ui.library.fragments.EditPlaylistFragment"
+        android:label="EditPlaylist" >
+        <action
+            android:id="@+id/action_editPlaylist_to_playlistScreen"
+            app:destination="@id/playlistScreen" />
+    </fragment>
 </navigation>

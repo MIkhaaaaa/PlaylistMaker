@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.practicum.myplaylistmaker.di.favorites.favorites
 import com.practicum.myplaylistmaker.di.player.playerModule
 import com.practicum.myplaylistmaker.di.playlist.playlistModule
+import com.practicum.myplaylistmaker.di.playlist.playlistScreenModule
 import com.practicum.myplaylistmaker.di.search.historyModule
 import com.practicum.myplaylistmaker.di.search.repositoryModule
 import com.practicum.myplaylistmaker.di.search.searchInteractorModule
@@ -46,7 +47,8 @@ class App: Application(),KoinComponent {
                 shareSettingsViewModule,
                 repositoryModule,
                 favorites,
-                playlistModule
+                playlistModule,
+                playlistScreenModule
             )
         }
 
