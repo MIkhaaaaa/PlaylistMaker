@@ -246,9 +246,6 @@ class PlaylistScreen : Fragment() {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        //список треков в плейлисте
-
-        //список треков в плейлисте
         trackAdapter = TrackAdapter(
             clickListener = {
                 if (isClickAllowed) {
