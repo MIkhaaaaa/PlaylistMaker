@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ class PlaylistScreen : Fragment() {
     private var _binding: FragmentPlaylistScreenBinding? = null
     private val binding: FragmentPlaylistScreenBinding
         get() = _binding!!
-
 
 
     private val playlistScreenViewModel by viewModel<PlaylistScreenViewModel>()
@@ -76,25 +74,19 @@ class PlaylistScreen : Fragment() {
         }
     }
 
-
-    private fun clickAdapting(item: Track) {
-        val bundle = Bundle()
-        bundle.putParcelable("track", item)
-        val navController = findNavController()
-        navController.navigate(R.id.action_playlistScreen_to_playerFragment, bundle)
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun trackListMaker() {
         playlistScreenViewModel.trackList.observe(viewLifecycleOwner) { trackList ->
-            if (trackList.isNullOrEmpty()) {
-                binding.emptyList.isVisible = true
-                binding.trackInPlaylistRecycler.isVisible = false
-            } else {
-                trackAdapter.setItems(trackList)
-                trackAdapter.notifyDataSetChanged()
-                binding.emptyList.isVisible = false
-                binding.trackInPlaylistRecycler.isVisible = true
+            with(binding){
+                if (trackList.isNullOrEmpty()) {
+                    emptyList.isVisible = true
+                    trackInPlaylistRecycler.isVisible = false
+                } else {
+                    trackAdapter.setItems(trackList)
+                    trackAdapter.notifyDataSetChanged()
+                    emptyList.isVisible = false
+                    trackInPlaylistRecycler.isVisible = true
+                }
             }
         }
     }
@@ -201,39 +193,47 @@ class PlaylistScreen : Fragment() {
         var checkedPlaylist = playlist
         playlistScreenViewModel.updatedPlaylist.observe(viewLifecycleOwner) { updatedPlaylist ->
             checkedPlaylist = updatedPlaylist
-            binding.PlaylistName.text = checkedPlaylist.playlistName
-            binding.descriptionOfPlaylist.text = checkedPlaylist.description ?: ""
-            playlistTime(checkedPlaylist)
+            with(binding){
+                PlaylistName.text = checkedPlaylist.playlistName
+                menuPlaylistName.text = checkedPlaylist.playlistName
+                descriptionOfPlaylist.text = checkedPlaylist.description ?: ""
+                playlistTime(checkedPlaylist)
 
-            //сколько треков в плейлисте
-            val trackCounter = (checkedPlaylist.arrayNumber).toString()
-            val text = when {
-                trackCounter.toInt() % 10 == 1 && trackCounter.toInt() % 100 != 11 -> " трек"
-                trackCounter.toInt() % 10 == 2 && trackCounter.toInt() % 100 != 12 -> " трека"
-                trackCounter.toInt() % 10 == 3 && trackCounter.toInt() % 100 != 13 -> " трека"
-                trackCounter.toInt() % 10 == 4 && trackCounter.toInt() % 100 != 14 -> " трека"
-                else -> " треков"
+                //сколько треков в плейлисте
+                val trackCounter = (checkedPlaylist.arrayNumber).toString()
+                val text = when {
+                    trackCounter.toInt() % 10 == 1 && trackCounter.toInt() % 100 != 11 -> " трек"
+                    trackCounter.toInt() % 10 == 2 && trackCounter.toInt() % 100 != 12 -> " трека"
+                    trackCounter.toInt() % 10 == 3 && trackCounter.toInt() % 100 != 13 -> " трека"
+                    trackCounter.toInt() % 10 == 4 && trackCounter.toInt() % 100 != 14 -> " трека"
+                    else -> " треков"
+                }
+                trackNumber.text = "$trackCounter $text"
+                playlistNumber.text = "$trackCounter $text"
+                drawCover(checkedPlaylist)
+                drawPlaylistDataBottomSheet(checkedPlaylist)
             }
-            binding.trackNumber.text = "$trackCounter $text"
-            drawCover(checkedPlaylist)
-            drawPlaylistDataBottomSheet(checkedPlaylist)
+
         }
         return checkedPlaylist
     }
 
     private fun drawCover(item: Playlist) {
-        val baseWidth = 312
-        val baseHeight = 312
         val getImage = item.uri
         if (getImage != "null") {
-            Log.d("картинка", getImage)
             binding.playlistPlaceHolder.isVisible = false
             Glide.with(this)
                 .load(getImage)
                 .centerCrop()
-                .transform(CenterCrop())
-                .override(baseWidth, baseHeight)
+                .transform(CenterCrop())  //menuPlaylistImage
                 .into(binding.playlistCover)
+
+            Glide.with(this)
+                .load(getImage)
+                .centerCrop()
+                .transform(CenterCrop())  //menuPlaylistImage
+                .into(binding.menuPlaylistImage)
+
         } else {
             binding.playlistPlaceHolder.isVisible = true
         }
@@ -249,7 +249,10 @@ class PlaylistScreen : Fragment() {
         trackAdapter = TrackAdapter(
             clickListener = {
                 if (isClickAllowed) {
-                    clickAdapting(it)
+                    val bundle = Bundle()
+                    bundle.putParcelable("track", it)
+                    val navController = findNavController()
+                    navController.navigate(R.id.action_playlistScreen_to_playerFragment, bundle)
                 }
             },
 
@@ -264,25 +267,27 @@ class PlaylistScreen : Fragment() {
 
         playlistScreenViewModel.getTrackList(playlist)
         trackListMaker()
-        binding.trackInPlaylistRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.trackInPlaylistRecycler.adapter = trackAdapter
 
+        with(binding){
+            trackInPlaylistRecycler.layoutManager = LinearLayoutManager(requireContext())
+            trackInPlaylistRecycler.adapter = trackAdapter
 
-        binding.share.setOnClickListener {
-            sharePlaylist(playlist)
-        }
-        binding.shareText.setOnClickListener {
-            sharePlaylist(playlist)
-        }
-        binding.editInfo.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("playlist", playlist)
-            val navController = findNavController()
-            navController.navigate(R.id.action_playlistScreen_to_editPlaylist, bundle)
+            share.setOnClickListener {
+                sharePlaylist(playlist)
+            }
+            shareText.setOnClickListener {
+                sharePlaylist(playlist)
+            }
+            editInfo.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putParcelable("playlist", playlist)
+                val navController = findNavController()
+                navController.navigate(R.id.action_playlistScreen_to_editPlaylist, bundle)
 
-        }
-        binding.deletePlaylistInfo.setOnClickListener {
-            suggestPlaylistDeleting(playlist)
+            }
+            deletePlaylistInfo.setOnClickListener {
+                suggestPlaylistDeleting(playlist)
+            }
         }
     }
 
