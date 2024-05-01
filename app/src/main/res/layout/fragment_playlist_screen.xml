@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<!--    tools:context=".ui.PlaylistScreen.PlaylistScreen">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topInfo"
@@ -265,7 +264,7 @@
                 android:fontFamily="@font/ys_display_regular"
                 android:maxLines="1"
                 android:text="Group"
-                android:textColor="?attr/color"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="11sp" />
         </FrameLayout>
 

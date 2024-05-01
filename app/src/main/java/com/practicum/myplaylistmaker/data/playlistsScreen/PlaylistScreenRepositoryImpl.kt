@@ -31,20 +31,21 @@ class PlaylistScreenRepositoryImpl(
             val entity = it?.let { it1 -> base.trackListingDao().queryTrackId(searchId = it1) }
             val track = (entity?.let { it1 -> TrackDbConvertor().mapTrackEntityToTrack(it1) })
             val time = track?.trackTimeMillis
-            trackSeconds =
-                (time?.split(":")?.get(0)?.toInt() ?: 0) * 60 + (time?.split(":")?.get(1)
-                    ?.toInt()
-                    ?: 0)
-            generalTime += trackSeconds
+//            trackSeconds =
+//                (time?.split(":")?.get(0)?.toInt() ?: 0) * 60 + (time?.split(":")?.get(1)
+//                    ?.toInt()
+//                    ?: 0)
+//            generalTime += trackSeconds
         }
-        val hours = generalTime / (60 * 60)
-        val minutes = generalTime / 60
-        val seconds = generalTime % 60
-        val readyTime = if (hours == 0){
-            String.format("%02d:%02d", minutes, seconds)
-        } else {
-            String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        }
+//        val hours =  generalTime / (60 * 60)
+//        val minutes = generalTime / 60
+//        val seconds = generalTime % 60
+//        val readyTime = if (hours == 0){
+//            String.format("%02d:%02d", minutes, seconds)
+//        } else {
+//            String.format("%02d:%02d:%02d", hours, minutes, seconds)
+//        }
+        val readyTime = "02:20"
         emit(readyTime)
     }
 }

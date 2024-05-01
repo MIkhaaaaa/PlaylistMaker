@@ -1,5 +1,6 @@
 package com.practicum.myplaylistmaker.ui.search.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,16 +13,19 @@ class TrackAdapter(private val clickListener: TrackClick,
 
 ) : RecyclerView.Adapter<TrackViewHolder>(){
     private var _items: List<Track> = emptyList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_layout,parent,false)
         return TrackViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(_items[position])
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             clickListener.onClick(_items[position])
+            notifyDataSetChanged()
         }
 
         holder.itemView.setOnLongClickListener {
@@ -35,6 +39,7 @@ class TrackAdapter(private val clickListener: TrackClick,
         return _items.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(items: List<Track>) {
         _items = items
         notifyDataSetChanged()

@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
         companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 100L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
     private val searchViewModule: SearchViewModel by viewModel()
@@ -37,8 +37,6 @@ class SearchFragment : Fragment() {
         get() = _binding!!
 
     private var isClickAllowed = true
-    private var trackList: ArrayList<Track> = ArrayList()
-    private val KEY_TEXT = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackAdapterHistory: TrackAdapter
     private var trackHistoryList: ArrayList<Track> = ArrayList()
@@ -48,7 +46,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -59,9 +57,6 @@ class SearchFragment : Fragment() {
     }
 
 
-
-
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,13 +64,11 @@ class SearchFragment : Fragment() {
 
         trackAdapter = TrackAdapter(
             clickListener = {
-                if (isClickAllowed) {
                     searchViewModule.addItem(it)
                     val bundle = Bundle()
                     bundle.putParcelable("track", it)
-                    val navController = findNavController()
-                    navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
-                }
+                    findNavController().navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+
             },
             longClickListener = {})
 
@@ -98,23 +91,21 @@ class SearchFragment : Fragment() {
         ifSearchOkVisibility()
         binding.refreshButton.setOnClickListener { searchTracks() }
 
-        trackHistoryList.clear()
-        searchViewModule.provideHistory().value?.let { trackHistoryList.addAll(it) }
-        visibleSettingsHistory(binding.searchUserText.hasFocus())
+
 
         trackAdapterHistory = TrackAdapter(
             clickListener = {
-                if (isClickAllowed) {
                     searchViewModule.addItem(it)
                     val bundle = Bundle()
                     bundle.putParcelable("track", it)
                     val navController = findNavController()
                     navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
-                }
+
             },
             longClickListener = {})
 
-
+        searchViewModule.provideHistory().value?.let { trackAdapterHistory.setItems(it) }
+        visibleSettingsHistory(binding.searchUserText.hasFocus())
 
 
         binding.clearIcon.setOnClickListener {
@@ -279,8 +270,7 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchIsOk(data: List<Track>) {
-        trackList.clear()
-        trackList.addAll(data)
+        trackAdapter.setItems(data)
         trackAdapter.notifyDataSetChanged()
         with(binding) {
             progressbar.isVisible = false
@@ -327,8 +317,7 @@ class SearchFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun searchWithHistory(historyData: List<Track>) {
-        trackHistoryList.clear()
-        trackHistoryList.addAll(historyData)
+        trackAdapterHistory.setItems(historyData)
         trackAdapterHistory.notifyDataSetChanged()
         with(binding) {
             trackRecycler.isVisible = false
@@ -353,6 +342,7 @@ class SearchFragment : Fragment() {
             clearHistoryButton.isVisible = false
         }
     }
+
 
 
 
