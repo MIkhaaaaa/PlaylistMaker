@@ -36,6 +36,7 @@
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.practicum.myplaylistmaker.ui.library.fragments.PlaylistFragment"
+        tools:layout="@layout/fragment_playlist"
         android:label="PlaylistFragment" >
         <action
             android:id="@+id/action_playlistFragment_to_newPlaylistFragment"

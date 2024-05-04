@@ -43,23 +43,19 @@ class PlaylistScreenRepositoryImpl(
     private fun formatMilliseconds(milliseconds: Long): String {
         val duration = Duration.ofMillis(milliseconds)
 
-        val hours = duration.toHours()
+        //val hours = duration.toHours()
+        //val seconds = duration.minusMinutes(minutes).seconds
         val minutes = duration.toMinutes()
-        val seconds = duration.minusMinutes(minutes).seconds
 
-        return if (hours.toInt() == 0) {
-            if (seconds < 10) {
-                "$minutes:0$seconds"
-            } else {
-                "$minutes:$seconds"
-            }
-        } else {
-            if (seconds < 10) {
-                "$hours:$minutes:0$seconds"
-            } else {
-                "$hours:$minutes:$seconds"
-            }
+        val text = when {
+            minutes.toInt() % 10 == 1 && minutes.toInt() % 100 != 11 -> " минута"
+            minutes.toInt() % 10 == 2 && minutes.toInt() % 100 != 12 -> " минуты"
+            minutes.toInt() % 10 == 3 && minutes.toInt() % 100 != 13 -> " минут"
+            else -> " минут"
         }
+
+        return "${minutes.toInt()}$text "
+
     }
 
 }

@@ -67,7 +67,7 @@ class SearchFragment : Fragment() {
                     searchViewModule.addItem(it)
                     val bundle = Bundle()
                     bundle.putParcelable("track", it)
-                    findNavController().navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+                    findNavController().navigate(R.id.playerFragment, bundle)
 
             },
             longClickListener = {})
@@ -99,7 +99,7 @@ class SearchFragment : Fragment() {
                     val bundle = Bundle()
                     bundle.putParcelable("track", it)
                     val navController = findNavController()
-                    navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
+                    navController.navigate(R.id.playerFragment, bundle)
 
             },
             longClickListener = {})

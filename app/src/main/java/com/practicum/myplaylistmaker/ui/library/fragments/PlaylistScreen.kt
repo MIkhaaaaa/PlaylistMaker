@@ -102,7 +102,7 @@ class PlaylistScreen : Fragment() {
     private fun deletePlaylist(item: Playlist) {
         playlistScreenViewModel.deletePlaylist(item)
         val navController = findNavController()
-        navController.navigate(R.id.action_playlistScreen_to_mediaLibraryFragment2)
+        navController.navigate(R.id.playlistFragment)
     }
 
     private fun suggestPlaylistDeleting(playlist: Playlist) {
@@ -148,6 +148,7 @@ class PlaylistScreen : Fragment() {
     }
 
     private fun sharePlaylist(playlist: Playlist) {
+
         val nameOfPlaylist = playlist.playlistName
         val desriptionOfPlaylist = playlist.description
         val trackNumber = playlist.arrayNumber
@@ -156,8 +157,12 @@ class PlaylistScreen : Fragment() {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             return
         }
-        var trackInfo = "$nameOfPlaylist \n $desriptionOfPlaylist \n $trackNumber треков \n"
+
+
         val trackList: List<Track> = playlistScreenViewModel.trackList.value!!
+        val text = makeTextTrack(trackList.size)
+        var trackInfo = "$nameOfPlaylist \n $desriptionOfPlaylist \n $trackNumber $text \n"
+
         var i = 0
         trackList.forEach { track ->
             i += 1
@@ -201,13 +206,7 @@ class PlaylistScreen : Fragment() {
 
                 //сколько треков в плейлисте
                 val trackCounter = (checkedPlaylist.arrayNumber).toString()
-                val text = when {
-                    trackCounter.toInt() % 10 == 1 && trackCounter.toInt() % 100 != 11 -> " трек"
-                    trackCounter.toInt() % 10 == 2 && trackCounter.toInt() % 100 != 12 -> " трека"
-                    trackCounter.toInt() % 10 == 3 && trackCounter.toInt() % 100 != 13 -> " трека"
-                    trackCounter.toInt() % 10 == 4 && trackCounter.toInt() % 100 != 14 -> " трека"
-                    else -> " треков"
-                }
+                val text = makeTextTrack(trackCounter.toInt())
                 trackNumber.text = "$trackCounter $text"
                 playlistNumber.text = "$trackCounter $text"
                 drawCover(checkedPlaylist)
@@ -282,7 +281,7 @@ class PlaylistScreen : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable("playlist", playlist)
                 val navController = findNavController()
-                navController.navigate(R.id.action_playlistScreen_to_editPlaylist, bundle)
+                navController.navigate(R.id.editPlaylist, bundle)
 
             }
             deletePlaylistInfo.setOnClickListener {
@@ -326,5 +325,15 @@ class PlaylistScreen : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun makeTextTrack(trackCounter: Int): String{
+        return when {
+            trackCounter % 10 == 1 && trackCounter % 100 != 11 -> " трек"
+            trackCounter % 10 == 2 && trackCounter % 100 != 12 -> " трека"
+            trackCounter % 10 == 3 && trackCounter % 100 != 13 -> " трека"
+            trackCounter % 10 == 4 && trackCounter % 100 != 14 -> " трека"
+            else -> " треков"
+        }
     }
 }
