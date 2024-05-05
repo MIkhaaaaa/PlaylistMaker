@@ -112,7 +112,11 @@ class PlayerViewModel(
         val duration = Duration.ofMillis(milliseconds)
         val minutes = duration.toMinutes()
         val seconds = duration.minusMinutes(minutes).seconds
-        return "$minutes:$seconds"
+        return if (seconds < 10 ) {
+            "$minutes:0$seconds"
+        } else {
+            "$minutes:$seconds"
+        }
     }
 
     fun playlistMaker(): LiveData<List<Playlist>> {
