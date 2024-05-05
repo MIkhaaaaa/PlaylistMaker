@@ -129,7 +129,7 @@ class PlayerViewModel(
         return playlistList
     }
 
-    val playlistAdding =MutableLiveData(false)
+    val playlistAdding = MutableLiveData(false)
 
     fun addTrack(track: Track, playlist: Playlist) {
         if (playlist.trackArray.contains(track.trackId)) {

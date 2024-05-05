@@ -82,7 +82,7 @@ class PlaylistScreen : Fragment() {
                     emptyList.isVisible = true
                     trackInPlaylistRecycler.isVisible = false
                 } else {
-                    trackAdapter.setItems(trackList)
+                    trackAdapter.setItems(trackList.reversed())
                     trackAdapter.notifyDataSetChanged()
                     emptyList.isVisible = false
                     trackInPlaylistRecycler.isVisible = true
