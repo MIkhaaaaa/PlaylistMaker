@@ -26,6 +26,7 @@ import com.practicum.myplaylistmaker.domain.models.Track
 import com.practicum.myplaylistmaker.ui.library.viewModels.PlaylistScreenViewModel
 import com.practicum.myplaylistmaker.ui.search.adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.Duration
 
 class PlaylistScreen : Fragment() {
 
@@ -159,7 +160,7 @@ class PlaylistScreen : Fragment() {
         }
 
 
-        val trackList: List<Track> = playlistScreenViewModel.trackList.value!!
+        val trackList: List<Track> = playlistScreenViewModel.trackList.value!!.reversed()
         val text = makeTextTrack(trackList.size)
         var trackInfo = "$nameOfPlaylist \n $desriptionOfPlaylist \n $trackNumber $text \n"
 
@@ -167,7 +168,7 @@ class PlaylistScreen : Fragment() {
         trackList.forEach { track ->
             i += 1
             val name = track.trackName
-            val duration = track.trackTimeMillis
+            val duration = formatMilliseconds(track.trackTimeMillis?.toLong() ?: 0)
             trackInfo = "$trackInfo $i. $name  - ($duration) \n"
         }
 
@@ -334,6 +335,17 @@ class PlaylistScreen : Fragment() {
             trackCounter % 10 == 3 && trackCounter % 100 != 13 -> " трека"
             trackCounter % 10 == 4 && trackCounter % 100 != 14 -> " трека"
             else -> " треков"
+        }
+    }
+
+    private fun formatMilliseconds(milliseconds: Long): String {
+        val duration = Duration.ofMillis(milliseconds)
+        val minutes = duration.toMinutes()
+        val seconds = duration.minusMinutes(minutes).seconds
+        return if (seconds < 10 ) {
+            "$minutes:0$seconds"
+        } else {
+            "$minutes:$seconds"
         }
     }
 }
