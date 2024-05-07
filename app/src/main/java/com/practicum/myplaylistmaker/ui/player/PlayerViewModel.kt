@@ -112,7 +112,11 @@ class PlayerViewModel(
         val duration = Duration.ofMillis(milliseconds)
         val minutes = duration.toMinutes()
         val seconds = duration.minusMinutes(minutes).seconds
-        return "$minutes:$seconds"
+        return if (seconds < 10 ) {
+            "$minutes:0$seconds"
+        } else {
+            "$minutes:$seconds"
+        }
     }
 
     fun playlistMaker(): LiveData<List<Playlist>> {
@@ -129,7 +133,7 @@ class PlayerViewModel(
         return playlistList
     }
 
-    val playlistAdding =MutableLiveData(false)
+    val playlistAdding = MutableLiveData(false)
 
     fun addTrack(track: Track, playlist: Playlist) {
         if (playlist.trackArray.contains(track.trackId)) {

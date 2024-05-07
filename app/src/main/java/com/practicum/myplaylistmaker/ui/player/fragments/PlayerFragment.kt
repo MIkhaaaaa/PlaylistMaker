@@ -72,7 +72,6 @@ class PlayerFragment : Fragment() {
                 }
             }
         }
-
         @Suppress("DEPRECATION")
         track = arguments?.getParcelable("track")!!
 

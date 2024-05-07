@@ -1,37 +1,53 @@
 package com.practicum.myplaylistmaker.ui.search.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.myplaylistmaker.R
 import com.practicum.myplaylistmaker.domain.models.Track
 
-class TrackAdapter(var tracks: List<Track>
-                   , private val clickListener: TrackClick
+class TrackAdapter(private val clickListener: TrackClick,
+                   private val longClickListener : LongClick
+
+
 ) : RecyclerView.Adapter<TrackViewHolder>(){
     private var _items: List<Track> = emptyList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_layout,parent,false)
         return TrackViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(tracks[position])
+        holder.bind(_items[position])
 
-        holder.itemView.setOnClickListener{
-            clickListener.onClick(tracks[position])
+        holder.itemView.setOnClickListener {
+            clickListener.onClick(_items[position])
+            notifyDataSetChanged()
+        }
+
+        holder.itemView.setOnLongClickListener {
+            longClickListener.onLongClick(_items[position])
+            notifyDataSetChanged()
+            return@setOnLongClickListener true
         }
     }
 
     override fun getItemCount(): Int {
-        return tracks.size
+        return _items.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(items: List<Track>) {
-        tracks = items
+        _items = items
         notifyDataSetChanged()
     }
     fun interface TrackClick {
         fun onClick(track: Track)
+    }
+    fun interface LongClick {
+        fun onLongClick(track: Track)
     }
 }

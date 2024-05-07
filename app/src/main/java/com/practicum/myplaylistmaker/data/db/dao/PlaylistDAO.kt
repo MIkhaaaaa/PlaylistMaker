@@ -22,4 +22,7 @@ interface PlaylistDAO {
 
     @Update(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun updatePlaylist(playlist: PlaylistEntity)
+
+    @Query("SELECT * FROM playlist_table WHERE playlistId=:searchId")
+    fun findPlaylist (searchId:Int) : PlaylistEntity
 }

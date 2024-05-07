@@ -32,7 +32,9 @@ class FavouritesFragment : Fragment() {
                     clickAdapting(it)
                 }
             },
-            tracks = emptyList()
+            longClickListener = {
+
+            }
         )
     }
 

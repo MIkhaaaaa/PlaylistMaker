@@ -21,7 +21,7 @@ class PlaylistFragment : Fragment() {
     private var _binding: FragmentPlaylistBinding? =  null
     private val binding:FragmentPlaylistBinding
         get() = _binding!!
-
+    private lateinit var playlistAdapter: PlaylistAdapter
 
     private lateinit var bottomNavigator: BottomNavigationView
 
@@ -35,16 +35,15 @@ class PlaylistFragment : Fragment() {
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.isVisible = true
 
-        //кнопка создать плейлист
         binding.newPlaylistButton.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.newPlaylistFragment)
         }
 
-        //список плейлистов
         val recyclerView = binding.playlistList
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
+        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter {} }
+
         if (playlistViewModel.playlistList.value.isNullOrEmpty()) binding.playlistList.isVisible = false
 
         binding.playlistList.isVisible = true
@@ -53,12 +52,29 @@ class PlaylistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playlistViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
-            if (playlistViewModel.playlistMaker().value.isNullOrEmpty()) {
+
+        playlistAdapter = PlaylistAdapter {
+            val bundle = Bundle()
+            bundle.putParcelable("playlist", it)
+            val navController = findNavController()
+            navController.navigate(R.id.playlistScreen, bundle)
+        }
+        val recyclerView = binding.playlistList
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.adapter = playlistAdapter
+
+        if (playlistViewModel.playlistList.value.isNullOrEmpty()) binding.playlistList.isVisible = false
+
+        playlistViewModel.getPlaylists()
+
+
+        playlistViewModel.playlistList.observe(viewLifecycleOwner) { it ->
+            if (it.isNullOrEmpty()) {
                 noPlaylist()
                 return@observe
             } else {
-                binding.playlistList.adapter= PlaylistAdapter(playlistList) {}
+                recyclerView.adapter = playlistAdapter
+                playlistAdapter.setItems(it)
                 existPlaylist()
                 return@observe
             }

@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.practicum.myplaylistmaker.domain.playlist.PlaylistInteractor
 import com.practicum.myplaylistmaker.domain.settings.SettingsInteractor
 
-class NewPlaylistViewModel(private val interactor: PlaylistInteractor, private val settingsInteractor: SettingsInteractor) : ViewModel() {
+class NewPlaylistViewModel(private val interactor: PlaylistInteractor,
+                           private val settingsInteractor: SettingsInteractor) : ViewModel() {
 
     fun addPlayList(
         playlistName: String,
