@@ -205,7 +205,6 @@ class PlaylistScreen : Fragment() {
                 descriptionOfPlaylist.text = checkedPlaylist.description ?: ""
                 playlistTime(checkedPlaylist)
 
-                //сколько треков в плейлисте
                 val trackCounter = (checkedPlaylist.arrayNumber).toString()
                 val text = makeTextTrack(trackCounter.toInt())
                 trackNumber.text = "$trackCounter $text"

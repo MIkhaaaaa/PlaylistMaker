@@ -33,23 +33,27 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
+        with(binding){
+            switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
 
-        binding.switchButton.setOnClickListener {
-            settingsViewModel.appThemeSwitch()
-            binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
+            switchButton.setOnClickListener {
+                settingsViewModel.appThemeSwitch()
+                binding.switchButton.isChecked = !(settingsViewModel.getThemeLiveData().value ?: false)
+            }
+
+            shareButton.setOnClickListener {
+                settingsViewModel.shareApp()
+            }
+
+            supportView.setOnClickListener {
+                settingsViewModel.writeSupport()
+            }
+
+            TermsOfUse.setOnClickListener {
+                settingsViewModel.readAgreement()
+            }
+
         }
 
-        binding.shareButton.setOnClickListener {
-            settingsViewModel.shareApp()
-        }
-
-        binding.supportView.setOnClickListener {
-            settingsViewModel.writeSupport()
-        }
-
-        binding.TermsOfUse.setOnClickListener {
-            settingsViewModel.readAgreement()
-        }
     }
 }
